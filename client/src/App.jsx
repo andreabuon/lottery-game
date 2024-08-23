@@ -1,8 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react'
-import { Container } from 'react-bootstrap';
+import { Container, Row, Alert } from 'react-bootstrap';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import NavHeader from "./components/NavHeader";
+import Home from './components/HomeComponent';
+import NotFound from './components/NotFoundComponent';
 import { LoginForm } from './components/AuthComponents';
 import './App.css'
 import API from './API.mjs';
@@ -35,19 +37,26 @@ function App() {
       <Route element={<>
         <NavHeader loggedIn={loggedIn} handleLogout={handleLogout} />
         <Container fluid className='mt-3'>
+          {message && 
+          <Row> 
+            <Alert variant={message.type} onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
+          </Row> }
           <Outlet/>
         </Container>
         </>
       }>
         <Route index element={
-          <h1>Hello world! This is the index</h1>
+          <Home loggedIn={loggedIn} />
         } />
+
         <Route path="/scoreboard" element={ <h1>Scoreboard</h1> } />
-        <Route path="*" element={ /*<NotFound/>*/ <h1>Not found</h1> } />
 
         <Route path='/login' element={
           loggedIn ? <Navigate replace to='/' /> : <LoginForm login={handleLogin} />
         } />
+
+        <Route path="*" element={ <NotFound/> } />
+
       </Route>
     </Routes>
   )
