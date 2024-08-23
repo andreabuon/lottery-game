@@ -3,49 +3,45 @@
 import db from "./db.mjs";
 import crypto from "crypto";
 
-// NOTE: all functions return error messages as json object { error: <string> }
-export default function UserDao() {
+export const getUser = (username, password) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM user WHERE username = ?';
+        db.get(sql, [username], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            else if (row === undefined) {
+                resolve(false);
+            }
+            else {
+                const user = { id: row.id, username: row.username, name: row.name };
 
-    // This function retrieves one user by id
-    this.getUserById = (id) => {
-        return new Promise((resolve, reject) => {
-            const query = 'SELECT * FROM users WHERE id=?';
-            db.get(query, [id], (err, row) => {
-                if (err) {
-                    reject(err);
-                }
-                if (row === undefined) {
-                    resolve({error: 'User not found.'});
-                } else {
-                    resolve(row);
-                }
-            });
+                crypto.scrypt(password, row.salt, 32, function (err, hashedPassword) {
+                    if (err) reject(err);
+                    if (!crypto.timingSafeEqual(Buffer.from(row.password, 'hex'), hashedPassword))
+                        resolve(false);
+                    else
+                        resolve(user);
+                });
+            }
         });
-    };
+    });
+};
 
-    this.getUserByCredentials = (username, password) => {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM users WHERE username=?';
-            db.get(sql, [username], (err, row) => {
-                if (err) {
-                    reject(err);
-                } else if (row === undefined) {
-                    resolve(false);
-                }
-                else {
-                    const user = { id: row.id, username: row.username};
-
-                    // Check the hashes with an async call, this operation may be CPU-intensive (and we don't want to block the server)
-                    crypto.scrypt(password, row.salt, 32, function (err, hashedPassword) { // WARN: it is 64 and not 32 (as in the week example) in the DB
-                        if (err) reject(err);
-                        if (!crypto.timingSafeEqual(Buffer.from(row.hash, 'hex'), hashedPassword))
-                            resolve(false);
-                        else
-                            resolve(user);
-                    });
-                }
-            });
+export const getUserById = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM user WHERE id = ?';
+        db.get(sql, [id], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            else if (row === undefined) {
+                resolve({ error: 'User not found!' });
+            }
+            else {
+                const user = { id: row.id, username: row.email, name: row.name };
+                resolve(user);
+            }
         });
-    }
-
-}
+    });
+};
