@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react'
 import { Container, Row, Alert } from 'react-bootstrap';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import NavHeader from "./components/NavHeader";
 import Home from './components/HomeComponent';
 import Scoreboard from './components/ScoreboardComponent';
@@ -47,7 +47,7 @@ function App() {
         </>
       }>
         <Route index element={
-          <Home loggedIn={loggedIn} />
+          <Home loggedIn={loggedIn} user={user} />
         }/>
 
         <Route path="/scoreboard" element={
