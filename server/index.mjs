@@ -7,7 +7,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local'; 
 import session from 'express-session';
 
-import getUser from './dao_users.mjs';
+import {getUser} from './dao_users.mjs';
 
 // init express
 const app = new express();
