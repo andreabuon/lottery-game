@@ -4,6 +4,7 @@ import { Container, Row, Alert } from 'react-bootstrap';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import NavHeader from "./components/NavHeader";
 import Home from './components/HomeComponent';
+import Scoreboard from './components/ScoreboardComponent';
 import NotFound from './components/NotFoundComponent';
 import { LoginForm } from './components/AuthComponents';
 import './App.css'
@@ -47,15 +48,19 @@ function App() {
       }>
         <Route index element={
           <Home loggedIn={loggedIn} />
-        } />
+        }/>
 
-        <Route path="/scoreboard" element={ <h1>Scoreboard</h1> } />
+        <Route path="/scoreboard" element={
+          <Scoreboard/>
+        }/>
 
         <Route path='/login' element={
-          loggedIn ? <Navigate replace to='/' /> : <LoginForm login={handleLogin} />
-        } />
+          loggedIn ? <Navigate replace to='/'/> : <LoginForm login={handleLogin} />
+        }/>
 
-        <Route path="*" element={ <NotFound/> } />
+        <Route path="*" element={ 
+          <NotFound/> 
+        }/>
 
       </Route>
     </Routes>
