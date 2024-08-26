@@ -51,7 +51,7 @@ function App() {
         }/>
 
         <Route path="/scoreboard" element={
-          <Scoreboard/>
+          loggedIn ? <Scoreboard/> : <Navigate replace to='/'/>
         }/>
 
         <Route path='/login' element={

@@ -7,7 +7,11 @@ function NavHeader (props) {
     <Navbar bg='primary' data-bs-theme='dark'>
       <Container fluid>
         <Link to='/' className='navbar-brand'>Lottery Game</Link>
-        <Link to='/scoreboard' className="btn btn-outline-light">Scoreboard</Link>
+        {
+          props.loggedIn ? 
+          <Link to='/scoreboard' className="btn btn-outline-light">Scoreboard</Link> :
+          <Container/>
+        }
         
         {
         props.loggedIn ? 
