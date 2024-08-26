@@ -8,9 +8,10 @@ function NavHeader (props) {
       <Container fluid>
         <NavLink to='/' className='navbar-brand'>Lottery Game</NavLink>
         {
-          props.loggedIn ? 
-          <NavLink to='/scoreboard' className="btn btn-outline-light">Scoreboard</NavLink> :
-          <Container/>
+          props.loggedIn ?
+            <NavLink to='/scoreboard' className="btn btn-outline-light">Scoreboard</NavLink>
+            :
+            null
         }
         
         {
