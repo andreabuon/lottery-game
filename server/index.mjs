@@ -1,13 +1,13 @@
 /** Importing modules **/
 import express from 'express';
 import cors from 'cors';
-import {check, validationResult} from 'express-validator';
+import { check, validationResult } from 'express-validator';
 // Passport-related imports
 import passport from 'passport';
-import LocalStrategy from 'passport-local'; 
+import LocalStrategy from 'passport-local';
 import session from 'express-session';
 
-import {getUser, getTopScores} from './dao_users.mjs';
+import { getUser, getTopScores } from './dao_users.mjs';
 
 // init express
 const app = new express();
@@ -27,31 +27,31 @@ app.use(cors(corsOptions));
  **/
 passport.use(new LocalStrategy(async function verify(username, password, callback) {
   const user = await getUser(username, password);
-  if(!user)
+  if (!user)
     return callback(null, false, 'Incorrect username or password.');
-    
+
   return callback(null, user);
 }));
 
 // Serializing in the session the user object given from LocalStrategy(verify).
 passport.serializeUser(function (user, callback) {
-    callback(null, user);
+  callback(null, user);
 });
 
 // Starting from the data in the session, we extract the current (logged-in) user.
 passport.deserializeUser(function (user, callback) {
-    return callback(null, user); // this will be available in req.user
+  return callback(null, user); // this will be available in req.user
 
-    // In this method, if needed, we can do extra check here (e.g., double check that the user is still in the database, etc.)
-    // e.g.: return userDao.getUserById(id).then(user => callback(null, user)).catch(err => callback(err, null));
+  // In this method, if needed, we can do extra check here (e.g., double check that the user is still in the database, etc.)
+  // e.g.: return userDao.getUserById(id).then(user => callback(null, user)).catch(err => callback(err, null));
 });
 
 /** Defining authentication verification middleware **/
 const isLoggedIn = (req, res, next) => {
-  if(req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     return next();
   }
-  return res.status(401).json({error: 'Not authorized'});
+  return res.status(401).json({ error: 'Not authorized' });
 }
 
 /** Creating the session */
@@ -66,33 +66,34 @@ app.use(passport.authenticate('session'));
 
 // POST /api/sessions
 // This route is used for performing login.
-app.post('/api/sessions', function(req, res, next) {
+app.post('/api/sessions', function (req, res, next) {
   passport.authenticate('local', (err, user, info) => {
     if (err)
       return next(err);
-      if (!user) {
-        // display wrong login messages
-        return res.status(401).json({ error: info});
-      }
-      // success, perform the login and extablish a login session
-      req.login(user, (err) => {
-        if (err)
-          return next(err);
+    if (!user) {
+      // display wrong login messages
+      return res.status(401).json({ error: info });
+    }
+    // success, perform the login and extablish a login session
+    req.login(user, (err) => {
+      if (err)
+        return next(err);
 
-        // req.user contains the authenticated user, we send all the user info back
-        // this is coming from userDao.getUserByCredentials() in LocalStratecy Verify Function
-        return res.json(req.user);
-      });
+      // req.user contains the authenticated user, we send all the user info back
+      // this is coming from userDao.getUserByCredentials() in LocalStratecy Verify Function
+      return res.json(req.user);
+    });
   })(req, res, next);
 });
 
 // GET /api/sessions/current
 // This route checks whether the user is logged in or not.
 app.get('/api/sessions/current', (req, res) => {
-  if(req.isAuthenticated()) {
-    res.status(200).json(req.user);}
+  if (req.isAuthenticated()) {
+    res.status(200).json(req.user);
+  }
   else
-    res.status(401).json({error: 'Not authenticated'});
+    res.status(401).json({ error: 'Not authenticated' });
 });
 
 // DELETE /api/session/current
@@ -105,12 +106,9 @@ app.delete('/api/sessions/current', (req, res) => {
 
 /*******/
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
 // GET /api/best_scores/
-app.get('/api/best_scores/', async (req, res) => {
+// Returns a JSON array containing the users with the top 3 scores in the database.
+app.get('/api/best_scores/', isLoggedIn, async (req, res) => {
   try {
     const scores = await getTopScores();
     res.json(scores);
@@ -118,6 +116,8 @@ app.get('/api/best_scores/', async (req, res) => {
     res.status(500).end();
   }
 });
+
+/*******/
 
 // Activating the server
 const PORT = 3001;
