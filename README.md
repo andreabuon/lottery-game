@@ -40,6 +40,10 @@
 ![Screenshot](./img/screenshot.jpg)
 
 ## Users Credentials
+<!--- - username, password (plus any other requested info) --->
+- user, password
+- admin, password
+- andrea, password
+- carmine, password
+- simone, password
 
-- username, password (plus any other requested info)
-- username, password (plus any other requested info)
