@@ -5,7 +5,7 @@ export default function Home(props) {
 }
 
 function LoggedInHome(props){
-    return (<h1>Hello {props.user}! This is the index</h1>);
+    return (<h1>Hello {props.user.username}! This is the index</h1>);
 }
 
 function LoggedOutHome(){
