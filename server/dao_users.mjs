@@ -45,3 +45,24 @@ export const getUserById = (id) => {
         });
     });
 };
+
+export const getTopScores = () => {    
+return new Promise((resolve, reject) => {
+    const sql = 'SELECT username, score FROM users ORDER BY score DESC LIMIT 3';
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            reject(err);
+        }
+        else if (rows === undefined) {
+            resolve({ error: 'Scores not found!' });
+        }
+        else {
+            let scores = [];
+            for(let row of rows){
+                scores.push({username: row.username, score: row.score });
+            }
+            resolve(scores);
+        }
+    });
+});
+}

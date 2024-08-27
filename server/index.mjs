@@ -7,7 +7,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local'; 
 import session from 'express-session';
 
-import {getUser} from './dao_users.mjs';
+import {getUser, getTopScores} from './dao_users.mjs';
 
 // init express
 const app = new express();
@@ -108,6 +108,16 @@ app.delete('/api/sessions/current', (req, res) => {
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+// GET /api/best_scores/
+app.get('/api/best_scores/', async (req, res) => {
+  try {
+    const scores = await getTopScores();
+    res.json(scores);
+  } catch {
+    res.status(500).end();
+  }
+});
 
 // Activating the server
 const PORT = 3001;

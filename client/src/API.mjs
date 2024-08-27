@@ -9,7 +9,7 @@ const logIn = async (credentials) => {
     credentials: 'include',
     body: JSON.stringify(credentials),
   });
-  if(response.ok) {
+  if (response.ok) {
     const user = await response.json();
     return user;
   }
@@ -32,14 +32,26 @@ const getUserInfo = async () => {
 };
 
 
-const logOut = async() => {
+const logOut = async () => {
   const response = await fetch(SERVER_URL + '/api/sessions/current', {
     method: 'DELETE',
     credentials: 'include'
   });
   if (response.ok)
     return null;
-}
+};
 
-const API = {logIn, logOut, getUserInfo};
+export const getBestScores = async () => {
+  const response = await fetch(SERVER_URL + '/api/best_scores', {
+    credentials: 'include'
+  });
+  const scores = await response.json();
+  if (response.ok)
+    return scores;
+  else {
+    throw scores;
+  }
+};
+
+const API = { logIn, logOut, getUserInfo, getBestScores };
 export default API;
