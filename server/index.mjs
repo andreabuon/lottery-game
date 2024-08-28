@@ -8,7 +8,8 @@ import LocalStrategy from 'passport-local';
 import session from 'express-session';
 
 import { getUser, getTopScores } from './dao_users.mjs';
-import { createDraw } from './lottery_game.mjs';
+import { getLatestDraw } from './dao_games.mjs';
+import { createDraw} from './lottery_game.mjs';
 
 // init express
 const app = new express();
@@ -118,10 +119,21 @@ app.get('/api/best_scores/', isLoggedIn, async (req, res) => {
   }
 });
 
+// GET /api/last_draw/
+// Returns a JSON array containing the latest draw in the database.
+app.get('/api/last_draw/', isLoggedIn, async (req, res) => {
+  try {
+    const draw = await getLatestDraw();
+    res.json(draw);
+  } catch {
+    res.status(500).end();
+  }
+});
+
 /*******/
 const TIMEOUT = 120 * 1000;
-const TIMEOUT_DEBUG = 10 * 1000;
-async function runLotteryGame(){
+const TIMEOUT_DEBUG = 30 * 1000;
+async function runLotteryGame() {
   let draw_ID = await createDraw();
   //updateScores(drawID);
   setTimeout(runLotteryGame, TIMEOUT_DEBUG);

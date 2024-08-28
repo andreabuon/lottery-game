@@ -14,6 +14,6 @@ export async function createDraw() {
     const draw = pickFiveNumbers();
     console.log("Created draw: ", draw);
     const draw_ID = await insertDraw(draw);
-    console.log("Draw ID: ", draw_ID);
+    console.log("Added draw in the DB with ID: ", draw_ID);
     return draw_ID;
 }

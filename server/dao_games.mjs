@@ -11,6 +11,19 @@ export function insertDraw(draw) {
         });
     });
 }
+
+export function getLatestDraw(){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT NUM1, NUM2, NUM3, NUM4, NUM5 FROM draws ORDER BY ID DESC LIMIT 1;';
+        db.get(sql, [], function(err, row){
+            if (err) {
+                reject(err);
+            }
+            resolve(row);
+        });
+    });
+}
+
 /*
 export function getLastDrawID(){
     const sql = 'SELECT IDENT_CURRENT("draws")+1'; 
