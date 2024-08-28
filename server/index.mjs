@@ -8,6 +8,7 @@ import LocalStrategy from 'passport-local';
 import session from 'express-session';
 
 import { getUser, getTopScores } from './dao_users.mjs';
+import { createDraw } from './lottery_game.mjs';
 
 // init express
 const app = new express();
@@ -118,9 +119,21 @@ app.get('/api/best_scores/', isLoggedIn, async (req, res) => {
 });
 
 /*******/
+const TIMEOUT = 120 * 1000;
+const TIMEOUT_DEBUG = 10 * 1000;
+async function runLotteryGame(){
+  let draw_ID = await createDraw();
+  //updateScores(drawID);
+  setTimeout(runLotteryGame, TIMEOUT_DEBUG);
+}
 
 // Activating the server
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
+  console.log('Starting the game!');
+  runLotteryGame();
 });
+
+
+
