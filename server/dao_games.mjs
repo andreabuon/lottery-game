@@ -14,7 +14,7 @@ export function insertDraw(draw) {
 
 export function getLastDraw(){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT n1, n2, n3, n4, n5 FROM draws ORDER BY ID DESC LIMIT 1;';
+        const sql = 'SELECT n1, n2, n3, n4, n5 FROM draws ORDER BY draw_id DESC LIMIT 1;';
         db.get(sql, [], function(err, row){
             if (err) {
                 reject(err);
@@ -29,30 +29,3 @@ export function getLastDraw(){
         });
     });
 }
-/*
-export function getLastDrawID(){
-    const sql = 'SELECT IDENT_CURRENT("draws")+1'; 
-    db.get(sql, (err, row) => {
-        if (err) {
-            reject(err);
-        }
-        resolve(row);
-    });
-}
-
-function getNextDrawID(){
-    const id = getLastDrawID();
-    return id+1;
-}
-
-export function insertBet(user, bet){
-    return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO bets VALUES (NULL, ?, ?, ?, ?, ?);';
-        db.run(sql, user.id, 1, [...bet], (err) => {
-            if (err) {
-                reject(err);
-            }
-        });
-    });
-}
-*/
