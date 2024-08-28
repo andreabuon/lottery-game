@@ -53,5 +53,17 @@ export const getBestScores = async () => {
   }
 };
 
-const API = { logIn, logOut, getUserInfo, getBestScores };
+export const getLastDraw = async () => {
+  const response = await fetch(SERVER_URL + '/api/last_draw', {
+    credentials: 'include'
+  });
+  const draw = await response.json();
+  if (response.ok)
+    return draw;
+  else {
+    throw draw;
+  }
+};
+
+const API = { logIn, logOut, getUserInfo, getBestScores, getLastDraw};
 export default API;

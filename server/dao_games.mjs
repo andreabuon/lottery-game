@@ -12,18 +12,23 @@ export function insertDraw(draw) {
     });
 }
 
-export function getLatestDraw(){
+export function getLastDraw(){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT NUM1, NUM2, NUM3, NUM4, NUM5 FROM draws ORDER BY ID DESC LIMIT 1;';
+        const sql = 'SELECT n1, n2, n3, n4, n5 FROM draws ORDER BY ID DESC LIMIT 1;';
         db.get(sql, [], function(err, row){
             if (err) {
                 reject(err);
             }
-            resolve(row);
+            let draw = [];
+            draw.push(row.n1);
+            draw.push(row.n2);
+            draw.push(row.n3);
+            draw.push(row.n4);
+            draw.push(row.n5);
+            resolve(draw);
         });
     });
 }
-
 /*
 export function getLastDrawID(){
     const sql = 'SELECT IDENT_CURRENT("draws")+1'; 
@@ -39,13 +44,11 @@ function getNextDrawID(){
     const id = getLastDrawID();
     return id+1;
 }
-*/
 
-/*
 export function insertBet(user, bet){
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO bets VALUES (NULL, ?, ?, ?, ?, ?);';
-        db.run(sql, user.id, 1, [...bet], (err, rows) => {
+        db.run(sql, user.id, 1, [...bet], (err) => {
             if (err) {
                 reject(err);
             }
