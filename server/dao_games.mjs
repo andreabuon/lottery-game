@@ -1,6 +1,6 @@
 import db from "./db.mjs";
 
-export function insertDraw(draw) {
+export function addDraw(draw) {
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO draws VALUES (NULL, ?, ?, ?, ?, ?);';
         db.run(sql, [...draw], function(err){

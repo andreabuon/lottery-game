@@ -7,9 +7,9 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import session from 'express-session';
 
-import { getUser, getTopScores } from './dao_users.mjs';
+import { getUser, getBestScores } from './dao_users.mjs';
 import { getLastDraw } from './dao_games.mjs';
-import { createDraw} from './lottery_game.mjs';
+import { createDraw } from './lottery_game.mjs';
 
 // init express
 const app = new express();
@@ -112,7 +112,7 @@ app.delete('/api/sessions/current', (req, res) => {
 // Returns a JSON array containing the users with the top 3 scores in the database.
 app.get('/api/best_scores/', isLoggedIn, async (req, res) => {
   try {
-    const scores = await getTopScores();
+    const scores = await getBestScores();
     res.json(scores);
   } catch {
     res.status(500).end();

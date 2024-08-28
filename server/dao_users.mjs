@@ -46,7 +46,7 @@ export const getUserById = (id) => {
     });
 };
 
-export const getTopScores = () => {    
+export const getBestScores = () => {    
 return new Promise((resolve, reject) => {
     const sql = 'SELECT username, score FROM users ORDER BY score DESC LIMIT 3';
     db.all(sql, [], (err, rows) => {
