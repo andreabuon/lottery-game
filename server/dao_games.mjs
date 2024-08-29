@@ -19,7 +19,8 @@ export function getLastDraw(){
             if (err) {
                 reject(err);
             }
-            resolve(row);
+            let draw = JSON.parse(row.draw_numbers);
+            resolve(draw);
         });
     });
 }

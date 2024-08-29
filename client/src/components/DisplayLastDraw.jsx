@@ -9,7 +9,7 @@ function DisplayLastDraw() {
   useEffect(() => {
     const retrieveDraw = async () => {
       console.log('Retrieving last draw...');
-      let draw = JSON.parse(await getLastDraw());
+      let draw = await getLastDraw();
       console.log('Got the following draw: ', draw);
       setDraw(draw);
     };

@@ -58,7 +58,7 @@ export const getLastDraw = async () => {
   });
   const draw = await response.json();
   if (response.ok)
-    return draw.draw_numbers;
+    return draw;
   else {
     throw draw;
   }
