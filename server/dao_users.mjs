@@ -14,7 +14,7 @@ export const getUser = (username, password) => {
                 resolve(false);
             }
             else {
-                const user = { id: row.id, username: row.username, score: row.score };
+                const user = { id: row.user_id, username: row.username, score: row.score };
 
                 crypto.scrypt(password, row.salt, 32, function (err, hashedPassword) {
                     if (err) reject(err);
@@ -39,7 +39,7 @@ export const getUserById = (id) => {
                 resolve({ error: 'User not found!' });
             }
             else {
-                const user = { id: row.id, username: row.username, score: row.score };
+                const user = { user_id: row.id, username: row.username, score: row.score };
                 resolve(user);
             }
         });
