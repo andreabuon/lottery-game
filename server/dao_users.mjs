@@ -48,7 +48,7 @@ export const getUserById = (id) => {
 
 export const updateUserScore = (user_id, new_score) => {
     return new Promise((resolve, reject) => {
-        const sql = 'UPDATE users SET score = ? WHERE id = ?';
+        const sql = 'UPDATE users SET score = ? WHERE user_id = ?';
         db.run(sql, [new_score, user_id], (err) =>{
             if(err){
                 reject(err);
