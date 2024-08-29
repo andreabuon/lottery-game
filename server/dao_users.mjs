@@ -46,6 +46,18 @@ export const getUserById = (id) => {
     });
 };
 
+export const updateUserScore = (user_id, new_score) => {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE users SET score = ? WHERE id = ?';
+        db.run(sql, [new_score, user_id], (err) =>{
+            if(err){
+                reject(err);
+            }
+            resolve();
+        });
+    });
+};
+
 export const getBestScores = () => {    
 return new Promise((resolve, reject) => {
     const sql = 'SELECT username, score FROM users ORDER BY score DESC LIMIT 3';
