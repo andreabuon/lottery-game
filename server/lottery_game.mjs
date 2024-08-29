@@ -9,7 +9,7 @@ function pickNumbers() {
       const number = Math.floor(Math.random() * 90) + 1;
       draw.add(number);
     }
-    return draw;
+    return Array.from(draw);
 }
 
 export async function createDraw() {

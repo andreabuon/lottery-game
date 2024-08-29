@@ -133,8 +133,8 @@ app.get('/api/last_draw/', isLoggedIn, async (req, res) => {
 /*******/
 const TIMEOUT = 15 * 1000; //FIXME 120 * 1000;
 async function runLotteryGame() {
-  const draw_ID = await createDraw();
-  //updateScores(drawID);
+  await createDraw();
+  //updateScores();
   setTimeout(runLotteryGame, TIMEOUT);
 }
 
