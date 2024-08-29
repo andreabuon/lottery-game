@@ -36,3 +36,28 @@ export function getLastDraw(){
         });
     });
 }
+
+export function getBets(){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM bets;';
+        db.all(sql, [], function(err, rows){
+            if (err) {
+                reject(err);
+            }
+            let bets = rows.map( (row) => ({user_id: row.user_id, bet_numbers: JSON.parse(row.bet_numbers)}));
+            resolve(bets);
+        });
+    });
+}
+
+export function deleteBets(){
+    return new Promise((resolve, reject) => {
+        const sql = 'DELETE FROM bets WHERE 1=1;';
+        db.run(sql, function(err, rows){
+            if (err) {
+                reject(err);
+            }
+            resolve();
+        });
+    });
+}

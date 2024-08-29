@@ -9,7 +9,7 @@ import session from 'express-session';
 
 import { getUser, getBestScores } from './dao_users.mjs';
 import { addDraw, addBet, getLastDraw } from './dao_games.mjs';
-import { createDraw } from './lottery_game.mjs';
+import { createDraw, updateScores } from './lottery_game.mjs';
 
 // init express
 const app = new express();
@@ -113,7 +113,7 @@ app.delete('/api/sessions/current', (req, res) => {
 app.post('/api/bet/new', isLoggedIn, async (req, res) => {
   try {
     const bet = req.body;
-    console.log(req.user, bet);
+    console.log("Created a new bet: ",req.user, bet);
     let risultato = await addBet(req.user.id, bet);
     res.status(200).json({ message:'Bet added successfully'});
   } catch (err){
@@ -146,10 +146,10 @@ app.get('/api/last_draw/', isLoggedIn, async (req, res) => {
 });
 
 /*******/
-const TIMEOUT = 120 * 1000;
+const TIMEOUT = 20 * 1000; //FIXME
 async function runLotteryGame() {
   await createDraw();
-  //updateScores();
+  await updateScores();
   setTimeout(runLotteryGame, TIMEOUT);
 }
 
