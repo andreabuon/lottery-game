@@ -41,7 +41,7 @@ const logOut = async () => {
 };
 
 export const getBestScores = async () => {
-  const response = await fetch(SERVER_URL + '/api/best_scores', {
+  const response = await fetch(SERVER_URL + '/api/scores/best', {
     credentials: 'include'
   });
   const scores = await response.json();
@@ -53,7 +53,7 @@ export const getBestScores = async () => {
 };
 
 export const getLastDraw = async () => {
-  const response = await fetch(SERVER_URL + '/api/last_draw', {
+  const response = await fetch(SERVER_URL + '/api/draws/last', {
     credentials: 'include'
   });
   const draw = await response.json();
@@ -65,7 +65,7 @@ export const getLastDraw = async () => {
 };
 
 export const createBet = async (bet) => {
-  const response = await fetch(SERVER_URL + '/api/bet/new', {
+  const response = await fetch(SERVER_URL + '/api/bets/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

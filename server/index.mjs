@@ -110,14 +110,14 @@ app.delete('/api/sessions/current', (req, res) => {
 
 // POST /api/bet/new
 // This route is used for adding a new bet.
-app.post('/api/bet/new', isLoggedIn, async (req, res) => {
+app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
     const bet = req.body;
     console.log("Created a new bet: ",req.user, bet);
     let risultato = await addBet(req.user.id, bet);
     res.status(200).json({ message:'Bet added successfully'});
   } catch (err){
-    res.status(500).json( {message: err} );
+    res.status(500).json({ message: err });
     //res.status(500).end();
   }
 });
@@ -125,7 +125,7 @@ app.post('/api/bet/new', isLoggedIn, async (req, res) => {
 
 // GET /api/best_scores/
 // Returns a JSON array containing the users with the top 3 scores in the database.
-app.get('/api/best_scores/', isLoggedIn, async (req, res) => {
+app.get('/api/scores/best', isLoggedIn, async (req, res) => {
   try {
     const scores = await getBestScores();
     res.json(scores);
@@ -136,7 +136,7 @@ app.get('/api/best_scores/', isLoggedIn, async (req, res) => {
 
 // GET /api/last_draw/
 // Returns a JSON array containing the latest draw in the database.
-app.get('/api/last_draw/', isLoggedIn, async (req, res) => {
+app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {
     const draw = await getLastDraw();
     res.json(draw);
