@@ -40,7 +40,7 @@ const logOut = async () => {
     return null;
 };
 
-const getBestScores = async () => {
+export const getBestScores = async () => {
   const response = await fetch(SERVER_URL + '/api/best_scores', {
     credentials: 'include'
   });
@@ -52,7 +52,7 @@ const getBestScores = async () => {
   }
 };
 
-const getLastDraw = async () => {
+export const getLastDraw = async () => {
   const response = await fetch(SERVER_URL + '/api/last_draw', {
     credentials: 'include'
   });
