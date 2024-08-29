@@ -114,7 +114,7 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
     const bet = req.body;
     console.log("Created a new bet: ",req.user, bet);
-    let risultato = await addBet(req.user.id, bet);
+    let risultato = await addBet(req.user.user_id, bet);
     res.status(200).json({ message:'Bet added successfully'});
   } catch (err){
     res.status(500).json({ message: err });
