@@ -8,8 +8,6 @@ export default function Home(props) {
     );
 }
 
-
-
 function LoggedInHome(props) {
     return (
         <>

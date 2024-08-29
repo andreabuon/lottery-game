@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 //import APIs
-import {getBestScores} from '../API.mjs'
+import { getBestScores } from '../API.mjs'
 
 export default function Scoreboard() {
 

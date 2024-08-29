@@ -31,7 +31,6 @@ const getUserInfo = async () => {
   }
 };
 
-
 const logOut = async () => {
   const response = await fetch(SERVER_URL + '/api/sessions/current', {
     method: 'DELETE',
@@ -41,7 +40,7 @@ const logOut = async () => {
     return null;
 };
 
-export const getBestScores = async () => {
+const getBestScores = async () => {
   const response = await fetch(SERVER_URL + '/api/best_scores', {
     credentials: 'include'
   });
@@ -53,7 +52,7 @@ export const getBestScores = async () => {
   }
 };
 
-export const getLastDraw = async () => {
+const getLastDraw = async () => {
   const response = await fetch(SERVER_URL + '/api/last_draw', {
     credentials: 'include'
   });
