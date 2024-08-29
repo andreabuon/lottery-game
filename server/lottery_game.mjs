@@ -18,7 +18,7 @@ export async function createDraw() {
     return draw_ID;
 }
 
-function computeScore(draw, bet){
+function computeReward(draw, bet){
   let score = 0;
 
   for(let number of bet.bet_numbers){
@@ -41,10 +41,17 @@ export async function updateScores(){
 
   for(let bet of bets){
     //console.log(bet);
-    let score = computeScore(draw, bet)
+    let score = computeReward(draw, bet)
     console.log("Player " + bet.user_id + " scored " + score + " points.");
   }
   
   //await deleteBets();
   console.log("#######");
+}
+
+const TIMEOUT = 20 * 1000; //FIXME
+export async function runGame() {
+  await createDraw();
+  await updateScores();
+  setTimeout(runGame, TIMEOUT);
 }
