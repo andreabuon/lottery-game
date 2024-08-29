@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { createBet } from '../API.mjs'
 
 const BetForm = () => {
     const [number1, setNumber1] = useState(0);
@@ -9,6 +10,8 @@ const BetForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Selected Numbers:', number1, number2, number3);
+        let bet = [number1, number2, number3];
+        createBet(bet);
     };
 
     return (

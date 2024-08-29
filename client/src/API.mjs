@@ -64,5 +64,23 @@ export const getLastDraw = async () => {
   }
 };
 
-const API = { logIn, logOut, getUserInfo, getBestScores, getLastDraw};
+export const createBet = async (bet) => {
+  const response = await fetch(SERVER_URL + '/api/bet/new', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(bet)
+  });
+  if (response.ok) {
+    return await response.json();
+  }
+  else {
+    const errDetails = await response.text();
+    throw errDetails;
+  }
+};
+
+const API = { logIn, logOut, getUserInfo, getBestScores, getLastDraw, createBet};
 export default API;

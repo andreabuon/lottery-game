@@ -12,6 +12,18 @@ export function addDraw(draw) {
     });
 }
 
+export function addBet(userID, bet){
+    return new Promise((resolve, reject) => {
+        const sql = 'INSERT INTO bets VALUES (?, ?);';
+        db.run(sql, [userID, JSON.stringify(bet)], function(err){
+            if (err) {
+                reject(err);
+            }
+            resolve(this.lastID);
+        });
+    });
+}
+
 export function getLastDraw(){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT draw_numbers FROM draws ORDER BY draw_id DESC LIMIT 1;';
