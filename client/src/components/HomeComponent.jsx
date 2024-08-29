@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import BetForm from './BetForm'
 import DisplayLastDraw from './DisplayLastDraw'
+import BetForm from './BetForm'
+import GameRules from './GameRules'
 
 export default function Home(props) {
     return (
@@ -21,5 +21,10 @@ function LoggedInHome(props) {
 }
 
 function LoggedOutHome() {
-    return (<h1>Hello! Please login first 🤓</h1>);
+    return (
+        <>
+            <h1>Hello! Please login to play 🤓</h1>
+            <GameRules/>
+        </>    
+    );
 }
