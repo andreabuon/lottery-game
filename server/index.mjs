@@ -1,5 +1,6 @@
 /** Importing modules **/
 import express from 'express';
+import morgan from 'morgan';
 import cors from 'cors';
 import { check, validationResult } from 'express-validator';
 // Passport-related imports
@@ -14,6 +15,7 @@ import { createBet, runGame } from './lottery_game.mjs';
 // init express
 const app = new express();
 app.use(express.json());
+app.use(morgan('dev'));
 
 /** Set up and enable Cross-Origin Resource Sharing (CORS) **/
 const corsOptions = {
