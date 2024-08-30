@@ -115,7 +115,7 @@ app.delete('/api/sessions/current', (req, res) => {
 app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
     await createBet(req.user, req.body);
-    res.status(200).json({ message:'Bet created successfully'});
+    res.status(200).json();
   } catch (err){
     res.status(500).end();
   }
