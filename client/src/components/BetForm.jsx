@@ -22,9 +22,10 @@ const BetForm = (props) => {
         }
         try{
             await API.createBet([...bet]);
+            console.log('Bet created!');
             setMessage({msg: 'Bet created!', type: 'success'});
         }catch(err){
-            console.error(err);
+            console.error('Error:' + err);
             setMessage({msg: 'Error: '+ err, type: 'danger'});
         }
     };
