@@ -25,7 +25,7 @@ const BetForm = (props) => {
             setMessage({msg: 'Bet created!', type: 'success'});
         }catch(err){
             console.error(err);
-            setMessage({msg: 'Error!', type: 'danger'});
+            setMessage({msg: 'Error: '+ err, type: 'danger'});
         }
     };
 
