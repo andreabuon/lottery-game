@@ -33,6 +33,10 @@ export function getLastDraw(){
             if (err) {
                 reject(err);
             }
+            if(row === undefined){
+                //reject('No draw has been found');
+                resolve([]);
+            }
             let draw = JSON.parse(row.draw_numbers);
             resolve(draw);
         });
@@ -46,6 +50,10 @@ export function getBets(){
             if (err) {
                 reject(err);
             }
+            if(rows === undefined){
+                //reject('No bets have been found');
+                resolve([]);
+            }
             let bets = rows.map( (row) => ({user_id: row.user_id, bet_numbers: JSON.parse(row.bet_numbers)}));
             resolve(bets);
         });
@@ -55,7 +63,7 @@ export function getBets(){
 export function deleteBets(){
     return new Promise((resolve, reject) => {
         const sql = 'DELETE FROM bets WHERE 1=1;';
-        db.run(sql, function(err, rows){
+        db.run(sql, function(err){
             if (err) {
                 reject(err);
             }
