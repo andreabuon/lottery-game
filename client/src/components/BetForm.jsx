@@ -9,9 +9,17 @@ const BetForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Selected Numbers:', number1, number2, number3);
-        let bet = [number1, number2, number3];
-        createBet(bet);
+        let bet = new Set([number1, number2, number3]);
+        if (bet.has(0)) {
+            bet.delete(0);
+        }
+        if(bet.size == 0){
+            console.error('You must bet on at least 1 number');
+            return;
+        }
+
+        console.log('You have selected the following numbers: ', [...bet]);
+        createBet([...bet]);
     };
 
     return (
