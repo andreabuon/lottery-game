@@ -9,7 +9,6 @@ import Scoreboard from './components/ScoreboardComponent';
 import NotFound from './components/NotFoundComponent';
 import { LoginForm } from './components/AuthComponents';
 
-import './App.css'
 import API from './API.mjs';
 
 function App() {
