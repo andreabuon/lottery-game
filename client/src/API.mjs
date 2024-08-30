@@ -78,7 +78,7 @@ const createBet = async (bet) => {
   if (!response.ok) {
     handleError(response);
   }
-  return await response.json();
+  return; //FIXME
 };
 
 const API = { logIn, getUserInfo, logOut, getBestScores, getLastDraw, createBet };
