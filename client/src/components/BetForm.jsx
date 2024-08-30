@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import API from '../API.mjs'
 
-const BetForm = () => {
+const BetForm = (props) => {
     const [number1, setNumber1] = useState(0);
     const [number2, setNumber2] = useState(0);
     const [number3, setNumber3] = useState(0);
+
+    const setMessage = props.setMessage;
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -15,11 +17,12 @@ const BetForm = () => {
         }
         if(bet.size == 0){
             console.error('You must bet on at least 1 number');
+            setMessage({msg: 'You must bet on at least 1 number', type: 'danger'});
             return;
         }
 
-        console.log('You have selected the following numbers: ', [...bet]);
         API.createBet([...bet]);
+        setMessage({msg: 'Bet created!', type: 'success'});
     };
 
     return (

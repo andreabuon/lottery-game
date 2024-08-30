@@ -52,7 +52,7 @@ function App() {
         </>
       }>
         <Route index element={
-          <Home loggedIn={loggedIn} user={user} />
+          <Home loggedIn={loggedIn} user={user} setMessage={setMessage} />
         } />
 
         <Route path="/scoreboard" element={
