@@ -1,4 +1,6 @@
-import { addDraw, getBets, getLastDraw, deleteBets } from './dao_games.mjs';
+import { addDraw, addBet, getBets, getLastDraw, deleteBets } from './dao_games.mjs';
+import { updateUserScore, getUserById } from './dao_users.mjs';
+const COST_PER_NUMBER = 5; //pts
 const DRAW_SIZE = 5;
 
 function pickNumbers() {
@@ -14,8 +16,24 @@ function pickNumbers() {
 export async function createDraw() {
     const draw = pickNumbers();
     const draw_ID = await addDraw(draw);
-    //console.log("Added new draw [" + [...draw] + "] in the DB with ID: ", draw_ID);
     return draw_ID;
+}
+
+export async function createBet(user, bet){
+  let cost = bet.length * COST_PER_NUMBER;
+  if(user.score < cost){
+    throw({message: 'You do not have enough points'});
+  }
+
+  try{
+    //add the bet to the DB
+    await addBet(user.user_id, bet);
+    //the uses pays for the bet
+    await updateUserScore(user.user_id, user.score - cost);
+    console.log(user.user_id + " has just made a new bet: " + bet);
+  }catch(err){
+    console.error(err);
+  }
 }
 
 function computeReward(draw, bet){
@@ -30,7 +48,7 @@ function computeReward(draw, bet){
 }
 
 export async function updateScores(){
-  console.log("#### UPDATING SCORES #####");
+  console.log("#### Round done. Updating scores #####");
 
   let draw = await getLastDraw();
   console.log("Last draw: ", draw);
@@ -41,12 +59,16 @@ export async function updateScores(){
 
   for(let bet of bets){
     //console.log(bet);
-    let score = computeReward(draw, bet)
-    console.log("Player " + bet.user_id + " scored " + score + " points.");
+    let reward = computeReward(draw, bet)
+    console.log("Player " + bet.user_id + " won " + reward + " points.");
+    if(reward == 0) continue;
+    let user = await getUserById(bet.user_id);
+    await updateUserScore(bet.user_id, user.score + reward);
   }
   
   //await deleteBets();
   console.log("#######");
+  console.log("\n");
 }
 
 const TIMEOUT = 20 * 1000; //FIXME

@@ -7,6 +7,7 @@ export function addDraw(draw) {
             if (err) {
                 reject(err);
             }
+            //console.log("Added a new draw [" + [...draw] + "] in the DB with ID: ", draw_ID);
             resolve(this.lastID);
         });
     });
@@ -19,6 +20,7 @@ export function addBet(userID, bet){
             if (err) {
                 reject(err);
             }
+            //console.log("User " + userID + " added a new bet [" + [...bet] + "] in the DB");
             resolve(this.lastID);
         });
     });

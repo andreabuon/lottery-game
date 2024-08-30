@@ -30,7 +30,7 @@ export const getUser = (username, password) => {
 
 export const getUserById = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM users WHERE id = ?';
+        const sql = 'SELECT * FROM users WHERE user_id = ?';
         db.get(sql, [id], (err, row) => {
             if (err) {
                 reject(err);
