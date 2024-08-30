@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 //import APIs
-import { getBestScores } from '../API.mjs'
+import API from '../API.mjs'
 
 export default function Scoreboard() {
 
@@ -10,9 +10,7 @@ export default function Scoreboard() {
     const [refreshing, setRefreshing] = useState(false);
     useEffect(() => {
         const updateScores = async () => {
-            //console.log("Refreshing...");
-            //console.log(scores);
-            const scores = await getBestScores();
+            const scores = await API.getBestScores();
             setScores(scores);
         };
         updateScores();

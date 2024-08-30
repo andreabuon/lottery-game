@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
-import { getLastDraw } from '../API.mjs';
+import API from '../API.mjs';
 
 function DisplayLastDraw() {
   const [draw, setDraw] = useState(['Loading', 'draw']);
@@ -9,7 +9,7 @@ function DisplayLastDraw() {
   useEffect(() => {
     const retrieveDraw = async () => {
       console.log('Retrieving last draw...');
-      let draw = await getLastDraw();
+      let draw = await API.getLastDraw();
       console.log('Got the following draw: ', draw);
       setDraw(draw);
     };

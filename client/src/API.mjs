@@ -1,5 +1,9 @@
 const SERVER_URL = 'http://localhost:3001';
 
+function handleError(response){
+  throw new Error(response.status+ ": " + response.statusText);  
+}
+
 const logIn = async (credentials) => {
   const response = await fetch(SERVER_URL + '/api/sessions', {
     method: 'POST',
@@ -14,8 +18,7 @@ const logIn = async (credentials) => {
     return user;
   }
   else {
-    const errDetails = await response.text();
-    throw errDetails;
+    handleError(response);
   }
 };
 
@@ -23,11 +26,11 @@ const getUserInfo = async () => {
   const response = await fetch(SERVER_URL + '/api/sessions/current', {
     credentials: 'include',
   });
-  const user = await response.json();
   if (response.ok) {
+    const user = await response.json();
     return user;
   } else {
-    throw user;  // an object with the error coming from the server
+    handleError(response);
   }
 };
 
@@ -38,9 +41,12 @@ const logOut = async () => {
   });
   if (response.ok)
     return null;
+  else {
+    handleError(response);
+  }
 };
 
-export const getBestScores = async () => {
+const getBestScores = async () => {
   const response = await fetch(SERVER_URL + '/api/scores/best', {
     credentials: 'include'
   });
@@ -48,11 +54,11 @@ export const getBestScores = async () => {
   if (response.ok)
     return scores;
   else {
-    throw scores;
+    handleError(response);
   }
 };
 
-export const getLastDraw = async () => {
+const getLastDraw = async () => {
   const response = await fetch(SERVER_URL + '/api/draws/last', {
     credentials: 'include'
   });
@@ -60,11 +66,11 @@ export const getLastDraw = async () => {
   if (response.ok)
     return draw;
   else {
-    throw draw;
+    handleError(response);
   }
 };
 
-export const createBet = async (bet) => {
+const createBet = async (bet) => {
   const response = await fetch(SERVER_URL + '/api/bets/', {
     method: 'POST',
     headers: {
@@ -77,10 +83,9 @@ export const createBet = async (bet) => {
     return await response.json();
   }
   else {
-    const errDetails = await response.text();
-    throw errDetails;
+    handleError(response);
   }
 };
 
-const API = { logIn, logOut, getUserInfo, getBestScores, getLastDraw, createBet};
+const API = { logIn, getUserInfo, logOut, getBestScores, getLastDraw, createBet};
 export default API;
