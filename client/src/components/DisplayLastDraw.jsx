@@ -6,15 +6,22 @@ function DisplayLastDraw() {
   const [draw, setDraw] = useState(['Loading', 'draw']);
   const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    const retrieveDraw = async () => {
-      console.log('Retrieving last draw...');
+  const retrieveDraw = async () => {
+    setRefreshing(true);
+    console.log('Retrieving the last draw...');
+    try{
       let draw = await API.getLastDraw();
       console.log('Got the following draw: ', draw);
       setDraw(draw);
-    };
+    }catch(err){
+      console.error(err);
+    }
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
     retrieveDraw();
-  }, [refreshing]);
+  }, []);
 
   return (
     <div className="p-4">
@@ -33,7 +40,8 @@ function DisplayLastDraw() {
       <div className="d-flex justify-content-center">
         <Button
           variant="primary"
-          onClick={() => setRefreshing(!refreshing)}
+          onClick={() => retrieveDraw()}
+          disabled={refreshing}
         >
           Refresh draw
         </Button>

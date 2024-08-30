@@ -5,21 +5,29 @@ import Table from 'react-bootstrap/Table';
 import API from '../API.mjs'
 
 export default function Scoreboard() {
-
     const [scores, setScores] = useState([{ username: 'Loading', score: 0 }]);
     const [refreshing, setRefreshing] = useState(false);
-    useEffect(() => {
-        const updateScores = async () => {
+    
+    const updateScores = async () => {
+        setRefreshing(true);
+        try{
             const scores = await API.getBestScores();
             setScores(scores);
-        };
+            console.log("Scores updated!");
+        } catch (err){
+            console.error(err);
+        }
+        setRefreshing(false);
+    };
+
+    useEffect(() => {
         updateScores();
-    }, [refreshing]);
+    }, []);
 
     return (
         <>
             <h1>Scoreboard</h1>
-            <Button onClick={() => setRefreshing(!refreshing)}>Refresh scores</Button>
+            <Button onClick={() => updateScores()} disabled={refreshing}>Refresh scores</Button>
 
             <Table striped>
                 <thead>

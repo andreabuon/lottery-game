@@ -9,7 +9,7 @@ const BetForm = (props) => {
 
     const setMessage = props.setMessage;
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         let bet = new Set([number1, number2, number3]);
         if (bet.has(0)) {
@@ -20,9 +20,13 @@ const BetForm = (props) => {
             setMessage({msg: 'You must bet on at least 1 number', type: 'danger'});
             return;
         }
-
-        API.createBet([...bet]);
-        setMessage({msg: 'Bet created!', type: 'success'});
+        try{
+            await API.createBet([...bet]);
+            setMessage({msg: 'Bet created!', type: 'success'});
+        }catch(err){
+            console.error(err);
+            setMessage({msg: 'Error!', type: 'danger'});
+        }
     };
 
     return (

@@ -23,6 +23,7 @@ function App() {
       setMessage({ msg: `Welcome, ${user.username}!`, type: 'success' });
       setUser(user);
     } catch (err) {
+      console.error(err);
       setMessage({ msg: err, type: 'danger' });
     }
   };
