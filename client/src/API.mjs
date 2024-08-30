@@ -1,7 +1,8 @@
 const SERVER_URL = 'http://localhost:3001';
 
-function handleError(response){
-  throw new Error(response.status+ ": " + response.statusText);  
+async function handleError(response) {
+  const errorMessage = await response.text();
+  throw new Error(`${response.status} - ${response.statusText}: ${errorMessage}`);
 }
 
 const logIn = async (credentials) => {
@@ -13,25 +14,22 @@ const logIn = async (credentials) => {
     credentials: 'include',
     body: JSON.stringify(credentials),
   });
-  if (response.ok) {
-    const user = await response.json();
-    return user;
-  }
-  else {
+  if (!response.ok) {
     handleError(response);
   }
+  const user = await response.json();
+  return user;
 };
 
 const getUserInfo = async () => {
   const response = await fetch(SERVER_URL + '/api/sessions/current', {
     credentials: 'include',
   });
-  if (response.ok) {
-    const user = await response.json();
-    return user;
-  } else {
+  if (!response.ok) {
     handleError(response);
   }
+  const user = await response.json();
+  return user;
 };
 
 const logOut = async () => {
@@ -39,35 +37,33 @@ const logOut = async () => {
     method: 'DELETE',
     credentials: 'include'
   });
-  if (response.ok)
-    return null;
-  else {
+  if (!response.ok) {
     handleError(response);
   }
+  return null;
 };
 
 const getBestScores = async () => {
   const response = await fetch(SERVER_URL + '/api/scores/best', {
     credentials: 'include'
   });
-  const scores = await response.json();
-  if (response.ok)
-    return scores;
-  else {
+  if (!response.ok) {
     handleError(response);
   }
+  const scores = await response.json();
+  return scores;
 };
 
 const getLastDraw = async () => {
   const response = await fetch(SERVER_URL + '/api/draws/last', {
     credentials: 'include'
   });
-  const draw = await response.json();
-  if (response.ok)
-    return draw;
-  else {
+
+  if (!response.ok) {
     handleError(response);
   }
+  const draw = await response.json();
+  return draw;
 };
 
 const createBet = async (bet) => {
@@ -79,13 +75,11 @@ const createBet = async (bet) => {
     credentials: 'include',
     body: JSON.stringify(bet)
   });
-  if (response.ok) {
-    return await response.json();
-  }
-  else {
+  if (!response.ok) {
     handleError(response);
   }
+  return await response.json();
 };
 
-const API = { logIn, getUserInfo, logOut, getBestScores, getLastDraw, createBet};
+const API = { logIn, getUserInfo, logOut, getBestScores, getLastDraw, createBet };
 export default API;
