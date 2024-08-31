@@ -76,5 +76,5 @@ async function newRound() {
 
 export async function runGame() {
   newRound();
-  //setTimeout(runGame, ROUNDS_TIMEOUT); // Schedule the next round
+  setTimeout(runGame, ROUNDS_TIMEOUT); // Schedule the next round
 }
