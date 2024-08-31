@@ -20,11 +20,11 @@ function App() {
     try {
       const user = await API.logIn(credentials);
       setLoggedIn(true);
-      setMessage({ msg: `Welcome, ${user.username}!`, type: 'success' });
+      showMessage(`Welcome, ${user.username}!`, 'success');
       setUser(user);
     } catch (err) {
       console.error(err);
-      setMessage({ msg: err, type: 'danger' });
+      showMessage(err, 'danger');
     }
   };
 
@@ -35,6 +35,10 @@ function App() {
     setUser('');
   };
 
+  const showMessage = (message, type) => {
+    setMessage({ msg: message, type: type });
+    setTimeout(() => setMessage(''), 2000);
+  };
 
   return (
     <Routes>
@@ -52,7 +56,7 @@ function App() {
         </>
       }>
         <Route index element={
-          <Home loggedIn={loggedIn} user={user} setMessage={setMessage} />
+          <Home loggedIn={loggedIn} user={user} showMessage={showMessage} />
         } />
 
         <Route path="/scoreboard" element={

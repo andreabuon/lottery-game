@@ -8,7 +8,7 @@ const BetForm = (props) => {
     const [number3, setNumber3] = useState(0);
     const [waiting, setWaiting] = useState(false);
 
-    const setMessage = props.setMessage;
+    const showMessage = props.showMessage;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -19,16 +19,16 @@ const BetForm = (props) => {
         }
         if(bet.size == 0){
             console.error('You must bet on at least 1 number');
-            setMessage({msg: 'You must bet on at least 1 number', type: 'danger'});
+            showMessage('You must bet on at least 1 number', 'danger');
             return;
         }
         try{
             await API.createBet([...bet]);
             console.log('Bet created!');
-            setMessage({msg: 'Bet created!', type: 'success'});
+            showMessage('Bet created!', 'success');
         }catch(err){
             console.error('Error:' + err);
-            setMessage({msg: 'Error: '+ err, type: 'danger'});
+            showMessage('Error: '+ err, 'danger');
         }
         setWaiting(false);
     };
