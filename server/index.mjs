@@ -101,7 +101,7 @@ app.get('/api/sessions/current', (req, res) => {
 });
 
 // DELETE /api/session/current
-// This route is used for loggin out the current user.
+// This route is used for logging out the current user.
 app.delete('/api/sessions/current', (req, res) => {
   req.logout(() => {
     res.end();
@@ -110,7 +110,7 @@ app.delete('/api/sessions/current', (req, res) => {
 
 /*******/
 
-// POST /api/bet/new
+// POST /api/bets/
 // This route is used for creating a new bet.
 app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
@@ -122,7 +122,7 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
 });
 
 
-// GET /api/best_scores/
+// GET /api/scores/best
 // Returns a JSON array containing the users with the top 3 scores in the database.
 app.get('/api/scores/best', isLoggedIn, async (req, res) => {
   try {
@@ -133,7 +133,7 @@ app.get('/api/scores/best', isLoggedIn, async (req, res) => {
   }
 });
 
-// GET /api/last_draw/
+// GET /api/draws/last
 // Returns a JSON array containing the latest draw in the database.
 app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {

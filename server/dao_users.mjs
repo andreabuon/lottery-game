@@ -36,9 +36,7 @@ export const getUserById = (id) => {
                 reject(err);
             }
             else if (row === undefined) {
-                //resolve({ error: 'User not found!' });
-                //reject('User not found!');
-                resolve([]);
+                resolve(false);
             }
             else {
                 const user = { user_id: row.user_id, username: row.username, score: row.score };

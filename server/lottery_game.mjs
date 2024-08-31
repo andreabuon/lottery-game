@@ -28,7 +28,7 @@ export async function createBet(user, bet) {
   try {
     //add the bet to the DB
     await addBet(user.user_id, bet);
-    //the uses pays for the bet
+    //the user pays for the bet
     await updateUserScore(user.user_id, user.score - cost);
     console.log(user.user_id + " has just made a new bet: " + bet);
   } catch (error) {
@@ -48,32 +48,35 @@ function computeReward(draw, bet) {
 }
 
 export async function updateScores() {
-  console.log("#### Round done. Updating scores #####");
+  console.log("#### Round done #####");
 
   let draw = await getLastDraw();
   console.log("Last draw: ", draw);
 
   let bets = await getBets();
   console.log("Current bets:");
-  console.log(bets);
 
   for (let bet of bets) {
-    //console.log(bet);
+    console.log("Player " + bet.user_id + ' bet on the following numbers: ' + bet.bet_numbers);
     let reward = computeReward(draw, bet)
     console.log("Player " + bet.user_id + " won " + reward + " points.");
     if (reward == 0) continue;
-    let user = await getUserById(bet.user_id);
+    let user = await getUserById(bet.user_id); //FIXME mettere try/catch
+    if(!user){
+      console.error('The user ' + bet.user_id + ' has been deleted - skipping his bet!');
+      continue;
+    }
     await updateUserScore(bet.user_id, user.score + reward);
   }
 
   //await deleteBets();
-  console.log("#######");
   console.log("\n");
+  console.log("#######");
 }
 
 const TIMEOUT = 20 * 1000; //FIXME
 export async function runGame() {
-  await createDraw();
-  await updateScores();
+  let draw_id = await createDraw();
+  await updateScores(); //FIXME use draw_id to only update last draw bets
   setTimeout(runGame, TIMEOUT);
 }

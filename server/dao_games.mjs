@@ -37,7 +37,7 @@ export function getLastDraw(){
                 //reject('No draw has been found');
                 resolve([]);
             }
-            let draw = JSON.parse(row.draw_numbers);
+            let draw = JSON.parse(row.draw_numbers); //FIXME
             resolve(draw);
         });
     });
