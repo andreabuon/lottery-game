@@ -1,5 +1,6 @@
 import db from "./db.mjs";
-import { Draw, Bet } from './lottery_game.mjs'
+import { Draw } from '../common/Draw.mjs';
+import { Bet } from '../common/Bet.mjs';
 
 export function addDraw(draw) {
     return new Promise((resolve, reject) => {
