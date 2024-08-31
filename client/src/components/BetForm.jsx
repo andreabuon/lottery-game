@@ -6,11 +6,13 @@ const BetForm = (props) => {
     const [number1, setNumber1] = useState(0);
     const [number2, setNumber2] = useState(0);
     const [number3, setNumber3] = useState(0);
+    const [waiting, setWaiting] = useState(false);
 
     const setMessage = props.setMessage;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setWaiting(true);
         let bet = new Set([number1, number2, number3]);
         if (bet.has(0)) {
             bet.delete(0);
@@ -28,6 +30,7 @@ const BetForm = (props) => {
             console.error('Error:' + err);
             setMessage({msg: 'Error: '+ err, type: 'danger'});
         }
+        setWaiting(false);
     };
 
     return (
@@ -75,7 +78,7 @@ const BetForm = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Button variant="primary" type="submit" className="w-100">
+                    <Button variant="primary" type="submit" className="w-100" disabled={waiting}>
                         Bet!
                     </Button>
                 </Row>
