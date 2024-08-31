@@ -22,7 +22,7 @@ const logIn = async (credentials) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    throw new Error(error)
+    throw error; // Simply re-throw the error to preserve the original stack trace
   }
 };
 
@@ -33,7 +33,7 @@ const getUserInfo = async () => {
     const user = await response.json();
     return user;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const logOut = async () => {
     await handleInvalidResponse(response);
     return null;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -59,7 +59,7 @@ const getBestScores = async () => {
     const scores = await response.json();
     return scores;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -71,8 +71,8 @@ const getLastDraw = async () => {
     await handleInvalidResponse(response);
     const draw = await response.json();
     return draw;
-  } catch (error) {
-    throw new Error(error);
+    } catch (error) {
+    throw error;
   }
 }
 
@@ -89,7 +89,7 @@ const createBet = async (bet) => {
     await handleInvalidResponse(response);
     return null;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
