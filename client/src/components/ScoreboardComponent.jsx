@@ -4,10 +4,12 @@ import Table from 'react-bootstrap/Table';
 //import APIs
 import API from '../API.mjs'
 
-export default function Scoreboard() {
+export default function Scoreboard(props) {
     const [scores, setScores] = useState([{ username: 'Loading', score: 0 }]);
     const [refreshing, setRefreshing] = useState(false);
     
+    const showMessage= props.showMessage;
+
     const updateScores = async () => {
         setRefreshing(true);
         try{
@@ -16,6 +18,7 @@ export default function Scoreboard() {
             console.log("Scores updated!");
         } catch (err){
             console.error(err);
+            showMessage(err.toString(), 'danger'); //FIXME
         }
         setRefreshing(false);
     };
