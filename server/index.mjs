@@ -55,7 +55,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  return res.status(401).json({ error: 'Not authorized' });
+  return res.status(401).send('Not authorized');
 }
 
 /** Creating the session */
@@ -97,7 +97,7 @@ app.get('/api/sessions/current', (req, res) => {
     res.status(200).json(req.user);
   }
   else
-    res.status(401).json({ error: 'Not authenticated' }); //FIXME
+    res.status(401).send('Not authenticated'); //FIXME
 });
 
 // DELETE /api/session/current
