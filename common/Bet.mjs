@@ -1,3 +1,5 @@
+import { Draw } from './Draw.mjs';
+
 const COST_PER_NUMBER = 5; // pts
 const PTS_PER_MATCHED_NUM = 10;
 

@@ -1,10 +1,9 @@
 import { addDraw, addBet, getBets, getLastDraw, deleteBets } from './dao_games.mjs';
 import { updateUserScore, getUserById } from './dao_users.mjs';
-import { Draw } from '../common/Draw.mjs';
+import { Draw, createDraw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
 
 const ROUNDS_TIMEOUT = 20 * 1000; //FIXME this should be 120 * 1000
-const DRAW_SIZE = 5;
 
 export async function createBet(user, user_bet) {
   const bet = new Bet(user.user_id, user_bet);
@@ -35,6 +34,7 @@ export async function updateScores() {
 
     const bets = await getBets();
     console.log("Current bets:");
+    if(!bets) return;
 
     for (let bet of bets) {
       console.log(bet);
@@ -65,9 +65,10 @@ export async function updateScores() {
 
 async function newRound() {
   try {
-    const draw = Draw.create(DRAW_SIZE); // Create a new draw
+    const draw = createDraw(); // Create a new draw
     const draw_id = await addDraw(draw); // Save draw to the database
-    setTimeout(updateScores(), ROUNDS_TIMEOUT); //FIXME Update scores based on the latest draw_id
+    //setTimeout(updateScores(), ROUNDS_TIMEOUT); //FIXME Update scores based on the latest draw_id
+    updateScores();
   } catch (error) {
     console.error('Error running round:', error);
   }
@@ -75,5 +76,5 @@ async function newRound() {
 
 export async function runGame() {
   newRound();
-  setTimeout(runGame, ROUNDS_TIMEOUT); // Schedule the next round
+  //setTimeout(runGame, ROUNDS_TIMEOUT); // Schedule the next round
 }
