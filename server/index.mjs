@@ -76,7 +76,7 @@ app.post('/api/sessions', function (req, res, next) {
       return next(err);
     if (!user) {
       // display wrong login messages
-      return res.status(401).json({ error: info }); //FIXME
+      return res.status(401).send('' + info); //FIXME
     }
     // success, perform the login and extablish a login session
     req.login(user, (err) => {

@@ -24,7 +24,7 @@ function App() {
       setUser(user);
     } catch (err) {
       console.error(err);
-      showMessage(err, 'danger');
+      showMessage(err.toString(), 'danger');
     }
   };
 
