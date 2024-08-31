@@ -1,26 +1,27 @@
 import db from "./db.mjs";
+import { Draw, Bet } from './lottery_game.mjs'
 
 export function addDraw(draw) {
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO draws VALUES (NULL, ?);';
-        db.run(sql, [JSON.stringify(draw)], function(err){
+        db.run(sql, [JSON.stringify(draw.numbers)], function(err){
             if (err) {
                 reject(err);
             }
-            //console.log("Added a new draw [" + [...draw] + "] in the DB with ID: ", draw_ID);
+            //console.log("Added a new draw [" + [...draw.numbers] + "] in the DB with ID: ", draw_ID);
             resolve(this.lastID);
         });
     });
 }
 
-export function addBet(userID, bet){
+export function addBet(bet){
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO bets VALUES (?, ?);';
-        db.run(sql, [userID, JSON.stringify(bet)], function(err){
+        db.run(sql, [bet.user_id, JSON.stringify(bet.numbers)], function(err){
             if (err) {
                 reject(err);
             }
-            //console.log("User " + userID + " added a new bet [" + [...bet] + "] in the DB");
+            //console.log("User " + bet.user_id + " added a new bet [" + [...bet.numbers] + "] in the DB");
             resolve(this.lastID);
         });
     });
@@ -54,7 +55,7 @@ export function getBets(){
                 //reject('No bets have been found');
                 resolve([]);
             }
-            let bets = rows.map( (row) => ({user_id: row.user_id, bet_numbers: JSON.parse(row.bet_numbers)}));
+            let bets = rows.map( (row) => new Bet(row.user_id, JSON.parse(row.bet_numbers)));
             resolve(bets);
         });
     });
