@@ -76,7 +76,7 @@ app.post('/api/sessions', function (req, res, next) {
       return next(err);
     if (!user) {
       // display wrong login messages
-      return res.status(401).json({ error: info });
+      return res.status(401).json({ error: info }); //FIXME
     }
     // success, perform the login and extablish a login session
     req.login(user, (err) => {
@@ -97,7 +97,7 @@ app.get('/api/sessions/current', (req, res) => {
     res.status(200).json(req.user);
   }
   else
-    res.status(401).json({ error: 'Not authenticated' });
+    res.status(401).json({ error: 'Not authenticated' }); //FIXME
 });
 
 // DELETE /api/session/current
@@ -115,9 +115,9 @@ app.delete('/api/sessions/current', (req, res) => {
 app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
     await createBet(req.user, req.body);
-    res.status(200); //FIXME
-  } catch (err){
-    res.status(500).end();
+    res.status(200).send();
+  } catch (error){
+    res.status(500).send(error);
   }
 });
 
@@ -128,8 +128,8 @@ app.get('/api/scores/best', isLoggedIn, async (req, res) => {
   try {
     const scores = await getBestScores();
     res.json(scores);
-  } catch {
-    res.status(500).end();
+  } catch (error){
+    res.status(500).send(error);
   }
 });
 
@@ -139,8 +139,8 @@ app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {
     const draw = await getLastDraw();
     res.json(draw);
-  } catch {
-    res.status(500).end();
+  } catch (error){
+    res.status(500).send(error);
   }
 });
 

@@ -25,11 +25,15 @@ export async function createBet(user, bet) {
     throw new Error('You do not have enough points');
   }
 
-  //add the bet to the DB
-  await addBet(user.user_id, bet);
-  //the uses pays for the bet
-  await updateUserScore(user.user_id, user.score - cost);
-  console.log(user.user_id + " has just made a new bet: " + bet);
+  try {
+    //add the bet to the DB
+    await addBet(user.user_id, bet);
+    //the uses pays for the bet
+    await updateUserScore(user.user_id, user.score - cost);
+    console.log(user.user_id + " has just made a new bet: " + bet);
+  } catch (error) {
+    throw error;
+  }
 }
 
 function computeReward(draw, bet) {

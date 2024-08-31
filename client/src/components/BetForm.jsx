@@ -23,6 +23,7 @@ const BetForm = (props) => {
             return;
         }
         try{
+            console.log('Trying to create bet!');
             await API.createBet([...bet]);
             console.log('Bet created!');
             showMessage('Bet created!', 'success');
