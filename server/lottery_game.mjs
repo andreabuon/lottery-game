@@ -1,18 +1,20 @@
 import { addDraw, addBet, getBets, getLastDraw, deleteBets } from './dao_games.mjs';
 import { updateUserScore, getUserById } from './dao_users.mjs';
 
-const COST_PER_NUMBER = 5; //pts
 const DRAW_SIZE = 5;
+const COST_PER_NUMBER = 5; // pts
+const PTS_PER_MATCHED_NUM = 10;
+
 
 export function Draw(numbers) {
-  this.numbers = new Set(numbers); //FIXME Maybe better a Set ?
+  this.numbers = new Set(numbers); // Using Set for saving unique numbers
 
+  // Static method to create a new Draw
   Draw.create = function (size) {
-    //Pick random numbers
-    let numbers = new Set();
+    const numbers = new Set();
     while (numbers.size < size) {
-      // Generate a random integer between 1 and 90
-      const number = Math.floor(Math.random() * 90) + 1;
+      // Random integer between 1 and 90
+      const number = Math.floor(Math.random() * 90) + 1; //
       numbers.add(number);
     }
     return new Draw(numbers);
@@ -20,50 +22,53 @@ export function Draw(numbers) {
 
   this.toString = () => {
     return ('' + [...this.numbers]);
+    //return `[${[...this.numbers].join(", ")}]`;
   };
 }
 
 export function Bet(user_id, numbers) {
   this.user_id = user_id;
-  this.numbers = new Set(numbers); //FIXME this should be a set
+  this.numbers = new Set(numbers);
 
   this.getSize = () => {
-    return numbers.size;
-  }
+    return this.numbers.size;
+  };
 
   this.toString = () => {
-    return ("Player #" + user_id + ' : ' + [...bet.numbers]);
-  }
+    return `Player #${this.user_id} : [${[...this.numbers]}]`;
+  };
 
   this.computeReward = (draw) => {
     let score = 0;
     for (let number of this.numbers) {
       if (draw.numbers.has(number)) {
-        score += 10;
+        score += PTS_PER_MATCHED_NUM;
       }
     }
     return score;
-  }
+  };
 
   this.getCost = () => {
     return this.getSize() * COST_PER_NUMBER;
-  }
+  };
 }
 
 export async function createBet(user, user_bet) {
-  let bet = new Bet(user, user_bet);
-  let cost = bet.getCost();
+  const bet = new Bet(user.user_id, user_bet);
+  const cost = bet.getCost();
+
   if (user.score < cost) {
-    throw new Error('You do not have enough points');
+    throw new Error('Error: the user does not have enough points');
   }
 
   try {
-    //add the bet to the DB
+    // Add the bet to the database
     await addBet(bet);
-    //the user pays for the bet
+    // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
     console.log(bet);
   } catch (error) {
+    console.error('Error creating bet:', error);
     throw error;
   }
 }
@@ -71,34 +76,53 @@ export async function createBet(user, user_bet) {
 export async function updateScores() {
   console.log("#### Round done #####");
 
-  let draw = await getLastDraw();
-  console.log("Last draw: ", draw);
+  try {
+    const draw = await getLastDraw();
+    console.log("Last draw: ", draw);
 
-  let bets = await getBets();
-  console.log("Current bets:");
+    const bets = await getBets();
+    console.log("Current bets:");
 
-  for (let bet of bets) {
-    console.log(bet);
-    let reward = bet.computeReward(draw);
-    console.log("Player " + bet.user_id + " won " + reward + " points.");
-    if (reward == 0) continue;
-    let user = await getUserById(bet.user_id); //FIXME mettere try/catch
-    if (!user) {
-      console.error('The user ' + bet.user_id + ' has been deleted - skipping its score update!');
-      continue;
+    for (let bet of bets) {
+      console.log(bet);
+      const reward = bet.computeReward(draw);
+      console.log(`Player ${bet.user_id} won ${reward} points.`);
+      if (reward === 0) continue;
+
+      try {
+        const user = await getUserById(bet.user_id);
+        if (!user) {
+          console.error(`The user ${bet.user_id} has been deleted - skipping its score update!`);
+          continue;
+        }
+        await updateUserScore(bet.user_id, user.score + reward);
+      } catch (error) {
+        console.error(`Error updating user ${bet.user_id} score:`, error);
+      }
     }
-    await updateUserScore(bet.user_id, user.score + reward);
+
+    // Delete all bets after each round?
+    // await deleteBets();
+  } catch (error) {
+    console.error('Error updating scores:', error);
   }
 
-  //await deleteBets();
-  console.log("\n");
-  console.log("#######");
+  console.log("\n#######");
 }
 
-const ROUNDS_TIMEOUT = 20 * 1000; //FIXME
+const ROUNDS_TIMEOUT = 20 * 1000; //FIXME this should be 120 * 1000
 export async function runGame() {
-  const draw = Draw.prototype.create(DRAW_SIZE);
-  let draw_id = await addDraw(draw);
-  await updateScores(); //FIXME use draw_id to only update last draw bets
-  setTimeout(runGame, ROUNDS_TIMEOUT);
+  newRound();
+  setTimeout(runGame, ROUNDS_TIMEOUT); // Schedule the next round
+}
+
+async function newRound() {
+  try {
+    const draw = Draw.create(DRAW_SIZE); // Create a new draw
+    const draw_id = await addDraw(draw); // Save draw to the database
+    await setTimeout(updateScores(), ROUNDS_TIMEOUT); //FIXME Update scores based on the latest draw_id
+  } catch (error) {
+    console.error('Error running round:', error);
+  }
+
 }
