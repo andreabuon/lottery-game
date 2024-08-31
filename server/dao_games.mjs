@@ -5,7 +5,7 @@ import { Bet } from '../common/Bet.mjs';
 export function addDraw(draw) {
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO draws VALUES (NULL, ?);';
-        db.run(sql, [JSON.stringify(draw.numbers)], function(err){
+        db.run(sql, [JSON.stringify([...draw.numbers])], function(err){
             if (err) {
                 reject(err);
             }
@@ -18,7 +18,7 @@ export function addDraw(draw) {
 export function addBet(bet){
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO bets VALUES (?, ?);';
-        db.run(sql, [bet.user_id, JSON.stringify(bet.numbers)], function(err){
+        db.run(sql, [bet.user_id, JSON.stringify([...bet.numbers])], function(err){
             if (err) {
                 reject(err);
             }
@@ -39,7 +39,7 @@ export function getLastDraw(){
                 //reject('No draw has been found');
                 resolve([]);
             }
-            let draw = JSON.parse(row.draw_numbers); //FIXME
+            let draw = new Draw(JSON.parse(row.draw_numbers)); //FIXME
             resolve(draw);
         });
     });
