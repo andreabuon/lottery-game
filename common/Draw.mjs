@@ -8,7 +8,7 @@ Draw.prototype.toString = function () {
   return `[${[...this.numbers].join(", ")}]`;
 };
 
-export function createDraw() {
+export function pickDraw() {
   const numbers = new Set();
   while (numbers.size < DRAW_SIZE) {
     // Random integer between 1 and 90

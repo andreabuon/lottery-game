@@ -1,9 +1,9 @@
-import { addDraw, addBet, getBets, getLastDraw, deleteBets } from './dao_games.mjs';
+import { addRound, addDraw, addBet, getRoundBets, getRound, getDrawByRound } from './dao_games.mjs';
 import { updateUserScore, getUserById } from './dao_users.mjs';
-import { Draw, createDraw } from '../common/Draw.mjs';
+import { Draw, pickDraw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
 
-const ROUNDS_TIMEOUT = 20 * 1000; //FIXME this should be 120 * 1000
+const ROUNDS_TIMEOUT = 10 * 1000; //FIXME this should be 120 * 1000
 
 export async function createBet(user, user_bet) {
   const bet = new Bet(user.user_id, [...user_bet]);
@@ -14,8 +14,10 @@ export async function createBet(user, user_bet) {
   }
 
   try {
+    //Get the next round number
+    let round = await getRound();
     // Add the bet to the database
-    await addBet(bet);
+    await addBet(round, bet);
     // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
     console.log(bet); //FIXME
@@ -25,21 +27,20 @@ export async function createBet(user, user_bet) {
   }
 }
 
-export async function updateScores() {
-  console.log("#### Round done #####");
+export async function updateScores(round) {
+  console.log(`#### Round ${round} done #####`);
 
   try {
-    const draw = await getLastDraw();
-    console.log("Last draw: ", draw); //FIXME
+    const draw = await getDrawByRound(round);
+    console.log(`Round ${round} draw: `, draw); //FIXME
 
-    const bets = await getBets();
+    const bets = await getRoundBets(round);
     console.log("Current bets:");
-    if(!bets) return;
 
     for (let bet of bets) {
       console.log(bet); //FIXME
       const reward = bet.computeReward(draw);
-      console.log(`Player ${bet.user_id} won ${reward} points.`);
+      console.log(`Player ${bet.user_id} bet on ${[...bet.numbers]} and won ${reward} points.`);
       if (reward === 0) continue;
 
       try {
@@ -53,28 +54,25 @@ export async function updateScores() {
         console.error(`Error updating user ${bet.user_id} score:`, error);
       }
     }
-
-    // Delete all bets after each round?
-    // await deleteBets();
   } catch (error) {
     console.error('Error updating scores:', error);
   }
-
   console.log("\n#######");
 }
 
 async function newRound() {
   try {
-    const draw = createDraw(); // Create a new draw
-    const draw_id = await addDraw(draw); // Save draw to the database
-    //setTimeout(updateScores(), ROUNDS_TIMEOUT); //FIXME Update scores based on the latest draw_id
-    updateScores();
+    console.log("Starting new round");
+    const round = await addRound();
+    const draw = pickDraw(); // Create a new draw
+    await addDraw(round, draw); // Save draw to the database
+    setTimeout(() => updateScores(round), ROUNDS_TIMEOUT);
   } catch (error) {
     console.error('Error running round:', error);
   }
 }
 
 export async function runGame() {
-  newRound();
   setTimeout(runGame, ROUNDS_TIMEOUT); // Schedule the next round
+  await newRound();
 }
