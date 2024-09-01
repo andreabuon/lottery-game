@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { MdLogout } from "react-icons/md";
 
@@ -16,24 +16,37 @@ function LoginForm(props) {
   };
 
   return (
-    <Row>
-      <Col md={6}>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId='username' className='mb-3'>
-            <Form.Label>Username</Form.Label>
-            <Form.Control type='text' value={username} onChange={ev => setUsername(ev.target.value)} required={true} />
-          </Form.Group>
+    <Container fluid className="d-flex justify-content-center align-items-center">
+      <Row className="w-100">
+        <Col md={6} lg={4} className="mx-auto">
+          <Form onSubmit={handleSubmit} className="p-4 border rounded shadow">
+            <Form.Group controlId='username' className='mb-3'>
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type='text'
+                value={username}
+                onChange={ev => setUsername(ev.target.value)}
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId='password' className='mb-3'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control type='password' value={password} onChange={ev => setPassword(ev.target.value)} required={true} minLength={6} />
-          </Form.Group>
+            <Form.Group controlId='password' className='mb-3'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type='password'
+                value={password}
+                onChange={ev => setPassword(ev.target.value)}
+                required
+                minLength={6}
+              />
+            </Form.Group>
 
-          <Button type='submit'>Login</Button>
-          <Link className='btn btn-danger mx-2 my-2' to={'/'} >Cancel</Link>
-        </Form>
-      </Col>
-    </Row>
+            <Button type='submit' className="w-100 mb-2">Login</Button>
+            <Link className='btn btn-danger w-100' to={'/'}>Cancel</Link>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 };
 
