@@ -16,6 +16,7 @@ function DisplayLastDraw(props) {
       let draw = await API.getLastDraw();
       console.log('Got the following draw: ', draw);
       setDraw(draw);
+      showMessage('Draw updated', 'secondary');
     }catch(err){
       showMessage(err, 'danger');
       console.error(err);

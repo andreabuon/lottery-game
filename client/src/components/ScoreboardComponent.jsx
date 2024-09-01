@@ -16,6 +16,7 @@ export default function Scoreboard(props) {
             const scores = await API.getBestScores();
             setScores(scores);
             console.log("Scores updated!");
+            showMessage('Scores updated', 'secondary');
         } catch (err){
             console.error(err);
             showMessage(err.toString(), 'danger'); //FIXME

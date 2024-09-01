@@ -48,9 +48,8 @@ function App() {
 
           <Container fluid className='mt-3'>
             {message &&
-              <Row>
-                <Alert variant={message.type} onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
-              </Row>}
+              <Alert variant={message.type} onClose={() => setMessage('')} className='ms-3 me-3' dismissible>{message.msg}</Alert>
+              }
             <Outlet />
           </Container>
         </>
