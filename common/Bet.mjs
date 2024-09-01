@@ -23,11 +23,11 @@ export function Bet(user_id, nums) {
   }
 }
 
-Bet.prototype.getSize = () => {
+Bet.prototype.getSize = function () {
   return this.numbers.size;
 };
 
-Bet.prototype.computeReward = (draw) => {
+Bet.prototype.computeReward = function (draw) {
   let score = 0;
   for (let number of this.numbers) {
     if (draw.numbers.has(number)) {
@@ -37,10 +37,10 @@ Bet.prototype.computeReward = (draw) => {
   return score;
 };
 
-Bet.prototype.getCost = () => {
+Bet.prototype.getCost = function () {
   return this.getSize() * COST_PER_NUMBER;
 };
 
-Bet.prototype.toString = () => {
+Bet.prototype.toString = function () {
   return `BET: Player #${this.user_id} : [${[...this.numbers].join(", ")}]`;
 };
