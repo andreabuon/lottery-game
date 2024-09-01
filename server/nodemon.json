@@ -1,0 +1,6 @@
+{
+    "watch": ["./", "../common/"],
+    "ext": "js,mjs",
+    "ignore": ["node_modules"],
+    "exec": "node ./index.mjs"
+  }
