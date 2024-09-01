@@ -12,7 +12,7 @@ function LoggedInHome(props) {
     return (
         <>
             <h1>Hello {props.user.username}! Your score is {props.user.score}</h1>
-            <DisplayLastDraw/>
+            <DisplayLastDraw showMessage={props.showMessage}/>
             <BetForm showMessage={props.showMessage}/>
         </>
     );

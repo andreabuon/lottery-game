@@ -3,9 +3,11 @@ import { Button, Table } from 'react-bootstrap';
 import API from '../API.mjs';
 import { Draw } from '../../../common/Draw.mjs';
 
-function DisplayLastDraw() {
+function DisplayLastDraw(props) {
   const [draw, setDraw] = useState(new Draw([-1,-2,-3,-4,-5]));
   const [refreshing, setRefreshing] = useState(false);
+
+  const showMessage = props.showMessage;
 
   const retrieveDraw = async () => {
     setRefreshing(true);
@@ -15,6 +17,7 @@ function DisplayLastDraw() {
       console.log('Got the following draw: ', draw);
       setDraw(draw);
     }catch(err){
+      showMessage(err, 'danger');
       console.error(err);
     }
     setRefreshing(false);
