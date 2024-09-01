@@ -9,19 +9,25 @@ export const getUser = (username, password) => {
         db.get(sql, [username], (err, row) => {
             if (err) {
                 reject(err);
+                return;
             }
             else if (row === undefined) {
                 resolve(false);
+                return;
             }
             else {
                 const user = { user_id: row.user_id, username: row.username, score: row.score };
 
                 crypto.scrypt(password, row.salt, 32, function (err, hashedPassword) {
                     if (err) reject(err);
-                    if (!crypto.timingSafeEqual(Buffer.from(row.hash, 'hex'), hashedPassword))
+                    if (!crypto.timingSafeEqual(Buffer.from(row.hash, 'hex'), hashedPassword)){
                         resolve(false);
-                    else
+                        return;
+                    }
+                    else{
                         resolve(user);
+                        return;
+                    }
                 });
             }
         });
@@ -34,13 +40,16 @@ export const getUserById = (id) => {
         db.get(sql, [id], (err, row) => {
             if (err) {
                 reject(err);
+                return;
             }
             else if (row === undefined) {
                 resolve(false); //FIXME
+                return;
             }
             else {
                 const user = { user_id: row.user_id, username: row.username, score: row.score };
                 resolve(user);
+                return;
             }
         });
     });
@@ -52,8 +61,10 @@ export const updateUserScore = (user_id, new_score) => {
         db.run(sql, [new_score, user_id], (err) =>{
             if(err){
                 reject(err);
+                return;
             }
             resolve();
+            return;
         });
     });
 };
@@ -64,18 +75,17 @@ return new Promise((resolve, reject) => {
     db.all(sql, [], (err, rows) => {
         if (err) {
             reject(err);
+            return;
         }
         else if (rows === undefined) {
             //resolve({ error: 'Scores not found!' });
             reject('No scores have been found in the DB');
+            return;
         }
         else {
-            //FIXME
-            let scores = [];
-            for(let row of rows){
-                scores.push({username: row.username, score: row.score });
-            }
-            resolve(scores);
+            rows.map((row) => ({username: row.username, score: row.score }));
+            resolve(rows);
+            return;
         }
     });
 });
