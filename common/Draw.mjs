@@ -2,11 +2,10 @@ const DRAW_SIZE = 5;
 
 export function Draw(numbers) {
     this.numbers = new Set(numbers); // Using Set for saving unique numbers
-  
-    this.toString = () => {
-      return ('' + [...this.numbers]);
-      //return `[${[...this.numbers].join(", ")}]`;
-    };
+};
+
+Draw.prototype.toString = () => {
+  return `[${[...this.numbers].join(", ")}]`;
 };
 
 export function createDraw(){
