@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import API from '../API.mjs';
+import { Draw } from '../../../common/Draw.mjs';
 
 function DisplayLastDraw() {
-  const [draw, setDraw] = useState(['Loading', 'draw']);
+  const [draw, setDraw] = useState(new Draw([-1,-2,-3,-4,-5]));
   const [refreshing, setRefreshing] = useState(false);
 
   const retrieveDraw = async () => {
@@ -29,7 +30,7 @@ function DisplayLastDraw() {
       <Table bordered hover responsive="sm" className="text-center mb-4">
         <tbody>
           <tr>
-            {draw.map((num, index) => (
+            {draw && Array.from(draw.numbers).map((num, index) => ( //FIXME
               <td key={index} className="p-3">
                 {num}
               </td>

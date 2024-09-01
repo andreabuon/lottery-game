@@ -114,6 +114,7 @@ app.delete('/api/sessions/current', (req, res) => {
 // This route is used for creating a new bet.
 app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
+    console.log(req.user + ' ' + req.body)
     await createBet(req.user, req.body);
     res.status(200).send();
   } catch (error){
@@ -138,7 +139,7 @@ app.get('/api/scores/best', isLoggedIn, async (req, res) => {
 app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {
     const draw = await getLastDraw();
-    res.json(draw);
+    res.json([...draw.numbers]);
   } catch (error){
     res.status(500).send(error);
   }

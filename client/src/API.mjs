@@ -1,3 +1,4 @@
+import { Draw } from '../../common/Draw.mjs';
 const SERVER_URL = 'http://localhost:3001';
 
 async function handleInvalidResponse(response) {
@@ -69,8 +70,8 @@ const getLastDraw = async () => {
       credentials: 'include'
     });
     await handleInvalidResponse(response);
-    const draw = await response.json();
-    return draw;
+    const draw_numbers = await response.json();
+    return new Draw(draw_numbers);
     } catch (error) {
     throw error;
   }
@@ -84,7 +85,7 @@ const createBet = async (bet) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(bet)
+      body: JSON.stringify(Array.from(bet.numbers))
     });
     await handleInvalidResponse(response);
     return null;
