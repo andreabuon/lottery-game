@@ -36,8 +36,8 @@ export function getLastDraw(){
                 reject(err);
             }
             if(row === undefined){
-                //reject(new Error('No draw has been found'));
-                resolve(null);
+                reject(new Error('No draw has been found'));
+                //resolve(null);
             }
             let draw = new Draw(JSON.parse(row.draw_numbers)); //FIXME
             resolve(draw);
@@ -53,8 +53,8 @@ export function getBets(){
                 reject(err);
             }
             if(rows === undefined){
-                //reject(new Error('No bets have been found'));
-                resolve(null);
+                reject(new Error('No bets have been found'));
+                //resolve(null);
             }
             let bets = rows.map( (row) => new Bet(row.user_id, JSON.parse(row.bet_numbers)));
             resolve(bets);

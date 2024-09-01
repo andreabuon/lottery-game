@@ -36,7 +36,7 @@ export const getUserById = (id) => {
                 reject(err);
             }
             else if (row === undefined) {
-                resolve(false);
+                resolve(false); //FIXME
             }
             else {
                 const user = { user_id: row.user_id, username: row.username, score: row.score };
@@ -67,8 +67,7 @@ return new Promise((resolve, reject) => {
         }
         else if (rows === undefined) {
             //resolve({ error: 'Scores not found!' });
-            //reject('No scores have been found in the DB');            
-            resolve([]);
+            reject('No scores have been found in the DB');
         }
         else {
             //FIXME
