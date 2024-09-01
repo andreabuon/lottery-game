@@ -6,7 +6,7 @@ import { Bet } from '../common/Bet.mjs';
 const ROUNDS_TIMEOUT = 20 * 1000; //FIXME this should be 120 * 1000
 
 export async function createBet(user, user_bet) {
-  const bet = new Bet(user.user_id, user_bet);
+  const bet = new Bet(user.user_id, [...user_bet]);
   const cost = bet.getCost();
 
   if (user.score < cost) {
@@ -18,7 +18,7 @@ export async function createBet(user, user_bet) {
     await addBet(bet);
     // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
-    console.log(bet);
+    console.log(bet); //FIXME
   } catch (error) {
     console.error('Error creating bet:', error);
     throw error;
@@ -30,14 +30,14 @@ export async function updateScores() {
 
   try {
     const draw = await getLastDraw();
-    console.log("Last draw: ", draw);
+    console.log("Last draw: ", draw); //FIXME
 
     const bets = await getBets();
     console.log("Current bets:");
     if(!bets) return;
 
     for (let bet of bets) {
-      console.log(bet);
+      console.log(bet); //FIXME
       const reward = bet.computeReward(draw);
       console.log(`Player ${bet.user_id} won ${reward} points.`);
       if (reward === 0) continue;

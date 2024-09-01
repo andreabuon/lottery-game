@@ -18,7 +18,7 @@ export function addDraw(draw) {
 export function addBet(bet){
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO bets VALUES (?, ?);';
-        db.run(sql, [bet.user_id, JSON.stringify([...bet.numbers])], function(err){
+        db.run(sql, [bet.user_id, JSON.stringify(Array.from(bet.numbers))], function(err){
             if (err) {
                 reject(err);
             }

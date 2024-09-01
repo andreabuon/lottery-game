@@ -11,6 +11,9 @@ import session from 'express-session';
 import { getUser, getBestScores } from './dao_users.mjs';
 import { getLastDraw } from './dao_games.mjs';
 import { createBet, runGame } from './lottery_game.mjs';
+//imports for nodemon watch
+import { Draw } from '../common/Draw.mjs';
+import { Bet } from '../common/Bet.mjs';
 
 // init express
 const app = new express();
@@ -114,10 +117,10 @@ app.delete('/api/sessions/current', (req, res) => {
 // This route is used for creating a new bet.
 app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
-    console.log(req.user + ' ' + req.body)
     await createBet(req.user, req.body);
     res.status(200).send();
   } catch (error){
+    console.error(error);
     res.status(500).send(error);
   }
 });
@@ -130,6 +133,7 @@ app.get('/api/scores/best', isLoggedIn, async (req, res) => {
     const scores = await getBestScores();
     res.json(scores);
   } catch (error){
+    console.error(error);
     res.status(500).send(error);
   }
 });
@@ -141,6 +145,7 @@ app.get('/api/draws/last', isLoggedIn, async (req, res) => {
     const draw = await getLastDraw();
     res.json([...draw.numbers]);
   } catch (error){
+    console.error(error);
     res.status(500).send(error);
   }
 });

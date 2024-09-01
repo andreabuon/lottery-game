@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import API from '../API.mjs'
+import { Bet } from '../../../common/Bet.mjs';
 
 const BetForm = (props) => {
     const [number1, setNumber1] = useState(0);
@@ -13,18 +14,21 @@ const BetForm = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setWaiting(true);
-        let bet = new Set([number1, number2, number3]);
-        if (bet.has(0)) {
-            bet.delete(0);
+        let numbers = new Set([number1, number2, number3]);
+        if (numbers.has(0)) {
+            numbers.delete(0);
         }
-        if(bet.size == 0){
+        if(numbers.size == 0){
             console.error('You must bet on at least 1 number');
             showMessage('You must bet on at least 1 number', 'danger');
             return;
         }
+
+        let bet = new Bet(null, Array.from(numbers));
         try{
             console.log('Trying to create bet!');
-            await API.createBet([...bet]);
+            console.log(bet);
+            await API.createBet(bet);
             console.log('Bet created!');
             showMessage('Bet created!', 'success');
         }catch(err){
