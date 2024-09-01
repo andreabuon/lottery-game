@@ -31,7 +31,7 @@ function DisplayLastDraw(props) {
   return (
     <div className="p-4">
       <h2 className="mb-4 text-center">The last draw of the game was:</h2>
-      <Table bordered hover responsive="sm" className="text-center mb-4">
+      <Table bordered responsive="sm" className="text-center mb-4">
         <tbody>
           <tr>
             {draw && Array.from(draw.numbers).map((num, index) => ( //FIXME
