@@ -34,7 +34,7 @@ function DisplayLastDraw(props) {
       <Table bordered responsive="sm" className="text-center mb-4">
         <tbody>
           <tr>
-            {draw && Array.from(draw.numbers).map((num, index) => ( //FIXME
+            {draw && Array.from(draw.numbers).map((num, index) => (
               <td key={index} className="p-3">
                 {num}
               </td>

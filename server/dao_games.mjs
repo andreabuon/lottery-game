@@ -38,7 +38,7 @@ export function addDraw(round, draw) {
             if (err) {
                 reject(err);
             }
-            //console.log("Added a new draw [" + [...draw.numbers] + "] in the DB with ID: ", draw_ID);
+            console.log("Added a new draw [" + [...draw.numbers] + "] in the DB with ID: ", draw_ID);
             resolve();
         });
     });
@@ -51,7 +51,7 @@ export function addBet(round, bet){
             if (err) {
                 reject(err);
             }
-            //console.log("User " + bet.user_id + " added a new bet [" + [...bet.numbers] + "] in the DB for the round " + round);
+            console.log("User " + bet.user_id + " added a new bet [" + [...bet.numbers] + "] in the DB for the round " + round);
             resolve(round);
         });
     });
@@ -68,7 +68,7 @@ export function getDrawByRound(round){
                 reject(new Error('No draw has been found'));
                 //resolve(null);
             }
-            let draw = new Draw(JSON.parse(row.draw_numbers)); //FIXME
+            let draw = new Draw(JSON.parse(row.draw_numbers));
             resolve(draw);
         });
     });
@@ -85,7 +85,7 @@ export function getLastDraw(){
                 reject(new Error('No draw has been found'));
                 //resolve(null);
             }
-            let draw = new Draw(JSON.parse(row.draw_numbers)); //FIXME
+            let draw = new Draw(JSON.parse(row.draw_numbers));
             resolve(draw);
         });
     });
@@ -100,7 +100,7 @@ export function getRoundBets(round){
             }
             if(rows === undefined){
                 //reject(new Error('No bets have been found'));
-                resolve([]); //FIXME
+                resolve([]);
             }
             let bets = rows.map( (row) => new Bet(row.user_id, JSON.parse(row.bet_numbers)));
             resolve(bets);

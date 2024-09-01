@@ -3,7 +3,7 @@ import { updateUserScore, getUserById } from './dao_users.mjs';
 import { Draw, pickDraw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
 
-const ROUNDS_TIMEOUT = 10 * 1000; //FIXME this should be 120 * 1000
+const ROUNDS_TIMEOUT = 120 * 1000;
 
 export async function createBet(user, user_bet) {
   const bet = new Bet(user.user_id, [...user_bet]);
@@ -20,7 +20,6 @@ export async function createBet(user, user_bet) {
     await addBet(round, bet);
     // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
-    console.log(bet); //FIXME
   } catch (error) {
     console.error('Error creating bet:', error);
     throw error;
@@ -32,15 +31,13 @@ export async function updateScores(round) {
 
   try {
     const draw = await getDrawByRound(round);
-    console.log(`Round ${round} draw: `, draw); //FIXME
+    console.log(`Round ${round} draw: `, draw);
 
     const bets = await getRoundBets(round);
-    console.log("Current bets:");
 
     for (let bet of bets) {
-      console.log(bet); //FIXME
       const reward = bet.computeReward(draw);
-      console.log(`Player ${bet.user_id} bet on ${[...bet.numbers]} and won ${reward} points.`);
+      console.log(`Player ${bet.user_id} bet on ${[...bet.numbers].join(", ")} and won ${reward} points.`);
       if (reward === 0) continue;
 
       try {
