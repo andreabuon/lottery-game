@@ -10,7 +10,7 @@ import session from 'express-session';
 
 import { getUser, getBestScores } from './dao_users.mjs';
 import { getLastDraw } from './dao_games.mjs';
-import { createBet, runGame } from './lottery_game.mjs';
+import { createBet, runGame, setupGame } from './lottery_game.mjs';
 //imports for nodemon watch
 import { Draw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
@@ -157,7 +157,7 @@ const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
   console.log('Starting the game!');
-  runGame();
+  setupGame();
 });
 
 

@@ -30,8 +30,28 @@ export function addBet(bet){
 
 export function getLastDraw(){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT draw_numbers FROM draws ORDER BY draw_id DESC LIMIT 1;';
+        const sql = 'SELECT * FROM draws ORDER BY draw_id DESC LIMIT 1;';
         db.get(sql, [], function(err, row){
+            if (err) {
+                reject(err);
+            }
+            if(row === undefined){
+                reject(new Error('No draw has been found'));
+                //resolve(null);
+            }
+            console.log(row);
+            let draw = new Draw(JSON.parse(row.draw_numbers)); //FIXME
+            draw.draw_id = row.draw_id; //FIXME
+            console.log(row.draw_id);
+            resolve(draw);
+        });
+    });
+}
+
+export function getDrawByID(draw_id){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT draw_numbers FROM draws WHERE draw_id=?';
+        db.get(sql, [draw_id], function(err, row){
             if (err) {
                 reject(err);
             }
