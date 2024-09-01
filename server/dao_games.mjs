@@ -38,7 +38,7 @@ export function addDraw(round, draw) {
             if (err) {
                 reject(err);
             }
-            console.log("Added a new draw [" + [...draw.numbers] + "] in the DB with ID: ", draw_ID);
+            console.log("Added a new draw [" + [...draw.numbers] + "] in the DB for the round: ", round);
             resolve();
         });
     });
