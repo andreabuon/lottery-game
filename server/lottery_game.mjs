@@ -27,21 +27,21 @@ export async function createBet(user, user_bet) {
 }
 
 export async function updateScores(round) {
-  console.log(`[Round ${round}] Round completed #####`);
+  console.log(`[Round ${round}] Round completed. #########`);
 
   try {
     const draw = await getDrawByRound(round);
-    console.log(`[Round ${round}] Draw: `, draw);
+    console.log(`[Round ${round}] Draw: ${draw.toString()}`);
 
     const bets = await getRoundBets(round);
     console.log(`[Round ${round}] Bets: `);
-    if(!bets){
+    if(bets.length == 0){ //FIXME
       console.log(`[Round ${round}] No bets found.`);
     }
 
     for (let bet of bets) {
       const reward = bet.computeReward(draw);
-      console.log(`[Round ${round}] Player ${bet.user_id} bet on ${[...bet.numbers].join(", ")} and won ${reward} points.`);
+      console.log(`[Round ${round}] ${bet.toString()} and won ${reward} points.`);
       if (reward === 0) continue;
 
       try {
@@ -58,7 +58,7 @@ export async function updateScores(round) {
   } catch (error) {
     console.error(`[Round ${round}] Error updating scores:`, error);
   }
-  console.log(`[Round ${round}] Scores updated.#####\n`);
+  console.log(`[Round ${round}] Scores updated. #########\n`);
 }
 
 async function newRound() {

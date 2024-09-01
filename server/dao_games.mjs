@@ -43,7 +43,7 @@ export function addDraw(round, draw) {
                 reject(err);
                 return;
             }
-            //console.log(`[Round ${round}] ` + "Added a new draw [" + [...draw.numbers] + "] in the DB");
+            console.log(`[Round ${round}] ` + "Added draw " + draw.toString() + " in the DB");
             resolve();
             return;
         });

@@ -5,7 +5,7 @@ export function Draw(numbers) {
 };
 
 Draw.prototype.toString = function () {
-  return `[${[...this.numbers].join(", ")}]`;
+  return '[' + [...this.numbers].join(", ") + ']';
 };
 
 export function pickDraw() {

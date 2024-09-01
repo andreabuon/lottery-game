@@ -42,5 +42,5 @@ Bet.prototype.getCost = function () {
 };
 
 Bet.prototype.toString = function () {
-  return `BET: Player #${this.user_id} : [${[...this.numbers].join(", ")}]`;
+  return `Player #${this.user_id} bet on : [${[...this.numbers].join(", ")}]`;
 };
