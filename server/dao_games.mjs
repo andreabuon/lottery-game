@@ -10,7 +10,7 @@ export function addRound(){
                 reject(err);
             }
             resolve(this.lastID - 1 ); //FIXME
-            //console.log("Added a new round " + this.lastID + " in the DB");
+            //console.log("Added a new round in the DB");
         });
     });
 };
@@ -38,7 +38,7 @@ export function addDraw(round, draw) {
             if (err) {
                 reject(err);
             }
-            console.log("Added a new draw [" + [...draw.numbers] + "] in the DB for the round: ", round);
+            //console.log(`[Round ${round}] ` + "Added a new draw [" + [...draw.numbers] + "] in the DB");
             resolve();
         });
     });
@@ -51,7 +51,7 @@ export function addBet(round, bet){
             if (err) {
                 reject(err);
             }
-            console.log("User " + bet.user_id + " added a new bet [" + [...bet.numbers] + "] in the DB for the round " + round);
+            console.log(`[Round ${round}] Player ` + + bet.user_id + " made a new bet [" + [...bet.numbers] + "] in the DB.");
             resolve(round);
         });
     });

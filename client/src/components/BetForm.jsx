@@ -24,7 +24,7 @@ const BetForm = (props) => {
             return;
         }
 
-        let bet = new Bet(null, Array.from(numbers));
+        let bet = new Bet(null, Array.from(numbers)); //The null bet.user_id will be filled in by the server!
         try{
             console.log('Trying to create bet!');
             console.log(bet);
@@ -32,7 +32,7 @@ const BetForm = (props) => {
             console.log('Bet created!');
             showMessage('Bet created!', 'success');
         }catch(err){
-            console.error('Error:' + err);
+            console.error('Error while creating the bet: ' + err);
             showMessage('Error: '+ err, 'danger');
         }
         setWaiting(false);

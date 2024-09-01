@@ -27,34 +27,38 @@ export async function createBet(user, user_bet) {
 }
 
 export async function updateScores(round) {
-  console.log(`#### Round ${round} done #####`);
+  console.log(`[Round ${round}] Round completed #####`);
 
   try {
     const draw = await getDrawByRound(round);
-    console.log(`Round ${round} draw: `, draw);
+    console.log(`[Round ${round}] Draw: `, draw);
 
     const bets = await getRoundBets(round);
+    console.log(`[Round ${round}] Bets: `);
+    if(!bets){
+      console.log(`[Round ${round}] No bets found.`);
+    }
 
     for (let bet of bets) {
       const reward = bet.computeReward(draw);
-      console.log(`Player ${bet.user_id} bet on ${[...bet.numbers].join(", ")} and won ${reward} points.`);
+      console.log(`[Round ${round}] Player ${bet.user_id} bet on ${[...bet.numbers].join(", ")} and won ${reward} points.`);
       if (reward === 0) continue;
 
       try {
         const user = await getUserById(bet.user_id);
         if (!user) {
-          console.error(`The user ${bet.user_id} has been deleted - skipping its score update!`);
+          console.error(`[Round ${round}] The user ${bet.user_id} has been deleted - skipping its score update!`);
           continue;
         }
         await updateUserScore(bet.user_id, user.score + reward);
       } catch (error) {
-        console.error(`Error updating user ${bet.user_id} score:`, error);
+        console.error(`[Round ${round}] Error updating user ${bet.user_id} score:`, error);
       }
     }
   } catch (error) {
-    console.error('Error updating scores:', error);
+    console.error(`[Round ${round}] Error updating scores:`, error);
   }
-  console.log("\n#######");
+  console.log(`[Round ${round}] Scores updated.#####\n`);
 }
 
 async function newRound() {

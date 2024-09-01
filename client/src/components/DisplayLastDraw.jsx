@@ -14,7 +14,7 @@ function DisplayLastDraw(props) {
     console.log('Retrieving the last draw...');
     try{
       let draw = await API.getLastDraw();
-      console.log('Got the following draw: ', draw);
+      console.log('Got the following draw: ', [...draw.numbers]);
       setDraw(draw);
       showMessage('Draw updated', 'secondary');
     }catch(err){
