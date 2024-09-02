@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 import API from '../API.mjs'
 import { Bet } from '../../../common/Bet.mjs';
 
@@ -41,6 +41,7 @@ export default function BettingForm(props) {
     return (
         <Container className="mt-4 d-flex justify-content-evenly">
             <Form onSubmit={handleSubmit}>
+                <h3 className="mt-4 text-center">Make a new bet now!</h3>
                 <Row className="mb-3">
                     <Col>
                         <Form.Group controlId="number1">
@@ -83,8 +84,10 @@ export default function BettingForm(props) {
                     </Col>
                 </Row>
                 <Row>
+                    <Form.Label className='text-center'>Select a 0 to not bet on that number.</Form.Label>
+                    <Form.Label className='text-center'>You must bet on at least 1 number.</Form.Label>
                     <Button variant="primary" type="submit" className="w-100" disabled={waiting}>
-                        Bet!
+                        {waiting ? <Spinner animation="border" size="sm" /> : 'Bet now!'}
                     </Button>
                 </Row>
             </Form>
