@@ -10,6 +10,7 @@ import NotFound from './components/NotFound';
 import { LoginForm } from './components/AuthComponents';
 
 import API from './API.mjs';
+import GameRules from './components/GameRules';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -64,6 +65,10 @@ function App() {
 
         <Route path='/login' element={
           loggedIn ? <Navigate replace to='/' /> : <LoginForm login={handleLogin} />
+        } />
+
+        <Route path='/rules' element={
+          loggedIn ? <GameRules/> : <Navigate replace to='/' />
         } />
 
         <Route path="*" element={
