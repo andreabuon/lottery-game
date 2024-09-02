@@ -14,7 +14,7 @@ import GameRules from './components/GameRules';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [message, setMessage] = useState('');
+  const [messages, setMessage] = useState([]);
   const [user, setUser] = useState('');
 
   const handleLogin = async (credentials) => {
@@ -32,13 +32,13 @@ function App() {
   const handleLogout = async () => {
     await API.logOut();
     setLoggedIn(false);
-    setMessage('');
+    setMessage([]);
     setUser('');
   };
 
   const showMessage = (message, type) => {
-    setMessage({ msg: message, type: type });
-    setTimeout(() => setMessage(''), 2000);
+    setMessage([...messages, { msg: message, type: type }]);
+    //setTimeout(() => setMessage(messages.filter((el, index) => (index != 0) )), 2000);
   };
 
   return (
@@ -48,9 +48,11 @@ function App() {
           <NavHeader loggedIn={loggedIn} handleLogout={handleLogout} />
 
           <Container fluid className='mt-3'>
-            {message &&
-              <Alert variant={message.type} onClose={() => setMessage('')} className='ms-3 me-3' dismissible>{message.msg}</Alert>
-              }
+            {
+            messages.map( (message) => (
+              <Alert variant={message.type}  className='ms-3 me-3' dismissible>{message.msg}</Alert>)
+            )
+            }
             <Outlet />
           </Container>
         </>
