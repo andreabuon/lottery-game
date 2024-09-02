@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { LogoutButton } from './AuthComponents';
 import { FaTrophy, FaSignInAlt } from 'react-icons/fa';
 
-function NavHeader(props) {
+export default function NavHeader(props) {
   return (
     <Navbar bg='primary' variant='dark' expand='lg' className='shadow-sm'>
       <Container fluid>
@@ -43,5 +43,3 @@ function NavHeader(props) {
     </Navbar>
   );
 }
-
-export default NavHeader;

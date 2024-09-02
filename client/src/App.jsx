@@ -4,9 +4,9 @@ import { Container, Row, Alert } from 'react-bootstrap';
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 //React Components
 import NavHeader from "./components/NavHeader";
-import Home from './components/HomeComponent';
-import Scoreboard from './components/ScoreboardComponent';
-import NotFound from './components/NotFoundComponent';
+import Homepage from './components/Homepage';
+import Scoreboard from './components/Scoreboard';
+import NotFound from './components/NotFound';
 import { LoginForm } from './components/AuthComponents';
 
 import API from './API.mjs';
@@ -55,7 +55,7 @@ function App() {
         </>
       }>
         <Route index element={
-          <Home loggedIn={loggedIn} user={user} showMessage={showMessage} />
+          <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} />
         } />
 
         <Route path="/scoreboard" element={

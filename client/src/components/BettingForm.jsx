@@ -3,7 +3,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import API from '../API.mjs'
 import { Bet } from '../../../common/Bet.mjs';
 
-const BetForm = (props) => {
+export default function BettingForm(props) {
     const [number1, setNumber1] = useState(0);
     const [number2, setNumber2] = useState(0);
     const [number3, setNumber3] = useState(0);
@@ -18,22 +18,22 @@ const BetForm = (props) => {
         if (numbers.has(0)) {
             numbers.delete(0);
         }
-        if(numbers.size == 0){
+        if (numbers.size == 0) {
             console.error('You must bet on at least 1 number');
             showMessage('You must bet on at least 1 number', 'danger');
             return;
         }
 
         let bet = new Bet(null, Array.from(numbers)); //The null bet.user_id will be filled in by the server!
-        try{
+        try {
             console.log('Trying to create bet!');
             console.log(bet);
             await API.createBet(bet);
             console.log('Bet created!');
             showMessage('Bet created!', 'success');
-        }catch(err){
+        } catch (err) {
             console.error('Error while creating the bet: ' + err);
-            showMessage('Error: '+ err, 'danger');
+            showMessage('Error: ' + err, 'danger');
         }
         setWaiting(false);
     };
@@ -91,6 +91,3 @@ const BetForm = (props) => {
         </Container>
     );
 };
-
-
-export default BetForm;

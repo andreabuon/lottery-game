@@ -3,7 +3,7 @@ import { Button, Table } from 'react-bootstrap';
 import API from '../API.mjs';
 import { Draw } from '../../../common/Draw.mjs';
 
-function DisplayLastDraw(props) {
+export default function DisplayLastDraw(props) {
   const [draw, setDraw] = useState(new Draw([-1,-2,-3,-4,-5]));
   const [refreshing, setRefreshing] = useState(false);
 
@@ -54,5 +54,3 @@ function DisplayLastDraw(props) {
     </div>
   );
 }
-
-export default DisplayLastDraw;
