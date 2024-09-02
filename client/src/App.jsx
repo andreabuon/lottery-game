@@ -36,6 +36,17 @@ function App() {
     setUser('');
   };
 
+  const refreshUser = async () => {
+    console.log("Refreshing the user info.");
+    try{
+      let user = await API.getUserData();
+      console.log(user);
+      setUser(user);
+    }catch (error){
+      console.error(error);
+    }
+  }
+
   const showMessage = (message, type) => {
     setMessage([...messages, { msg: message, type: type }]);
     //setTimeout(() => setMessage(messages.filter((el, index) => (index != 0) )), 2000);
@@ -49,8 +60,8 @@ function App() {
 
           <Container fluid className='mt-3'>
             {
-            messages.map( (message) => (
-              <Alert variant={message.type}  className='ms-3 me-3' dismissible>{message.msg}</Alert>)
+            messages.map( (message, index) => (
+              <Alert key={index} variant={message.type}  className='ms-3 me-3' dismissible>{message.msg}</Alert>)
             )
             }
             <Outlet />
@@ -58,7 +69,7 @@ function App() {
         </>
       }>
         <Route index element={
-          <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} />
+          <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} refreshUser={refreshUser}/>
         } />
 
         <Route path="/scoreboard" element={

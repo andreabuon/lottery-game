@@ -9,6 +9,7 @@ export default function DisplayLastDraw(props) {
   const [refreshing, setRefreshing] = useState(false);
 
   const showMessage = props.showMessage;
+  const refreshUser = props.refreshUser;
 
   const retrieveDraw = async () => {
     setRefreshing(true);
@@ -18,6 +19,7 @@ export default function DisplayLastDraw(props) {
       console.log('Got the following draw: ', [...draw.numbers]);
       setDraw(draw);
       showMessage('Draw updated', 'secondary');
+      await refreshUser();
     } catch (err) {
       showMessage(err, 'danger');
       console.error(err);

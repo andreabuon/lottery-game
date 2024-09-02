@@ -38,6 +38,17 @@ const getUserInfo = async () => {
   }
 };
 
+const getUserData = async () => {
+  try {
+    const response = await fetch(SERVER_URL + '/api/user/', { credentials: 'include' });
+    await handleInvalidResponse(response);
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const logOut = async () => {
   try {
     const response = await fetch(SERVER_URL + '/api/sessions/current', {
@@ -94,5 +105,5 @@ const createBet = async (bet) => {
   }
 };
 
-const API = { logIn, getUserInfo, logOut, getBestScores, getLastDraw, createBet };
+const API = { logIn, getUserInfo, getUserData, logOut, getBestScores, getLastDraw, createBet };
 export default API;

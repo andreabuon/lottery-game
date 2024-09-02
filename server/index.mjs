@@ -8,7 +8,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import session from 'express-session';
 
-import { getUser, getBestScores } from './dao_users.mjs';
+import { getUser, getBestScores, getUserById } from './dao_users.mjs';
 import { getLastDraw } from './dao_games.mjs';
 import { createBet, runGame } from './lottery_game.mjs';
 //imports for nodemon watch
@@ -112,6 +112,21 @@ app.delete('/api/sessions/current', (req, res) => {
 });
 
 /*******/
+
+// GET /api/user/
+// This route is used for refreshing the user data after placing a bet or retreiving the last draw of the game.
+app.get('/api/user', isLoggedIn, async (req, res) => {
+  try{
+    let user = await getUserById(req.user.user_id);
+    if(!user){
+      throw(Error('User not found anymore!'));
+    }
+    res.status(200).json(user);
+  } catch (error){
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
 
 // POST /api/bets/
 // This route is used for creating a new bet.

@@ -10,6 +10,7 @@ export default function BettingForm(props) {
     const [waiting, setWaiting] = useState(false);
 
     const showMessage = props.showMessage;
+    const refreshUser = props.refreshUser;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -31,6 +32,7 @@ export default function BettingForm(props) {
             await API.createBet(bet);
             console.log('Bet created!');
             showMessage('Bet created!', 'success');
+            await refreshUser();
         } catch (err) {
             console.error('Error while creating the bet: ' + err);
             showMessage('Error: ' + err, 'danger');
