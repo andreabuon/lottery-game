@@ -48,8 +48,8 @@ function App() {
   }
 
   const showMessage = (message, type) => {
-    setMessage([{ msg: message, type: type }, ...messages]);
-    //setTimeout(() => setMessage(messages.filter((el, index) => (index !== messages.length - 1))), 3500);
+    setMessage([...messages], { msg: message, type: type });
+    setTimeout(() => setMessage(messages.filter((el, index) => (index !== 0))), 3500);
   };
 
   return (
