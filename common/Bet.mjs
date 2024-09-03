@@ -30,7 +30,7 @@ Bet.prototype.getSize = function () {
 Bet.prototype.computeReward = function (draw) {
   let score = 0;
   for (let number of this.numbers) {
-    if (draw.numbers.has(number)) {
+    if (draw.numbers.includes(number)) {
       score += PTS_PER_MATCHED_NUM;
     }
   }
