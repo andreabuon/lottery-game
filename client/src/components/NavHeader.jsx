@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { LogoutButton } from './AuthComponents';
 import { FaTrophy, FaSignInAlt } from 'react-icons/fa';
 import { IoBook } from "react-icons/io5";
+import { GrGamepad } from "react-icons/gr";
 
 export default function NavHeader(props) {
   return (
@@ -15,17 +16,25 @@ export default function NavHeader(props) {
         <Navbar.Collapse id='navbar-nav' className='justify-content-end'>
           <Nav className='align-items-center'>
             {props.loggedIn && (
-              <><NavLink
-                to='/rules'
-                className='btn btn-outline-light mx-2 d-flex align-items-center'
-              >
-                <IoBook className='me-2' />
-                Rules
-              </NavLink>
-              <NavLink
-                to='/scoreboard'
-                className='btn btn-outline-light mx-2 d-flex align-items-center'
-              >
+              <>
+                <NavLink
+                  to='/'
+                  className='btn btn-outline-light mx-2 d-flex align-items-center'
+                >
+                  <GrGamepad className='me-2' />
+                  Play
+                </NavLink>
+                <NavLink
+                  to='/rules'
+                  className='btn btn-outline-light mx-2 d-flex align-items-center'
+                >
+                  <IoBook className='me-2' />
+                  Rules
+                </NavLink>
+                <NavLink
+                  to='/scoreboard'
+                  className='btn btn-outline-light mx-2 d-flex align-items-center'
+                >
                   <FaTrophy className='me-2' />
                   Scoreboard
                 </NavLink></>
