@@ -135,6 +135,11 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
     await createBet(req.user, req.body);
     res.status(200).send();
   } catch (error){
+    if(error.errno === 19){
+      res.status(409).send('The player has already placed a bet for this round!');
+      return;
+    }
+
     console.error(error);
     res.status(500).send(error);
   }

@@ -9,11 +9,10 @@ export async function createBet(user, user_bet) {
   const bet = new Bet(user.user_id, [...user_bet]);
   const cost = bet.getCost();
 
-  if (user.score < cost) {
-    throw new Error('Error: the user does not have enough points');
-  }
-
   try {
+    if (user.score < cost) { //FIXME user score should be checked in the DB?
+      throw new Error(`The player ${user.user_id} does not have enough points`);
+    }
     //Get the next round number
     let round = await getRound();
     // Add the bet to the database
@@ -21,7 +20,7 @@ export async function createBet(user, user_bet) {
     // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
   } catch (error) {
-    console.error('Error creating bet:', error);
+    console.error('Error while creating bet for the player #:', user.user_id, error);
     throw error;
   }
 }
