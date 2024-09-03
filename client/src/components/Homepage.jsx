@@ -4,6 +4,9 @@ import { FaSignInAlt } from 'react-icons/fa';
 import DisplayLastDraw from './DisplayLastDraw'
 import BettingForm from './BettingForm'
 import GameRules from './GameRules'
+import { useState } from 'react'
+
+const AUTO_REFRESH_INTERVAL = 20;
 
 export default function Homepage(props) {
     return (
@@ -12,11 +15,17 @@ export default function Homepage(props) {
 }
 
 function Homepage_LoggedIn(props) {
+    const [refresh, setRefresh] = useState([]);
+    const refreshData = () => {
+        props.refreshUser();
+        setRefresh([...refresh]); //FIXME //HACK
+    }
+
     return (
         <>
             <h1>Hello {props.user.username}! Your score is {props.user.score}</h1>
-            <DisplayLastDraw showMessage={props.showMessage} refreshUser={props.refreshUser}/>
-            <BettingForm showMessage={props.showMessage} refreshUser={props.refreshUser}/>
+            <DisplayLastDraw showMessage={props.showMessage} refresh={refresh} refreshData={refreshData} />
+            <BettingForm showMessage={props.showMessage} refreshData={refreshData} />
         </>
     );
 }

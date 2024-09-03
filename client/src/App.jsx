@@ -37,10 +37,9 @@ function App() {
   };
 
   const refreshUser = async () => {
-    console.log("Refreshing the user info.");
+    console.log("Updating the user data.");
     try{
       let user = await API.getUserData();
-      console.log(user);
       setUser(user);
     }catch (error){
       console.error(error);

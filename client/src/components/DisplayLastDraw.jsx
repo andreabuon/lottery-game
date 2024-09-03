@@ -6,13 +6,13 @@ import './DisplayLastDraw.css';
 
 export default function DisplayLastDraw(props) {
   const [draw, setDraw] = useState();
-  const [refreshing, setRefreshing] = useState(false);
+  const [waiting, setWaiting] = useState(false);
 
   const showMessage = props.showMessage;
-  const refreshUser = props.refreshUser;
+  const refreshData = props.refreshData;
 
   const retrieveDraw = async () => {
-    setRefreshing(true);
+    setWaiting(true);
     console.log('Retrieving the last draw...');
     try {
       let new_draw = await API.getLastDraw();
@@ -22,21 +22,20 @@ export default function DisplayLastDraw(props) {
         if(draw && new_draw.round != draw.round){
           showMessage(`New draw ${new_draw.round}!`, 'secondary');
         }else{
-          showMessage('No new draw yet!', 'secondary');
+          //showMessage('No new draw yet!', 'secondary');
         }
         setDraw(new_draw);
       }
-      await refreshUser();
     } catch (err) {
       showMessage(err, 'danger');
       console.error(err);
     }
-    setRefreshing(false);
+    setWaiting(false);
   };
 
   useEffect(() => {
     retrieveDraw();
-  }, []);
+  }, [props.refresh]);
 
   return (
     <div className="display-last-draw p-4">
@@ -55,11 +54,11 @@ export default function DisplayLastDraw(props) {
       <div className="d-flex justify-content-center">
         <Button
           variant="primary"
-          onClick={() => retrieveDraw()}
-          disabled={refreshing}
+          onClick={() => refreshData()}
+          disabled={waiting}
           className="refresh-button"
         >
-          {refreshing ? <Spinner animation="border" size="sm" /> : 'Refresh Draw'}
+          {waiting ? <Spinner animation="border" size="sm" /> : 'Refresh Draw'}
         </Button>
       </div>
     </div>
