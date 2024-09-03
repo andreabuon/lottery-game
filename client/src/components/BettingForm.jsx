@@ -15,29 +15,22 @@ export default function BettingForm(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setWaiting(true);
-        let numbers = new Set([number1, number2, number3]);
-        if (numbers.has(0)) {
-            numbers.delete(0);
-        }
-        if (numbers.size == 0) {
-            console.error('You must bet on at least 1 number');
-            showMessage('You must bet on at least 1 number', 'danger');
-            return;
-        }
-
-        let bet = new Bet(null, Array.from(numbers)); //The null bet.user_id will be filled in by the server!
+        
         try {
-            console.log('Trying to create bet!');
-            console.log(bet);
+            console.log('Creating bet!');
+            let bet = new Bet(null, [number1, number2, number3]); //The null bet.user_id will be filled in by the server!
+            console.log(bet.numbers);
             await API.createBet(bet);
             console.log('Bet created!');
             showMessage('Bet created!', 'success');
             await refreshUser();
         } catch (err) {
-            console.error('Error while creating the bet: ' + err);
+            console.error('Error while betting: ' + err);
             showMessage('Error: ' + err, 'danger');
         }
-        setWaiting(false);
+        finally{
+            setWaiting(false);
+        }
     };
 
     return (

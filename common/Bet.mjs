@@ -15,11 +15,11 @@ export function Bet(user_id, nums) {
       this.numbers.add(num)
     }
   }
-  if (this.getSize == 0) {
-    throw Error('Bet size cannot be 0');
+  if (this.getSize() == 0) {
+    throw Error('A bet must be placed on at least one number.');
   }
-  if (this.getSize > BET_MAX_SIZE) {
-    throw Error('Bet size cannot be greater than ', BET_MAX_SIZE);
+  if (this.getSize() > BET_MAX_SIZE) {
+    throw Error('A bet cannot be placed on more than ' + BET_MAX_SIZE + ' numbers.');
   }
 }
 
