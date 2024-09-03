@@ -21,6 +21,8 @@ export default function DisplayLastDraw(props) {
         //If the page has just been loaded (draw == undefined) do not display the draw update message
         if(draw && new_draw.round != draw.round){
           showMessage(`New draw ${new_draw.round}!`, 'secondary');
+        }else{
+          showMessage('No new draw yet!', 'secondary');
         }
         setDraw(new_draw);
       }
