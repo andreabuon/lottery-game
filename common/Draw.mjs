@@ -1,11 +1,15 @@
 const DRAW_SIZE = 5;
 
-export function Draw(numbers) {
-  this.numbers = new Set(numbers); // Using Set for saving unique numbers
+export function Draw(numbers, round_num = -1) {
+  let unique_numbers = new Set(numbers)
+  //TODO checks?
+  
+  this.numbers = [...unique_numbers];
+  this.round = round_num;
 };
 
 Draw.prototype.toString = function () {
-  return '[' + [...this.numbers].join(", ") + ']';
+  return '[' + [this.numbers].join(", ") + ']';
 };
 
 export function pickDraw() {

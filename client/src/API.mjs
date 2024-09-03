@@ -81,8 +81,8 @@ const getLastDraw = async () => {
       credentials: 'include'
     });
     await handleInvalidResponse(response);
-    const draw_numbers = await response.json();
-    return new Draw(draw_numbers);
+    const draw_info = await response.json();
+    return new Draw(draw_info.numbers, draw_info.round);;
     } catch (error) {
     throw error;
   }

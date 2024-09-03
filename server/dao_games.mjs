@@ -38,7 +38,7 @@ export function getRound(){
 export function addDraw(round, draw) {
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO draws (draw_round_num, draw_numbers) VALUES (?, ?);';
-        db.run(sql, [round, JSON.stringify([...draw.numbers])], function(err){
+        db.run(sql, [round, JSON.stringify(draw.numbers)], function(err){
             if (err) {
                 reject(err);
                 return;
@@ -77,7 +77,7 @@ export function getDrawByRound(round){
                 reject(new Error('No draw has been found'));
                 //resolve(null);
             }
-            let draw = new Draw(JSON.parse(row.draw_numbers));
+            let draw = new Draw(JSON.parse(row.draw_numbers), row.round_num);
             resolve(draw);
             return;
         });
@@ -97,7 +97,7 @@ export function getLastDraw(){
                 //resolve(null);
                 return;
             }
-            let draw = new Draw(JSON.parse(row.draw_numbers));
+            let draw = new Draw(JSON.parse(row.draw_numbers), row.draw_round_num);
             resolve(draw);
             return;
         });

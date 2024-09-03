@@ -163,7 +163,7 @@ app.get('/api/scores/best', isLoggedIn, async (req, res) => {
 app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {
     const draw = await getLastDraw();
-    res.json([...draw.numbers]);
+    res.json(draw);
   } catch (error){
     console.error(error);
     res.status(500).send(error);

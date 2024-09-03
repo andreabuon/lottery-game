@@ -5,7 +5,7 @@ import { Draw } from '../../../common/Draw.mjs';
 import './DisplayLastDraw.css';
 
 export default function DisplayLastDraw(props) {
-  const [draw, setDraw] = useState(new Draw([-1, -2, -3, -4, -5]));
+  const [draw, setDraw] = useState();
   const [refreshing, setRefreshing] = useState(false);
 
   const showMessage = props.showMessage;
@@ -15,10 +15,15 @@ export default function DisplayLastDraw(props) {
     setRefreshing(true);
     console.log('Retrieving the last draw...');
     try {
-      let draw = await API.getLastDraw();
-      console.log('Got the following draw: ', [...draw.numbers]);
-      setDraw(draw);
-      showMessage('Draw updated', 'secondary');
+      let new_draw = await API.getLastDraw();
+      console.log('Got the following new draw: ', new_draw.numbers);
+      if(new_draw != draw){
+        //If the page has just been loaded (draw == undefined) do not display the draw update message
+        if(draw && new_draw.round != draw.round){
+          showMessage(`New draw ${new_draw.round}!`, 'secondary');
+        }
+        setDraw(new_draw);
+      }
       await refreshUser();
     } catch (err) {
       showMessage(err, 'danger');
@@ -33,11 +38,11 @@ export default function DisplayLastDraw(props) {
 
   return (
     <div className="display-last-draw p-4">
-      <h2 className="mb-4 text-center">The Last Draw of the Game</h2>
+      <h2 className="mb-4 text-center">The last (#{draw && draw.round}) draw of the game was:</h2>
       <Table bordered responsive="sm" className="text-center mb-4 draw-table">
         <tbody>
           <tr>
-            {draw && Array.from(draw.numbers).map((num, index) => (
+            {draw && draw.numbers.map((num, index) => (
               <td key={index} className="p-3 draw-number">
                 {num}
               </td>
