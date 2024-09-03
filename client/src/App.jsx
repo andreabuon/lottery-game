@@ -14,7 +14,7 @@ import GameRules from './components/GameRules';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [messages, setMessage] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [user, setUser] = useState('');
 
   const handleLogin = async (credentials) => {
@@ -32,7 +32,7 @@ function App() {
   const handleLogout = async () => {
     await API.logOut();
     setLoggedIn(false);
-    setMessage([]);
+    setMessages([]);
     setUser('');
   };
 
@@ -48,8 +48,8 @@ function App() {
   }
 
   const showMessage = (message, type) => {
-    setMessage([...messages], { msg: message, type: type });
-    setTimeout(() => setMessage(messages.filter((el, index) => (index !== 0))), 3500);
+    setMessages([...messages, { msg: message, type: type }]);
+    setTimeout(() => setMessages(messages.slice(1)), 3000);
   };
 
   return (
