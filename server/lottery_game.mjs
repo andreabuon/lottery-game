@@ -21,7 +21,7 @@ export async function createBet(user, user_bet) {
     await updateUserScore(user.user_id, user.score - cost);
     return round;
   } catch (error) {
-    console.error('Error while creating bet for the player #:', user.user_id, error);
+    //console.error('Error while creating bet for the player #:', user.user_id, error);
     throw error;
   }
 }
