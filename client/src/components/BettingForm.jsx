@@ -20,13 +20,13 @@ export default function BettingForm(props) {
             console.log('Creating bet!');
             let bet = new Bet(null, [number1, number2, number3]); //The null bet.user_id will be filled in by the server!
             console.log(bet.numbers);
-            await API.createBet(bet);
-            console.log('Bet created!');
-            showMessage('Bet created!', 'success');
+            let bet_round = await API.createBet(bet);
+            console.log(`Bet created for the round #${bet_round}.`);
+            showMessage(`Bet created for the round #${bet_round}.`, 'success');
             await refreshUser();
         } catch (err) {
             console.error('Error while betting: ' + err);
-            showMessage('Error: ' + err, 'danger');
+            showMessage('Error while betting: ' + err, 'danger');
         }
         finally{
             setWaiting(false);

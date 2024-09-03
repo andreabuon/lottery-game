@@ -99,7 +99,8 @@ const createBet = async (bet) => {
       body: JSON.stringify(Array.from(bet.numbers))
     });
     await handleInvalidResponse(response);
-    return null;
+    let bet_round = response.json();
+    return bet_round;
   } catch (error) {
     throw error;
   }
