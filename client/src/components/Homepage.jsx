@@ -10,7 +10,7 @@ const AUTO_REFRESH_INTERVAL = 20;
 
 export default function Homepage(props) {
     return (
-        props.loggedIn ? Homepage_LoggedIn(props) : Homepage_LoggedOut()
+        props.loggedIn ? <Homepage_LoggedIn showMessage={props.showMessage} user={props.user} refreshUser={props.refreshUser}/> : <Homepage_LoggedOut/>
     );
 }
 
