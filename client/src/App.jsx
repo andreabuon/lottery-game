@@ -47,9 +47,14 @@ function App() {
     }
   }
 
-  const showMessage = (message, type) => {
-    setMessages([...messages, { msg: message, type: type }]);
-    setTimeout(() => setMessages(messages.slice(1)), 3000);
+  const showMessage = (text, type) => {
+    let new_message = { msg: text, type: type };
+    setMessages([...messages, new_message]);
+  };
+
+  const removeMessage = (message) => {
+    let index = messages.indexOf(message);
+    setMessages(messages.toSpliced(index, 1));
   };
 
   return (
@@ -61,7 +66,7 @@ function App() {
           <Container fluid className='mt-3'>
             {
             messages.map( (message, index) => (
-              <Alert key={index} variant={message.type}  className='ms-3 me-3' dismissible>{message.msg}</Alert>)
+              <Alert key={index} variant={message.type}  className='ms-3 me-3' onClose={() =>removeMessage(message)} dismissible>{message.msg}</Alert>)
             )
             }
             <Outlet />
