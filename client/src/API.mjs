@@ -82,6 +82,12 @@ const getLastDraw = async () => {
     });
     await handleInvalidResponse(response);
     const draw = await response.json();
+    
+    //NOTE draw can be null!
+    if(!draw){
+      return draw;
+    }
+
     return new Draw(draw.numbers, draw.round);;
     } catch (error) {
     throw error;

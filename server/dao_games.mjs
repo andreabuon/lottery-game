@@ -93,8 +93,8 @@ export function getLastDraw(){
                 return;
             }
             if(row === undefined){
-                reject(new Error('No draw has been found'));
-                //resolve(null);
+                //reject(new Error('No draw has been found'));
+                resolve(null);
                 return;
             }
             let draw = new Draw(JSON.parse(row.draw_numbers), row.draw_round_num);

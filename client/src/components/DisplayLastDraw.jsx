@@ -16,21 +16,18 @@ export default function DisplayLastDraw(props) {
     console.log('Retrieving the last draw...');
     try {
       let new_draw = await API.getLastDraw();
-      console.log('Got the following new draw: ', new_draw.numbers);
-      if(new_draw != draw){
-        //If the page has just been loaded (draw == undefined) do not display the draw update message
-        if(draw && new_draw.round != draw.round){
-          showMessage(`New draw ${new_draw.round}!`, 'secondary');
-        }else{
-          //showMessage('No new draw yet!', 'secondary');
-        }
+      if (new_draw) {
+        console.log('Got the following new draw: ', new_draw.numbers);
         setDraw(new_draw);
+      } else {
+        showMessage('No draws yet! Please wait.', 'warning');
       }
     } catch (err) {
-      showMessage(err, 'danger');
+      showMessage(err.toString(), 'danger');
       console.error(err);
+    } finally {
+      setWaiting(false);
     }
-    setWaiting(false);
   };
 
   useEffect(() => {
