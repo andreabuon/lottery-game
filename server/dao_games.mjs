@@ -10,7 +10,7 @@ export function addRound(){
                 reject(err);
                 return;
             }
-            resolve(this.lastID - 1 ); //FIXME
+            resolve(this.lastID);
             //console.log("Added a new round in the DB");
             return;
         });
