@@ -123,3 +123,36 @@ export function getRoundBets(round){
         });
     });
 }
+
+export function addResult(round, user_id, score){
+    return new Promise((resolve, reject) => {
+        const sql = 'INSERT INTO results (round_num, user_id, score) VALUES (?, ?, ?);';
+        db.run(sql, [round, user_id, score], function(err){
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve();
+            return;
+        });
+    });
+}
+
+export function getResult(round, user_id){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM results WHERE round_num = ? AND user_id = ?';
+        db.get(sql, [round, user_id], function(err, row){
+            if (err) {
+                reject(err);
+                return;
+            }
+            if(row === undefined){
+                //reject(new Error('No result has been found'));
+                resolve(null);
+                return;
+            }
+            resolve(row);
+            return;
+        });
+    });
+}
