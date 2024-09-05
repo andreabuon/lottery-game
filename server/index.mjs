@@ -9,7 +9,7 @@ import LocalStrategy from 'passport-local';
 import session from 'express-session';
 
 import { getUser, getBestScores, getUserById } from './dao_users.mjs';
-import { getLastDraw } from './dao_games.mjs';
+import { getLastDraw, getResult } from './dao_games.mjs';
 import { createBet, runGame } from './lottery_game.mjs';
 //imports for nodemon watch
 import { Draw } from '../common/Draw.mjs';
@@ -167,6 +167,21 @@ app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {
     const draw = await getLastDraw();
     res.json(draw);
+  } catch (error){
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
+// GET /api/draws/:round/score'
+// Returns a JSON object containing the user score for the specified round.
+app.get('/api/draws/:round/score', isLoggedIn, async (req, res) => {
+  try {
+    const result = await getResult(req.params.round, req.user.user_id);
+    if(!result){
+        return res.status(404).send('No result found for the specified user and round.');
+      }
+    res.json(result);
   } catch (error){
     console.error(error);
     res.status(500).send(error);
