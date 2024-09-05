@@ -23,6 +23,7 @@ export function Bet(round, user_id, nums) {
   if (this.getSize() > BET_MAX_SIZE) {
     throw Error('A bet cannot be placed on more than ' + BET_MAX_SIZE + ' numbers.');
   }
+  this.numbers.sort();
 }
 
 Bet.prototype.getSize = function () {

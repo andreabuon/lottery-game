@@ -1,11 +1,9 @@
 const DRAW_SIZE = 5;
 
 export function Draw(numbers, round_num = -1) {
-  let unique_numbers = new Set(numbers)
-  //TODO checks?
-  
-  this.numbers = [...unique_numbers];
+  this.numbers = [...new Set(numbers)].sort();
   this.round = round_num;
+  //TODO checks?
 };
 
 Draw.prototype.toString = function () {
