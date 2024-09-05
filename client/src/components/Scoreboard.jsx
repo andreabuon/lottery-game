@@ -34,6 +34,7 @@ export default function Scoreboard(props) {
             <Row className='align-items-start'>
                 <Col>
                     <h1>Scoreboard</h1>
+                    <h2>Best 3 Players</h2>
                 </Col>
                 <Col className="text-end">
                     <Button onClick={() => updateScores()} disabled={refreshing}>Refresh scores</Button>
