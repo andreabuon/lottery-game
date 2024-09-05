@@ -1,4 +1,4 @@
-import { addRound, addDraw, addBet, getRoundBets, getRound, getDrawByRound } from './dao_games.mjs';
+import { addRound, addDraw, addBet, getRoundBets, getRound, getDrawByRound, addResult } from './dao_games.mjs';
 import { updateUserScore, getUserById } from './dao_users.mjs';
 import { Draw, pickDraw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
@@ -36,7 +36,7 @@ export async function updateScores(round) {
     const bets = await getRoundBets(round);
     console.log(`[Round ${round}] Bets: `);
     if(bets.length == 0){ //FIXME
-      console.log(`[Round ${round}] No bets found.`);
+      console.log(`[Round ${round}]: No bets found.`);
     }
 
     for (let bet of bets) {
@@ -47,12 +47,13 @@ export async function updateScores(round) {
       try {
         const user = await getUserById(bet.user_id);
         if (!user) {
-          console.error(`[Round ${round}] The user ${bet.user_id} has been deleted - skipping its score update!`);
+          console.error(`[Round ${round}] The user ${bet.user_id} has not been found - skipping its score update!`);
           continue;
         }
         await updateUserScore(bet.user_id, user.score + reward);
+        await addResult(round, bet.user_id, reward)
       } catch (error) {
-        console.error(`[Round ${round}] Error updating user ${bet.user_id} score:`, error);
+        console.error(`[Round ${round}] Error computing user ${bet.user_id} score:`, error);
       }
     }
   } catch (error) {
@@ -69,7 +70,7 @@ async function newRound() {
     await addDraw(round, draw); // Save draw to the database
     setTimeout(() => updateScores(round), ROUNDS_TIMEOUT);
   } catch (error) {
-    console.error('Error running round:', error);
+    console.error(`Error running round #${round}: error`);
   }
 }
 
