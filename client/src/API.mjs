@@ -106,5 +106,22 @@ const createBet = async (user_bet) => {
   }
 };
 
-const API = { logIn, getUserInfo, getUserData, logOut, getBestScores, getLastDraw, createBet };
+const getResult = async function(bet) {
+  try {
+    const response = await fetch(SERVER_URL + '/api/draws/' + bet.round + '/score', {
+      credentials: 'include'
+    });
+    if(response.status == 404){
+      return 'Waiting for draw';
+    }
+    
+    await handleInvalidResponse(response);
+    const result = await response.json();
+    return result;
+    } catch (error) {
+    throw error;
+  }
+}
+
+const API = { logIn, getUserInfo, getUserData, logOut, getBestScores, getLastDraw, createBet, getResult };
 export default API;

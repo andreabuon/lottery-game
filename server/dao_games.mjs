@@ -151,7 +151,7 @@ export function getResult(round, user_id){
                 resolve(null);
                 return;
             }
-            resolve(row);
+            resolve(row.score);
             return;
         });
     });
