@@ -3,7 +3,7 @@ import { updateUserScore, getUserById } from './dao_users.mjs';
 import { Draw, pickDraw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
 
-const ROUNDS_TIMEOUT = 10 * 1000;
+const ROUNDS_TIMEOUT = 10 * 1000; //FIXME
 
 export async function createBet(user, numbers) {
   try {

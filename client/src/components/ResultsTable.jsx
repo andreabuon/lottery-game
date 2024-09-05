@@ -30,7 +30,7 @@ export default function ResultsTable(props) {
 
     useEffect(() => {
         updateResults();
-    }, [props.bets.length]);
+    }, [props.bets.length, props.refresh]);
 
     return (
         <>

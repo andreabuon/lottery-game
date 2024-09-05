@@ -25,7 +25,7 @@ function Homepage_LoggedIn(props) {
         <>
             <h1>Hello {props.user.username}! Your score is {props.user.score}</h1>
             <DisplayLastDraw showMessage={props.showMessage} refresh={refresh} refreshData={refreshData} />
-            <BettingForm showMessage={props.showMessage} refreshData={refreshData} />
+            <BettingForm showMessage={props.showMessage} refresh={refresh} refreshData={refreshData} />
         </>
     );
 }
