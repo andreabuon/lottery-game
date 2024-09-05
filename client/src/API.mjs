@@ -88,7 +88,7 @@ const getLastDraw = async () => {
   }
 }
 
-const createBet = async (bet) => {
+const createBet = async (user_bet) => {
   try {
     const response = await fetch(SERVER_URL + '/api/bets/', {
       method: 'POST',
@@ -96,11 +96,11 @@ const createBet = async (bet) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(bet)
+      body: JSON.stringify(user_bet.numbers) //Send just the bet numbers! The server will compute the other fields.
     });
     await handleInvalidResponse(response);
-    let bet_round = response.json();
-    return bet_round;
+    let bet = response.json();
+    return bet;
   } catch (error) {
     throw error;
   }
