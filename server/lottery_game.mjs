@@ -5,23 +5,23 @@ import { Bet } from '../common/Bet.mjs';
 
 const ROUNDS_TIMEOUT = 120 * 1000;
 
-export async function createBet(user, user_bet) {
-  const bet = new Bet(user.user_id, [...user_bet]);
-  const cost = bet.getCost();
-
+export async function createBet(user, numbers) {
   try {
+    let round = await getRound();
+    const bet = new Bet(round, user.user_id, numbers);
+    
+    const cost = bet.getCost();
     if (user.score < cost) { //FIXME user score should be checked in the DB?
       throw new Error(`The player ${user.user_id} does not have enough points`);
     }
-    //Get the next round number
-    let round = await getRound();
-    // Add the bet to the database
-    await addBet(round, bet);
+
+    await addBet(bet);
+
     // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
     return round;
   } catch (error) {
-    //console.error('Error while creating bet for the player #:', user.user_id, error);
+    console.error(`Error while creating bet for the player #${user.user_id}: ${error}`);
     throw error;
   }
 }

@@ -50,16 +50,16 @@ export function addDraw(round, draw) {
     });
 };
 
-export function addBet(round, bet){
+export function addBet(bet){
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO bets (bet_round_num, user_id, bet_numbers) VALUES (?, ?, ?);';
-        db.run(sql, [round, bet.user_id, JSON.stringify(Array.from(bet.numbers))], function(err){
+        db.run(sql, [bet.round, bet.user_id, JSON.stringify(bet.numbers)], function(err){
             if (err) {
                 reject(err);
                 return;
             }
-            console.log(`[Round ${round}] Player ` + + bet.user_id + " made a new bet [" + [...bet.numbers] + "] in the DB.");
-            resolve(round);
+            console.log(`[Round ${bet.round}] Player ` + + bet.user_id + " made a new bet [" + bet.numbers + "] in the DB.");
+            resolve(bet.round);
             return;
         });
     });
@@ -117,7 +117,7 @@ export function getRoundBets(round){
                 resolve([]);
                 return;
             }
-            let bets = rows.map( (row) => new Bet(row.user_id, JSON.parse(row.bet_numbers)));
+            let bets = rows.map( (row) => new Bet(row.bet_round_num, row.user_id, JSON.parse(row.bet_numbers)));
             resolve(bets);
             return;
         });

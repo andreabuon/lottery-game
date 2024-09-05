@@ -7,12 +7,14 @@ const MAX_NUM = 90;
 const MIN_NUM = 1;
 
 
-export function Bet(user_id, nums) {
+export function Bet(round, user_id, nums) {
+  this.round = round;
   this.user_id = user_id;
-  this.numbers = new Set();
-  for (const num of nums) {
+  this.numbers = [];
+
+  for (const num of new Set(nums)) {
     if (num <= MAX_NUM && num >= MIN_NUM) {
-      this.numbers.add(num)
+      this.numbers.push(num)
     }
   }
   if (this.getSize() == 0) {
@@ -24,7 +26,7 @@ export function Bet(user_id, nums) {
 }
 
 Bet.prototype.getSize = function () {
-  return this.numbers.size;
+  return this.numbers.length;
 };
 
 Bet.prototype.computeReward = function (draw) {

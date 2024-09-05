@@ -9,6 +9,8 @@ export default function BettingForm(props) {
     const [number3, setNumber3] = useState(0);
     const [waiting, setWaiting] = useState(false);
 
+    const [bets, setBets] = useState([]);
+
     const showMessage = props.showMessage;
     const refreshData = props.refreshData;
 
@@ -18,11 +20,13 @@ export default function BettingForm(props) {
         
         try {
             console.log('Creating bet!');
-            let bet = new Bet(null, [number1, number2, number3]); //The null bet.user_id will be filled in by the server!
+            let bet = new Bet(null, null, [number1, number2, number3]); //The null fields will be filled in by the server!
             console.log(bet.numbers);
-            let bet_round = await API.createBet(bet);
-            console.log(`Bet created for the round #${bet_round}.`);
-            showMessage(`Bet created for the round #${bet_round}.`, 'success');
+            let round = await API.createBet(bet);
+            console.log(`Bet created for the round #${round}.`);
+            showMessage(`Bet created for the round #${round}.`, 'success');
+            bet.round = round;
+            //setBets([bet, ...bets]);
             refreshData();
         } catch (err) {
             console.error('Error while betting: ' + err);

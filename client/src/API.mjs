@@ -81,8 +81,8 @@ const getLastDraw = async () => {
       credentials: 'include'
     });
     await handleInvalidResponse(response);
-    const draw_info = await response.json();
-    return new Draw(draw_info.numbers, draw_info.round);;
+    const draw = await response.json();
+    return new Draw(draw.numbers, draw.round);;
     } catch (error) {
     throw error;
   }
@@ -96,7 +96,7 @@ const createBet = async (bet) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(Array.from(bet.numbers))
+      body: JSON.stringify(bet.numbers)
     });
     await handleInvalidResponse(response);
     let bet_round = response.json();
