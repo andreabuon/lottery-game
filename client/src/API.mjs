@@ -96,7 +96,7 @@ const createBet = async (bet) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(bet.numbers)
+      body: JSON.stringify(bet)
     });
     await handleInvalidResponse(response);
     let bet_round = response.json();

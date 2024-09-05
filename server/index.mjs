@@ -132,8 +132,8 @@ app.get('/api/user', isLoggedIn, async (req, res) => {
 // This route is used for creating a new bet.
 app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
-    let bet_round = await createBet(req.user, req.body);
-    res.status(200).json(bet_round);
+    let bet = await createBet(req.user, req.body.numbers);
+    res.status(200).json(bet.round);
   } catch (error){
     if(error.errno === 19){
       res.status(409).send('The player has already placed a bet for this round!');

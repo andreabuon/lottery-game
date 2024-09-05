@@ -19,7 +19,7 @@ export async function createBet(user, numbers) {
 
     // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
-    return round;
+    return bet;
   } catch (error) {
     console.error(`Error while creating bet for the player #${user.user_id}: ${error}`);
     throw error;

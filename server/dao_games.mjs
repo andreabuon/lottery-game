@@ -10,7 +10,7 @@ export function addRound(){
                 reject(err);
                 return;
             }
-            resolve(this.lastID);
+            resolve(this.lastID - 1); //FIXME
             //console.log("Added a new round in the DB");
             return;
         });
@@ -59,7 +59,7 @@ export function addBet(bet){
                 return;
             }
             console.log(`[Round ${bet.round}] Player ` + + bet.user_id + " made a new bet [" + bet.numbers + "] in the DB.");
-            resolve(bet.round);
+            resolve();
             return;
         });
     });
