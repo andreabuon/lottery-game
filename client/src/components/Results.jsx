@@ -32,7 +32,7 @@ export default function Results(props) {
 
     return (
         <Container className="mt-4 d-flex justify-content-evenly">
-            <Button variant="primary" type="submit" className="w-100" disabled={refreshing}>
+            <Button variant="secondary" type="submit" className="w-100" disabled={refreshing}>
                 {refreshing ? <Spinner animation="border" size="sm" /> : 'Check results!'}
             </Button>
         </Container>

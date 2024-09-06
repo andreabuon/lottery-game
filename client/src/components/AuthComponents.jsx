@@ -41,7 +41,7 @@ function LoginForm(props) {
               />
             </Form.Group>
 
-            <Button type='submit' className="w-100 mb-2">Login</Button>
+            <Button type='submit' size='lg' className="w-100 mb-2">Login</Button>
             <Link className='btn btn-danger w-100' to={'/'}>Cancel</Link>
           </Form>
         </Col>
