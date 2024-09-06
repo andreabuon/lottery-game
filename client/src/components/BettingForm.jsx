@@ -17,7 +17,7 @@ export default function BettingForm(props) {
         let cost = 0;
         for(const num of [number1, number2, number3]){
             if(num)
-                cost += COST_PER_NUMBER;
+                cost += COST_PER_BET_NUMBER;
         }
         setBetCost(cost);
     }, [number1, number2, number3]);
