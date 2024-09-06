@@ -67,7 +67,7 @@ async function newRound() {
     console.log("STARTED ROUND ", round);
     setTimeout(() => endRound(round), ROUNDS_TIMEOUT);
   } catch (error) {
-    console.error(`Error running round #${round}: ${error}`);
+    console.error(`Error running round: ${error}`);
   }
 }
 
