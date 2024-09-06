@@ -138,25 +138,6 @@ export function addResult(round, user_id, score){
     });
 }
 
-export function getResult(round, user_id){
-    return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM results WHERE round_num = ? AND user_id = ?';
-        db.get(sql, [round, user_id], function(err, row){
-            if (err) {
-                reject(err);
-                return;
-            }
-            if(row === undefined){
-                //reject(new Error('No result has been found'));
-                resolve(null);
-                return;
-            }
-            resolve(row.score);
-            return;
-        });
-    });
-}
-
 export function getNewResults(user_id){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM results WHERE user_id = ? AND viewed = 0';

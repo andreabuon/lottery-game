@@ -3,8 +3,8 @@ const SERVER_URL = 'http://localhost:3001';
 
 async function handleInvalidResponse(response) {
   if (!response.ok) {
-    const errorMessage = await response.text();
-    throw new Error(`${response.status} - ${response.statusText}: ${errorMessage}`);
+    const error = await response.json();
+    throw new Error(`${response.status} ${response.statusText}: ${error.message}.`);
   }
 }
 
@@ -23,24 +23,13 @@ const logIn = async (credentials) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    throw error; // Simply re-throw the error to preserve the original stack trace
+    throw error;
   }
 };
 
 const getUserInfo = async () => {
   try {
     const response = await fetch(SERVER_URL + '/api/sessions/current', { credentials: 'include' });
-    await handleInvalidResponse(response);
-    const user = await response.json();
-    return user;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const getUserData = async () => {
-  try {
-    const response = await fetch(SERVER_URL + '/api/user/', { credentials: 'include' });
     await handleInvalidResponse(response);
     const user = await response.json();
     return user;
@@ -56,20 +45,18 @@ const logOut = async () => {
       credentials: 'include'
     });
     await handleInvalidResponse(response);
-    return null;
+    return;
   } catch (error) {
     throw error;
   }
 };
 
-const getBestScores = async () => {
+const getUserData = async () => {
   try {
-    const response = await fetch(SERVER_URL + '/api/scores/best', {
-      credentials: 'include'
-    });
+    const response = await fetch(SERVER_URL + '/api/user/', { credentials: 'include' });
     await handleInvalidResponse(response);
-    const scores = await response.json();
-    return scores;
+    const user = await response.json();
+    return user;
   } catch (error) {
     throw error;
   }
@@ -88,7 +75,7 @@ const getLastDraw = async () => {
       return draw;
     }
 
-    return new Draw(draw.numbers, draw.round);;
+    return new Draw(draw.numbers, draw.round);
   } catch (error) {
     throw error;
   }
@@ -102,37 +89,19 @@ const createBet = async (user_bet) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(user_bet.numbers) //Send just the bet numbers! The server will compute the other fields.
+      body: JSON.stringify(user_bet.numbers) //Send just the bet numbers! The server will compute the other fields of the bet (user and round).
     });
     await handleInvalidResponse(response);
-    let bet = response.json();
-    return bet;
+    let server_bet = response.json();
+    return server_bet;
   } catch (error) {
     throw error;
   }
 };
 
-const getResult = async function (bet) {
-  try {
-    const response = await fetch(SERVER_URL + '/api/draws/' + bet.round + '/score', {
-      credentials: 'include'
-    });
-    if (response.status == 404) {
-      return 'Waiting for draw';
-    }
-
-    await handleInvalidResponse(response);
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    throw error;
-  }
-}
-
-
 const getNewResults = async function () {
   try {
-    const response = await fetch(SERVER_URL + '/api/draws/scores/unseen', {
+    const response = await fetch(SERVER_URL + '/api/user/results/unseen', {
       credentials: 'include'
     });
 
@@ -147,5 +116,18 @@ const getNewResults = async function () {
   }
 }
 
-const API = { logIn, getUserInfo, getUserData, logOut, getBestScores, getLastDraw, createBet, getResult, getNewResults };
+const getBestScores = async () => {
+  try {
+    const response = await fetch(SERVER_URL + '/api/scores/best', {
+      credentials: 'include'
+    });
+    await handleInvalidResponse(response);
+    const scores = await response.json();
+    return scores;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const API = { logIn, getUserInfo, getUserData, logOut, getBestScores, getLastDraw, createBet, getNewResults };
 export default API;

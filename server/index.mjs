@@ -9,7 +9,7 @@ import LocalStrategy from 'passport-local';
 import session from 'express-session';
 
 import { getUser, getBestScores, getUserById } from './dao_users.mjs';
-import { getLastDraw, getResult, getNewResults, markResultsAsSeen } from './dao_games.mjs';
+import { getLastDraw, getNewResults, markResultsAsSeen } from './dao_games.mjs';
 import { createBet, runGame } from './lottery_game.mjs';
 //imports for nodemon watch
 import { Draw } from '../common/Draw.mjs';
@@ -58,7 +58,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  return res.status(401).send('Not authorized');
+  return res.status(401).json(Error('Not authorized'));
 }
 
 /** Creating the session */
@@ -72,15 +72,17 @@ app.use(passport.authenticate('session'));
 /*** APIs ***/
 
 // POST /api/sessions
-// This route is used for performing login.
+// This route is used to perform login.
 app.post('/api/sessions', function (req, res, next) {
   passport.authenticate('local', (err, user, info) => {
     if (err)
       return next(err);
+
     if (!user) {
-      // display wrong login messages
-      return res.status(401).send('' + info); //FIXME
+      // display wrong username/password messages
+      return res.status(401).json(Error("Auth failed")); //FIXME
     }
+
     // success, perform the login and extablish a login session
     req.login(user, (err) => {
       if (err)
@@ -100,105 +102,87 @@ app.get('/api/sessions/current', (req, res) => {
     res.status(200).json(req.user);
   }
   else
-    res.status(401).send('Not authenticated'); //FIXME
+    res.status(401).json(Error('Not authenticated')); //FIXME
 });
 
 // DELETE /api/session/current
-// This route is used for logging out the current user.
+// This route is used to log out the current user.
 app.delete('/api/sessions/current', (req, res) => {
   req.logout(() => {
     res.end();
   });
 });
 
-/*******/
-
 // GET /api/user/
-// This route is used for refreshing the user data after placing a bet or retreiving the last draw of the game.
+// This route is used to download the updated (ex. new score) user data after placing a bet or retrieving the last draw of the game.
 app.get('/api/user', isLoggedIn, async (req, res) => {
   try{
     let user = await getUserById(req.user.user_id);
     if(!user){
-      throw(Error('User not found anymore!'));
+      res.status(404).json(Error('User not found.'));
     }
     res.status(200).json(user);
   } catch (error){
     console.error(error);
-    res.status(500).send(error);
-  }
-});
-
-// POST /api/bets/
-// This route is used for creating a new bet.
-app.post('/api/bets/', isLoggedIn, async (req, res) => {
-  try {
-    let user = req.user;
-    //TODO validate bet fields!
-    let numbers = req.body;
-    let bet = await createBet(user, numbers);
-    res.status(200).json(bet);
-  } catch (error){
-    if(error.errno && error.errno === 19){
-      res.status(409).send('The player has already placed a bet for this round!');
-      return;
-    }
-
-    console.error(error);
-    res.status(500).send(error);
-  }
-});
-
-
-// GET /api/scores/best
-// Returns a JSON array containing the users with the top 3 scores in the database.
-app.get('/api/scores/best', isLoggedIn, async (req, res) => {
-  try {
-    const scores = await getBestScores();
-    res.json(scores);
-  } catch (error){
-    console.error(error);
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
 // GET /api/draws/last
-// Returns a JSON array containing the latest draw in the database.
+// This route is used to obtain the latest draw in the database.
 app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {
     const draw = await getLastDraw();
     res.json(draw);
   } catch (error){
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
-// GET /api/draws/:round/score'
-// Returns a JSON object containing the user score for the specified round.
-app.get('/api/draws/:round/score', isLoggedIn, async (req, res) => {
+// POST /api/bets/
+// This route is used to create a new bet.
+app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
-    const result = await getResult(req.params.round, req.user.user_id);
-    if(!result){
-        return res.status(404).send('No result found for the specified user and round.');
-      }
-    res.json(result);
+    let user = req.user;
+    //TODO validate bet fields!
+    let numbers = req.body;
+
+    let bet = await createBet(user, numbers);
+    res.status(200).json(bet);
   } catch (error){
+    if(error.errno && error.errno === 19){
+      res.status(409).json(Error('The player has already placed a bet for this round!'));
+      return;
+    }
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
 //FIXME
-// GET /api/draws/scores/unseen'
-// Returns a JSON array containing the user scores for the round.
-app.get('/api/draws/scores/unseen', isLoggedIn, async (req, res) => {
+// GET /api/user/results/unseen'
+// This route is used to download the bet results that the user has not viewed yet..
+app.get('/api/user/results/unseen', isLoggedIn, async (req, res) => {
   try {
     const results = await getNewResults(req.user.user_id);
     markResultsAsSeen(req.user.user_id);
     res.json(results);
   } catch (error){
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).json(error);
+  }
+});
+
+// GET /api/scores/best
+// This route is used to download the username and scores of the best 3 players in the database.
+app.get('/api/scores/best', isLoggedIn, async (req, res) => {
+  try {
+    const scores = await getBestScores();
+    res.json(scores);
+  } catch (error){
+    console.error(error);
+    res.status(500).json(error);
   }
 });
 
