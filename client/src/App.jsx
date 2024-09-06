@@ -21,7 +21,7 @@ function App() {
     try {
       const user = await API.logIn(credentials);
       setLoggedIn(true);
-      showMessage(`Welcome, ${user.username}!`, 'success');
+      showMessage(`Welcome, ${user.username}!`, 'primary');
       setUser(user);
     } catch (err) {
       console.error(err);

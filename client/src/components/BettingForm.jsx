@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Form, Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 import API from '../API.mjs'
 import { Bet } from '../../../common/Bet.mjs';
-import ResultsTable from './ResultsTable';
 
 export default function BettingForm(props) {
     const [number1, setNumber1] = useState(0);
@@ -90,9 +89,6 @@ export default function BettingForm(props) {
                         </Button>
                     </Row>
                 </Form>
-            </Container>
-            <Container className="mt-4 d-flex justify-content-evenly">
-                <ResultsTable bets={bets} showMessage={props.showMessage} refreshData={refreshData} />
             </Container>
         </>
     );

@@ -82,14 +82,14 @@ const getLastDraw = async () => {
     });
     await handleInvalidResponse(response);
     const draw = await response.json();
-    
+
     //NOTE draw can be null!
-    if(!draw){
+    if (!draw) {
       return draw;
     }
 
     return new Draw(draw.numbers, draw.round);;
-    } catch (error) {
+  } catch (error) {
     throw error;
   }
 }
@@ -112,22 +112,40 @@ const createBet = async (user_bet) => {
   }
 };
 
-const getResult = async function(bet) {
+const getResult = async function (bet) {
   try {
     const response = await fetch(SERVER_URL + '/api/draws/' + bet.round + '/score', {
       credentials: 'include'
     });
-    if(response.status == 404){
+    if (response.status == 404) {
       return 'Waiting for draw';
     }
-    
+
     await handleInvalidResponse(response);
     const result = await response.json();
     return result;
-    } catch (error) {
+  } catch (error) {
     throw error;
   }
 }
 
-const API = { logIn, getUserInfo, getUserData, logOut, getBestScores, getLastDraw, createBet, getResult };
+
+const getNewResults = async function () {
+  try {
+    const response = await fetch(SERVER_URL + '/api/draws/scores/unseen', {
+      credentials: 'include'
+    });
+
+    await handleInvalidResponse(response);
+    const results = await response.json();
+    if(!results){
+      return [];
+    }
+    return results;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const API = { logIn, getUserInfo, getUserData, logOut, getBestScores, getLastDraw, createBet, getResult, getNewResults };
 export default API;

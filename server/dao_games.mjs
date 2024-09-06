@@ -126,7 +126,7 @@ export function getRoundBets(round){
 
 export function addResult(round, user_id, score){
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO results (round_num, user_id, score) VALUES (?, ?, ?);';
+        const sql = 'INSERT INTO results (round_num, user_id, score, viewed) VALUES (?, ?, ?, 0);';
         db.run(sql, [round, user_id, score], function(err){
             if (err) {
                 reject(err);
@@ -152,6 +152,39 @@ export function getResult(round, user_id){
                 return;
             }
             resolve(row.score);
+            return;
+        });
+    });
+}
+
+export function getNewResults(user_id){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM results WHERE user_id = ? AND viewed = 0';
+        db.all(sql, [user_id], function(err, rows){
+            if (err) {
+                reject(err);
+                return;
+            }
+            if(rows === undefined){
+                //reject(new Error('No result has been found'));
+                resolve(null);
+                return;
+            }
+            resolve(rows);
+            return;
+        });
+    });
+}
+
+export function markResultsAsSeen(user_id){
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE results SET viewed = 1 WHERE user_id = ? AND viewed = 0;';
+        db.run(sql, [user_id], function(err){
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve();
             return;
         });
     });

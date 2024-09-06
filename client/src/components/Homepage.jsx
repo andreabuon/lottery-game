@@ -1,10 +1,12 @@
+import { useState } from 'react'
 import { Container, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaSignInAlt } from 'react-icons/fa';
+//Components
 import DisplayLastDraw from './DisplayLastDraw'
 import BettingForm from './BettingForm'
+import ResultsTable from './ResultsTable';
 import GameRules from './GameRules'
-import { useState } from 'react'
 
 const AUTO_REFRESH_INTERVAL = 20;
 
@@ -25,7 +27,8 @@ function Homepage_LoggedIn(props) {
         <>
             <h1>Hello {props.user.username}! Your score is {props.user.score}</h1>
             <DisplayLastDraw showMessage={props.showMessage} refresh={refresh} refreshData={refreshData} />
-            <BettingForm showMessage={props.showMessage} refresh={refresh} refreshData={refreshData} />
+            <BettingForm showMessage={props.showMessage} refreshData={refreshData} />
+            <ResultsTable showMessage={props.showMessage} refresh={refresh} refreshData={refreshData} />
         </>
     );
 }
