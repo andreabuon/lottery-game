@@ -50,7 +50,7 @@ export default function BettingForm(props) {
 
     return (
         <>
-            <Container className="mt-4 d-flex justify-content-evenly">
+            <Container className="mt-4 mb-4 d-flex justify-content-evenly">
                 <Form onSubmit={handleSubmit}>
                     <h3 className="mt-4 text-center">Make a bet for the next round now!</h3>
                     <Row className="mb-3">
