@@ -28,7 +28,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
 /** Set up authentication strategy to search in the DB a user with a matching password.
  * The user object will contain other information extracted by the method userDao.getUserByCredentials() (i.e., id, username, name).
  **/
@@ -58,7 +57,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  return res.status(401).json(Error('Not authorized'));
+  return res.status(401).send('Not authorized');
 }
 
 /** Creating the session */
@@ -80,7 +79,7 @@ app.post('/api/sessions', function (req, res, next) {
 
     if (!user) {
       // display wrong username/password messages
-      return res.status(401).json(Error("Auth failed")); //FIXME
+      return res.status(401).send(info || 'Auth failed'); //FIXME
     }
 
     // success, perform the login and extablish a login session
@@ -102,7 +101,7 @@ app.get('/api/sessions/current', (req, res) => {
     res.status(200).json(req.user);
   }
   else
-    res.status(401).json(Error('Not authenticated')); //FIXME
+    res.status(401).send('Not authenticated');
 });
 
 // DELETE /api/session/current
@@ -119,12 +118,12 @@ app.get('/api/user', isLoggedIn, async (req, res) => {
   try{
     let user = await getUserById(req.user.user_id);
     if(!user){
-      res.status(404).json(Error('User not found.'));
+      res.status(404).send('User not found.');
     }
     res.status(200).json(user);
   } catch (error){
     console.error(error);
-    res.status(500).json(error);
+    res.status(500).send(error);
   }
 });
 
@@ -136,7 +135,7 @@ app.get('/api/draws/last', isLoggedIn, async (req, res) => {
     res.json(draw);
   } catch (error){
     console.error(error);
-    res.status(500).json(error);
+    res.status(500).send(error);
   }
 });
 
@@ -152,11 +151,11 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
     res.status(200).json(bet);
   } catch (error){
     if(error.errno && error.errno === 19){
-      res.status(409).json(Error('The player has already placed a bet for this round!'));
+      res.status(409).send('The player has already placed a bet for this round!');
       return;
     }
     console.error(error);
-    res.status(500).json(error);
+    res.status(500).send(error);
   }
 });
 
@@ -170,7 +169,7 @@ app.get('/api/user/results/unseen', isLoggedIn, async (req, res) => {
     res.json(results);
   } catch (error){
     console.error(error);
-    res.status(500).json(error);
+    res.status(500).send(error);
   }
 });
 
@@ -182,7 +181,7 @@ app.get('/api/scores/best', isLoggedIn, async (req, res) => {
     res.json(scores);
   } catch (error){
     console.error(error);
-    res.status(500).json(error);
+    res.status(500).send(error);
   }
 });
 

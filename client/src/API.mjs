@@ -3,8 +3,8 @@ const SERVER_URL = 'http://localhost:3001';
 
 async function handleInvalidResponse(response) {
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(`${response.status} ${response.statusText}: ${error.message}.`);
+    const error_message = await response.text();
+    throw new Error(`${response.status} ${response.statusText}: ${error_message}.`);
   }
 }
 
