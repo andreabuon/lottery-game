@@ -7,6 +7,7 @@ export default function Results(props) {
     const [refreshing, setRefreshing] = useState(false);
 
     const showMessage = props.showMessage;
+    const refreshData = props.refreshData;
 
     const updateResults = async () => {
         console.log("Downloading the latest results!");
@@ -32,7 +33,7 @@ export default function Results(props) {
 
     return (
         <Container className="mt-4 mb-3 d-flex justify-content-evenly">
-            <Button variant="secondary" type="submit" className="w-100" disabled={refreshing}>
+            <Button variant="secondary" type="submit" className="w-100" disabled={refreshing} onClick={updateResults}>
                 {refreshing ? <Spinner animation="border" size="sm" /> : 'Check results!'}
             </Button>
         </Container>

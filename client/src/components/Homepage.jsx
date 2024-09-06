@@ -17,10 +17,11 @@ export default function Homepage(props) {
 }
 
 function Homepage_LoggedIn(props) {
-    const [refresh, setRefresh] = useState([]);
+    const [refresh, setRefresh] = useState(false);
+    //Function to trigger the refreshing of user data, last draw and bets results.
     const refreshData = () => {
         props.refreshUser();
-        setRefresh([...refresh]); //FIXME //HACK
+        setRefresh(!refresh);
     }
 
     return (
