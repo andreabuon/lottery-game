@@ -57,14 +57,14 @@ export async function updateScores(round) {
   } catch (error) {
     console.error(`[Round ?] Error updating scores:`, error);
   }
-  console.log(`[Round ${round}] Scores updated. #########\n`);
+  console.log(`[Round ${round}] Scores updated. \n`);
 }
 
 async function newRound() {
   try {
-    console.log("Starting new round");
+    console.log("Starting new round...");
     const round = await addRound();
-    console.log(`[Round ${round}] A new round has started.`);
+    console.log(`[Round ${round}] A new round has started. 🆕`);
     setTimeout(() => endRound(round), ROUNDS_TIMEOUT);
   } catch (error) {
     console.error(`Error running round: ${error}`);
@@ -72,7 +72,7 @@ async function newRound() {
 }
 
 async function endRound(round) {
-  console.log(`[Round ${round}] Round completed. #########`);
+  console.log(`[Round ${round}] Round completed.`);
   const draw = pickDraw(); // Create a new draw
   await addDraw(round, draw); // Save draw to the database
   await updateScores(round);
