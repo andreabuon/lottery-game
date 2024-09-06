@@ -11,7 +11,7 @@ export default function BettingForm(props) {
     const [betCost, setBetCost] = useState(0);
 
     const showMessage = props.showMessage;
-    const refreshData = props.refreshData;
+    const setRefresh = props.setRefresh;
 
     useEffect(() => {
         let cost = 0;
@@ -38,7 +38,7 @@ export default function BettingForm(props) {
             console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
             showMessage(`Bet created for the round #${bet.round}: ${bet.numbers}`, 'success');
 
-            refreshData();
+            setRefresh(!props.refresh);
         } catch (err) {
             console.error('Error while betting: ' + err);
             showMessage('Error while betting: ' + err, 'danger');

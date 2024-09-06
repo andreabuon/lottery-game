@@ -9,7 +9,7 @@ export default function DisplayLastDraw(props) {
   const [waiting, setWaiting] = useState(false);
 
   const showMessage = props.showMessage;
-  const refreshData = props.refreshData;
+  const setRefresh = props.setRefresh;
 
   const retrieveDraw = async () => {
     setWaiting(true);
@@ -51,11 +51,11 @@ export default function DisplayLastDraw(props) {
       <div className="d-flex justify-content-center">
         <Button
           variant="primary"
-          onClick={() => refreshData()}
+          onClick={() => { setRefresh(!props.refresh) }}
           disabled={waiting}
           className="refresh-button"
         >
-          {waiting ? <Spinner animation="border" size="sm" /> : 'Refresh Draw'}
+          {waiting ? <Spinner animation="border" size="sm" /> : 'Refresh'}
         </Button>
       </div>
     </div>

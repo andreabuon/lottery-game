@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Container, Row, Alert } from 'react-bootstrap';
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 //React Components
@@ -16,6 +16,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [messages, setMessages] = useState([]);
   const [user, setUser] = useState('');
+  const [refresh, setRefresh] = useState(false);
 
   const handleLogin = async (credentials) => {
     try {
@@ -44,7 +45,24 @@ function App() {
     }catch (error){
       console.error(error);
     }
-  }
+  };
+
+  const updateResults = async () => {
+    console.log("Downloading the latest results!");
+    try {
+        let results = await API.getNewResults();
+        results.forEach(element => { showMessage(`Round ${element.round_num}: you gained ${element.score} pts.`, 'info'); });
+        console.log("Results updated.");
+    } catch (err) {
+        console.error(err);
+        showMessage(err.toString(), 'danger'); //FIXME
+    }
+  };
+
+  useEffect(() => {
+    refreshUser();
+    updateResults();
+  }, [refresh]);
 
   const showMessage = (text, type) => {
     let new_message = { msg: text, type: type };
@@ -73,11 +91,11 @@ function App() {
         </>
       }>
         <Route index element={
-          <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} refreshUser={refreshUser}/>
+          <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} refresh={refresh} setRefresh={setRefresh}/>
         } />
 
         <Route path="/scoreboard" element={
-          loggedIn ? <Scoreboard showMessage={showMessage}/> : <Navigate replace to='/' />
+          loggedIn ? <Scoreboard showMessage={showMessage} /> : <Navigate replace to='/' />
         } />
 
         <Route path='/login' element={
