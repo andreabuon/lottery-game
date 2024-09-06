@@ -15,7 +15,7 @@ export default function BettingForm(props) {
 
     useEffect(() => {
         let cost = 0;
-        for(const num of [number1, number2, number3]){
+        for(const num of new Set([number1, number2, number3])){
             if(num)
                 cost += COST_PER_BET_NUMBER;
         }
