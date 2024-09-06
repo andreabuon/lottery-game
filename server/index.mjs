@@ -159,7 +159,6 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
   }
 });
 
-//FIXME
 // GET /api/user/results/unseen'
 // This route is used to download the bet results that the user has not viewed yet..
 app.get('/api/user/results/unseen', isLoggedIn, async (req, res) => {

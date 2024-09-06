@@ -3,7 +3,7 @@ import { updateUserScore, getUserById } from './dao_users.mjs';
 import { Draw, pickDraw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
 
-const ROUNDS_TIMEOUT = 10 * 1000; //FIXME
+const ROUNDS_TIMEOUT = 120 * 1000;
 
 export async function createBet(user, numbers) {
   try {
@@ -33,7 +33,7 @@ export async function updateScores(round) {
 
     const bets = await getRoundBets(round);
     console.log(`[Round ${round}] Bets: `);
-    if (bets.length == 0) { //FIXME
+    if (!bets | bets.length == 0) {
       console.log(`[Round ${round}] No bets found.`);
     }
 

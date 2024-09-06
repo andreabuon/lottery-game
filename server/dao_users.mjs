@@ -43,7 +43,7 @@ export const getUserById = (id) => {
                 return;
             }
             else if (row === undefined) {
-                resolve(false); //FIXME
+                resolve(null);
                 return;
             }
             else {
