@@ -31,7 +31,7 @@ export default function Results(props) {
     }, [props.refresh]);
 
     return (
-        <Container className="mt-4 d-flex justify-content-evenly">
+        <Container className="mt-4 mb-3 d-flex justify-content-evenly">
             <Button variant="secondary" type="submit" className="w-100" disabled={refreshing}>
                 {refreshing ? <Spinner animation="border" size="sm" /> : 'Check results!'}
             </Button>
