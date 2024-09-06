@@ -1,7 +1,7 @@
 const DRAW_SIZE = 5;
 
 export function Draw(numbers, round_num = -1) {
-  this.numbers = [...new Set(numbers)].sort();
+  this.numbers = [...new Set(numbers)].sort((a, b) => a - b);
   this.round = round_num;
   //TODO checks?
 };
