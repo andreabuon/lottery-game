@@ -1,7 +1,7 @@
 import { Draw } from './Draw.mjs';
 
 const BET_MAX_SIZE = 3;
-const COST_PER_NUMBER = 5; // pts
+export const COST_PER_BET_NUMBER = 5; // pts
 const PTS_PER_MATCHED_NUM = 10;
 const MAX_NUM = 90;
 const MIN_NUM = 1;
@@ -41,7 +41,7 @@ Bet.prototype.computeReward = function (draw) {
 };
 
 Bet.prototype.getCost = function () {
-  return this.getSize() * COST_PER_NUMBER;
+  return this.getSize() * COST_PER_BET_NUMBER;
 };
 
 Bet.prototype.toString = function () {

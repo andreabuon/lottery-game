@@ -1,18 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 import API from '../API.mjs'
-import { Bet } from '../../../common/Bet.mjs';
+import { Bet, COST_PER_BET_NUMBER } from '../../../common/Bet.mjs';
 
 export default function BettingForm(props) {
     const [number1, setNumber1] = useState(0);
     const [number2, setNumber2] = useState(0);
     const [number3, setNumber3] = useState(0);
     const [waiting, setWaiting] = useState(false);
+    const [betCost, setBetCost] = useState(0);
 
     const [bets, setBets] = useState([]);
 
     const showMessage = props.showMessage;
     const refreshData = props.refreshData;
+
+    useEffect(() => {
+        let cost = 0;
+        for(const num of [number1, number2, number3]){
+            if(num)
+                cost += COST_PER_NUMBER;
+        }
+        setBetCost(cost);
+    }, [number1, number2, number3]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -22,6 +32,9 @@ export default function BettingForm(props) {
             //TODO validate data!
             let temp_bet = new Bet(null, null, [number1, number2, number3]); //The null fields will be filled in by the server! This is just to validate the data.
             console.log('The player wants to bet on the following numbers: ', temp_bet.numbers);
+            if(temp_bet.getCost() > props.user.score){
+                throw Error('The player does not have enough points to place this bet.');
+            }
 
             let bet = await API.createBet(temp_bet);
             console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
@@ -85,7 +98,7 @@ export default function BettingForm(props) {
                         <Form.Label className='text-center'>Select a 0 to not bet on that number.</Form.Label>
                         <Form.Label className='text-center'>You must bet on at least 1 number.</Form.Label>
                         <Button variant="primary" type="submit" className="w-100" size='lg' disabled={waiting}>
-                            {waiting ? <Spinner animation="border" size="sm" /> : 'Bet now!'}
+                            {waiting ? <Spinner animation="border" size="sm" /> : `Bet now! ${betCost} 💵`}
                         </Button>
                     </Row>
                 </Form>
