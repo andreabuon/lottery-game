@@ -34,7 +34,7 @@ export async function updateScores(round) {
     const bets = await getRoundBets(round);
     console.log(`[Round ${round}] Bets: `);
     if (bets.length == 0) { //FIXME
-      console.log(`[Round ${round}]: No bets found.`);
+      console.log(`[Round ${round}] No bets found.`);
     }
 
     for (let bet of bets) {
