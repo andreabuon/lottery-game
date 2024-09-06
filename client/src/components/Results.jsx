@@ -3,7 +3,7 @@ import { Container, Button, Spinner } from 'react-bootstrap';
 //import APIs
 import API from '../API.mjs'
 
-export default function ResultsTable(props) {
+export default function Results(props) {
     const [refreshing, setRefreshing] = useState(false);
 
     const showMessage = props.showMessage;
