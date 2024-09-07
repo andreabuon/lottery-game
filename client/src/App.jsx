@@ -55,7 +55,6 @@ function App() {
         console.log("Results updated.");
     } catch (err) {
         console.error(err);
-        showMessage(err.toString(), 'danger'); //FIXME
     }
   };
 

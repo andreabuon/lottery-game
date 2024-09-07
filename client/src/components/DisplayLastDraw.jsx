@@ -23,7 +23,6 @@ export default function DisplayLastDraw(props) {
         showMessage('No draws yet! Please wait.', 'warning');
       }
     } catch (err) {
-      showMessage(err.toString(), 'danger');
       console.error(err);
     } finally {
       setWaiting(false);

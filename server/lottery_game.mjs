@@ -16,7 +16,7 @@ export async function createBet(req_user, numbers) {
     const bet = new Bet(round, user.user_id, numbers);
     const cost = bet.getCost();
     if (user.score < cost) {
-      throw new Error(`The player ${user.user_id} does not have enough points`);
+      throw new Error(`The player ${user.user_id} does not have enough points to place this bet.`);
     }
 
     await addBet(bet);

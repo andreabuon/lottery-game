@@ -40,8 +40,8 @@ export default function BettingForm(props) {
 
             setRefresh(!props.refresh);
         } catch (err) {
-            console.error('Error while betting: ' + err);
-            showMessage('Error while betting: ' + err, 'danger');
+            console.error('Error while placing bet: ' + err);
+            showMessage('Error while placing bet: ' + err, 'danger');
         }
         finally {
             setWaiting(false);
