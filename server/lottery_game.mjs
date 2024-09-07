@@ -5,24 +5,26 @@ import { Bet } from '../common/Bet.mjs';
 
 const ROUNDS_TIMEOUT = 120 * 1000;
 
-export async function createBet(user, numbers) {
+export async function createBet(req_user, numbers) {
   try {
-    let round = await getRound();
-    console.log('createBet - getRound: ', round);
-    const bet = new Bet(round, user.user_id, numbers);
+    const user = await getUserById(req_user.user_id);
+    if (!user) {
+      throw new Error(`The player ${user.user_id} has not been found in the DB - skipping its bet!`);
+    }
 
+    let round = await getRound();
+    const bet = new Bet(round, user.user_id, numbers);
     const cost = bet.getCost();
-    if (user.score < cost) { //FIXME user score should be checked in the DB?
+    if (user.score < cost) {
       throw new Error(`The player ${user.user_id} does not have enough points`);
     }
 
     await addBet(bet);
-
     // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
     return bet;
   } catch (error) {
-    console.error(`Error while creating bet for the player #${user.user_id}: ${error}`);
+    console.error(`Error while creating bet for the player #${req_user.user_id}: ${error}`);
     throw error;
   }
 }
@@ -41,15 +43,17 @@ export async function updateScores(round) {
       const reward = bet.computeReward(draw);
       console.log(`[Round ${round}] ${bet.toString()} and won ${reward} points.`);
       await addResult(round, bet.user_id, reward)
-      if (reward === 0) continue;
-
+      if (reward === 0) {
+        continue;
+      }
       try {
         const user = await getUserById(bet.user_id);
         if (!user) {
-          //console.error(`[Round ${round}] The user ${bet.user_id} has not been found - skipping its score update!`);
+          console.error(`[Round ${round}] The user ${bet.user_id} has not been found - skipping its score update!`);
           continue;
         }
-        await updateUserScore(bet.user_id, user.score + reward);
+        await updateUserScore(user.user_id, user.score + reward);
+        //console.log(`Updated Player ${user.username} score: previus score = ${user.score} reward: ${reward} - new score: ${user.score+reward}`);
       } catch (error) {
         console.error(`[Round ${round}] Error computing user ${bet.user_id} score:`, error);
       }
