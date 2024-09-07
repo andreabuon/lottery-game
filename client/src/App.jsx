@@ -60,9 +60,13 @@ function App() {
   };
 
   useEffect(() => {
-    refreshUser();
-    updateResults();
+    if(loggedIn){
+      refreshUser();
+      updateResults();
+    }
   }, [refresh]);
+
+  setTimeout(() => setRefresh(!refresh), 10000);
 
   const showMessage = (text, type) => {
     let new_message = { msg: text, type: type };
