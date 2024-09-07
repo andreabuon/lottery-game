@@ -18,7 +18,7 @@ import { Bet } from '../common/Bet.mjs';
 // init express
 const app = new express();
 app.use(express.json());
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 
 /** Set up and enable Cross-Origin Resource Sharing (CORS) **/
 const corsOptions = {
@@ -94,16 +94,6 @@ app.post('/api/sessions', function (req, res, next) {
   })(req, res, next);
 });
 
-// GET /api/sessions/current
-// This route checks whether the user is logged in or not.
-app.get('/api/sessions/current', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.status(200).json(req.user);
-  }
-  else
-    res.status(401).send('Not authenticated');
-});
-
 // DELETE /api/session/current
 // This route is used to log out the current user.
 app.delete('/api/sessions/current', (req, res) => {
@@ -112,9 +102,14 @@ app.delete('/api/sessions/current', (req, res) => {
   });
 });
 
-// GET /api/user/
-// This route is used to download the updated (ex. new score) user data after placing a bet or retrieving the last draw of the game.
-app.get('/api/user', isLoggedIn, async (req, res) => {
+// GET /api/sessions/current
+// This route is used to check whether the user is logged in or not and to return the updated user data after placing a bet or retrieving the results of the game.
+app.get('/api/sessions/current', isLoggedIn, async (req, res) => {
+  /* checked by isLoggedIn middleware already
+  if (!req.isAuthenticated()) {
+    res.status(401).send('Not authenticated');
+  }
+  */
   try{
     let user = await getUserById(req.user.user_id);
     if(!user){

@@ -27,17 +27,6 @@ const logIn = async (credentials) => {
   }
 };
 
-const getUserInfo = async () => {
-  try {
-    const response = await fetch(SERVER_URL + '/api/sessions/current', { credentials: 'include' });
-    await handleInvalidResponse(response);
-    const user = await response.json();
-    return user;
-  } catch (error) {
-    throw error;
-  }
-};
-
 const logOut = async () => {
   try {
     const response = await fetch(SERVER_URL + '/api/sessions/current', {
@@ -53,7 +42,7 @@ const logOut = async () => {
 
 const getUserData = async () => {
   try {
-    const response = await fetch(SERVER_URL + '/api/user/', { credentials: 'include' });
+    const response = await fetch(SERVER_URL + '/api/sessions/current', { credentials: 'include' });
     await handleInvalidResponse(response);
     const user = await response.json();
     return user;
@@ -129,5 +118,5 @@ const getBestScores = async () => {
   }
 };
 
-const API = { logIn, getUserInfo, getUserData, logOut, getBestScores, getLastDraw, createBet, getNewResults };
+const API = { logIn, getUserData, logOut, getBestScores, getLastDraw, createBet, getNewResults };
 export default API;
