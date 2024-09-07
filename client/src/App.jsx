@@ -12,6 +12,8 @@ import { LoginForm } from './components/AuthComponents';
 import API from './API.mjs';
 import GameRules from './components/GameRules';
 
+const REFRESH_INTERVAL = 20 * 1000; //seconds
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -57,15 +59,15 @@ function App() {
         console.error(err);
     }
   };
-
+  
+  //Refresh the last, the user data and check for new results automatically
   useEffect(() => {
     if(loggedIn){
       refreshUser();
       updateResults();
     }
   }, [refresh]);
-
-  setTimeout(() => setRefresh(!refresh), 10000);
+  setTimeout(() => setRefresh(!refresh), REFRESH_INTERVAL);
 
   const showMessage = (text, type) => {
     let new_message = { msg: text, type: type };
