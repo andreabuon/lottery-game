@@ -52,7 +52,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  return res.status(401).send('Not authorized');
+  return res.status(401).end();
 }
 
 // Creating the session
@@ -103,12 +103,12 @@ app.get('/api/sessions/current', isLoggedIn, async (req, res) => {
   try {
     let user = await getUserById(req.user.user_id);
     if (!user) {
-      res.status(404).send('User not found.');
+      res.status(404).end();
     }
     res.status(200).json(user);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).end();
   }
 });
 
@@ -124,7 +124,7 @@ app.get('/api/draws/last', isLoggedIn, async (req, res) => {
     res.json(draw);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).end();
   }
 });
 
@@ -140,11 +140,11 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
     res.status(200).json(bet);
   } catch (error) {
     if (error.errno && error.errno === 19) {
-      res.status(409).send('The player has already placed a bet for this round!');
+      res.status(409).end();
       return;
     }
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).end();
   }
 });
 
@@ -157,7 +157,7 @@ app.get('/api/user/results/unseen', isLoggedIn, async (req, res) => {
     res.json(results);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).end();
   }
 });
 
@@ -169,7 +169,7 @@ app.get('/api/scores/best', isLoggedIn, async (req, res) => {
     res.json(scores);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).end();
   }
 });
 

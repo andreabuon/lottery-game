@@ -3,8 +3,7 @@ const SERVER_URL = 'http://localhost:3001';
 
 async function handleInvalidResponse(response) {
   if (!response.ok) {
-    const error_message = await response.text();
-    throw new Error(`${response.status} ${response.statusText}: ${error_message}.`);
+    throw Error(`${response.status} ${response.statusText}.`);
   }
 }
 
@@ -80,6 +79,9 @@ const createBet = async (user_bet) => {
       credentials: 'include',
       body: JSON.stringify(user_bet.numbers) //Send just the bet numbers! The server will compute the other fields of the bet (user and round).
     });
+    if(!response.ok && response.status == 409){
+      throw Error("The user has already placed a bet in this round.");
+    }
     await handleInvalidResponse(response);
     let server_bet = response.json();
     return server_bet;
