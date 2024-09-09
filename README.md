@@ -93,11 +93,12 @@
 ![Screenshot](./img/screenshot2.jpg)
 
 ## Users Credentials
-<!--- - username, password (plus any other requested info) --->
-USERNAME : PASSWORD
-- user : password
-- admin : password
-- andrea :  password
-- carmine : password
-- simone : password
+
+| username                | plain-text password |
+| ----------------------- | ------------------- |
+| user                    | password            |
+| admin                   | password            |
+| andrea                  | password            |
+| carmine                 | password            |
+| simone                  | password            |
 
