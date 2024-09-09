@@ -2,15 +2,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react'
 import { Container, Row, Alert } from 'react-bootstrap';
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+
 //React Components
 import NavHeader from "./components/NavHeader";
 import Homepage from './components/Homepage';
 import Scoreboard from './components/Scoreboard';
 import NotFound from './components/NotFound';
 import { LoginForm } from './components/AuthComponents';
+import GameRules from './components/GameRules';
 
 import API from './API.mjs';
-import GameRules from './components/GameRules';
 
 const REFRESH_INTERVAL = 20 * 1000; //seconds
 
@@ -20,18 +21,21 @@ function App() {
   const [user, setUser] = useState('');
   const [refresh, setRefresh] = useState(false);
 
+  /* This function handles the login process.
+  * It requires a username and a password inside a "credentials" object. */
   const handleLogin = async (credentials) => {
     try {
       const user = await API.logIn(credentials);
       setLoggedIn(true);
-      showMessage(`Welcome, ${user.username}!`, 'primary');
       setUser(user);
+      showMessage(`Welcome, ${user.username}!`, 'primary');
     } catch (err) {
       console.error(err);
       showMessage(err.toString(), 'danger');
     }
   };
 
+  /* This function handles the logout process. */
   const handleLogout = async () => {
     await API.logOut();
     setLoggedIn(false);
@@ -41,10 +45,10 @@ function App() {
 
   const refreshUser = async () => {
     console.log("Updating the user data.");
-    try{
+    try {
       let user = await API.getUserData();
       setUser(user);
-    }catch (error){
+    } catch (error) {
       console.error(error);
     }
   };
@@ -52,17 +56,17 @@ function App() {
   const updateResults = async () => {
     console.log("Downloading the latest results!");
     try {
-        let results = await API.getNewResults();
-        results.forEach(element => { showMessage(`Round ${element.round_num}: you gained ${element.score} pts.`, 'info'); });
-        console.log("Results updated.");
+      let results = await API.getNewResults();
+      results.forEach(element => { showMessage(`Round ${element.round_num}: you gained ${element.score} pts.`, 'info'); });
+      console.log("Results updated.");
     } catch (err) {
-        console.error(err);
+      console.error(err);
     }
   };
-  
+
   //Refresh the last, the user data and check for new results automatically
   useEffect(() => {
-    if(loggedIn){
+    if (loggedIn) {
       refreshUser();
       updateResults();
     }
@@ -87,16 +91,16 @@ function App() {
 
           <Container fluid className='mt-3'>
             {
-            messages.map( (message, index) => (
-              <Alert key={index} variant={message.type}  className='ms-3 me-3' onClose={() =>removeMessage(message)} dismissible>{message.msg}</Alert>)
-            )
+              messages.map((message, index) => (
+                <Alert key={index} variant={message.type} className='ms-3 me-3' onClose={() => removeMessage(message)} dismissible>{message.msg}</Alert>)
+              )
             }
             <Outlet />
           </Container>
         </>
       }>
         <Route index element={
-          <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} refresh={refresh} setRefresh={setRefresh}/>
+          <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} refresh={refresh} setRefresh={setRefresh} />
         } />
 
         <Route path="/scoreboard" element={
@@ -108,7 +112,7 @@ function App() {
         } />
 
         <Route path='/rules' element={
-          loggedIn ? <GameRules/> : <Navigate replace to='/' />
+          loggedIn ? <GameRules /> : <Navigate replace to='/' />
         } />
 
         <Route path="*" element={
