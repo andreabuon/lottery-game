@@ -2,18 +2,16 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { check, validationResult } from 'express-validator';
-// Passport
+// Passport - Authentication
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import session from 'express-session';
-
-import { getUser, getBestScores, getUserById } from './dao_users.mjs';
-import { getLastDraw, getNewResults, markResultsAsSeen } from './dao_games.mjs';
-import { createBet, runGame } from './lottery_game.mjs';
-
+// Lottery Game
 import { Draw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
-
+import { getUser, getUserById, getBestScores } from './dao_users.mjs';
+import { getLastDraw, getNewResults, markResultsAsSeen } from './dao_games.mjs';
+import { createBet, runGame } from './lottery_game.mjs';
 
 const app = new express();
 app.use(express.json());
@@ -27,16 +25,17 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-/** Set up authentication strategy to search in the DB a user with a matching password.
- * The user object will contain information extracted from the DB.
- **/
-passport.use(new LocalStrategy(async function verify(username, password, callback) {
-  const user = await getUser(username, password);
-  if (!user)
-    return callback(null, false, 'Incorrect username or password.');
+/*** Passport ***/
 
-  return callback(null, user);
-}));
+// Set up authentication strategy to search in the DB a user with a matching password. The user object will contain information extracted from the DB.
+passport.use(new LocalStrategy(
+  async function verify(username, password, callback) {
+    const user = await getUser(username, password);
+    if (!user) {
+      return callback(null, false, 'Incorrect username or password.');
+    }
+    return callback(null, user);
+  }));
 
 // Serializing in the session the user object given from LocalStrategy(verify).
 passport.serializeUser(function (user, callback) {
@@ -46,12 +45,9 @@ passport.serializeUser(function (user, callback) {
 // Starting from the data in the session, we extract the current (logged-in) user.
 passport.deserializeUser(function (user, callback) {
   return callback(null, user); // this will be available in req.user
-
-  // In this method, if needed, we can do extra check here (e.g., double check that the user is still in the database, etc.)
-  // e.g.: return userDao.getUserById(id).then(user => callback(null, user)).catch(err => callback(err, null));
 });
 
-/** Defining authentication verification middleware **/
+// Defining authentication verification middleware
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
@@ -59,7 +55,7 @@ const isLoggedIn = (req, res, next) => {
   return res.status(401).send('Not authorized');
 }
 
-/** Creating the session */
+// Creating the session
 app.use(session({
   secret: "This is a very secret information used to initialize the session!",
   resave: false,
@@ -67,7 +63,9 @@ app.use(session({
 }));
 app.use(passport.authenticate('session'));
 
-/*** APIs ***/
+/****** Routes ******/
+
+/* Authentication */
 
 // POST /api/sessions
 // This route is used to perform login.
@@ -86,14 +84,12 @@ app.post('/api/sessions', function (req, res, next) {
       if (err)
         return next(err);
 
-      // req.user contains the authenticated user, we send all the user info back
-      // this is coming from userDao.getUserByCredentials() in LocalStratecy Verify Function
       return res.json(req.user);
     });
   })(req, res, next);
 });
 
-// DELETE /api/session/current
+// DELETE /api/sessions/current
 // This route is used to log out the current user.
 app.delete('/api/sessions/current', (req, res) => {
   req.logout(() => {
@@ -104,7 +100,6 @@ app.delete('/api/sessions/current', (req, res) => {
 // GET /api/sessions/current
 // This route is used to check whether the user is logged in or not and to retrieve the updated user data after placing a bet or retrieving the results of the game.
 app.get('/api/sessions/current', isLoggedIn, async (req, res) => {
-
   try {
     let user = await getUserById(req.user.user_id);
     if (!user) {
@@ -116,6 +111,10 @@ app.get('/api/sessions/current', isLoggedIn, async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+/*******/
+
+/* Lottery Game*/
 
 // GET /api/draws/last
 // This route is used to obtain the latest draw in the database.
