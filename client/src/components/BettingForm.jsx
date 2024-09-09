@@ -93,8 +93,8 @@ export default function BettingForm(props) {
                         </Col>
                     </Row>
                     <Row>
-                        <Form.Label className='text-center'>Select a 0 to not bet on that number.</Form.Label>
-                        <Form.Label className='text-center'>You must bet on at least 1 number.</Form.Label>
+                        <Form.Label className='text-center'>You must bet on at least 1 number. You can bet on up to 3 distinct numbers. </Form.Label>
+                        <Form.Label className='text-center'>Select 0 to not bet on a number.</Form.Label>                        
                         <Button variant="primary" type="submit" className="w-100" size='lg' disabled={waiting}>
                             {waiting ? <Spinner animation="border" size="sm" /> : `Bet now! ${betCost} 💵`}
                         </Button>
