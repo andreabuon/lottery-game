@@ -79,8 +79,8 @@ export const getBestScores = () => {
             }
             else if (rows === undefined) {
                 //resolve({ error: 'Scores not found!' });
-                //resolve(null);
-                reject('No scores have been found in the DB');
+                //reject('No scores have been found in the DB');
+                resolve([]);                
                 return;
             }
             else {
