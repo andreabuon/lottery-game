@@ -16,7 +16,7 @@ export const getUserByCredentials = (username, password) => {
                 return;
             }
             else {
-                const user = { user_id: row.user_id, username: row.username, score: row.score };
+                const user = { user_id: row.user_id, username: row.username };
 
                 crypto.scrypt(password, row.salt, 32, function (err, hashedPassword) {
                     if (err) reject(err);
