@@ -1,9 +1,8 @@
-/** Importing modules **/
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { check, validationResult } from 'express-validator';
-// Passport-related imports
+// Passport
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import session from 'express-session';
@@ -11,11 +10,11 @@ import session from 'express-session';
 import { getUser, getBestScores, getUserById } from './dao_users.mjs';
 import { getLastDraw, getNewResults, markResultsAsSeen } from './dao_games.mjs';
 import { createBet, runGame } from './lottery_game.mjs';
-//imports for nodemon watch
+
 import { Draw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
 
-// init express
+
 const app = new express();
 app.use(express.json());
 //app.use(morgan('dev'));
@@ -29,7 +28,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 /** Set up authentication strategy to search in the DB a user with a matching password.
- * The user object will contain other information extracted by the method userDao.getUserByCredentials() (i.e., id, username, name).
+ * The user object will contain information extracted from the DB.
  **/
 passport.use(new LocalStrategy(async function verify(username, password, callback) {
   const user = await getUser(username, password);
@@ -103,20 +102,16 @@ app.delete('/api/sessions/current', (req, res) => {
 });
 
 // GET /api/sessions/current
-// This route is used to check whether the user is logged in or not and to return the updated user data after placing a bet or retrieving the results of the game.
+// This route is used to check whether the user is logged in or not and to retrieve the updated user data after placing a bet or retrieving the results of the game.
 app.get('/api/sessions/current', isLoggedIn, async (req, res) => {
-  /* checked by isLoggedIn middleware already
-  if (!req.isAuthenticated()) {
-    res.status(401).send('Not authenticated');
-  }
-  */
-  try{
+
+  try {
     let user = await getUserById(req.user.user_id);
-    if(!user){
+    if (!user) {
       res.status(404).send('User not found.');
     }
     res.status(200).json(user);
-  } catch (error){
+  } catch (error) {
     console.error(error);
     res.status(500).send(error);
   }
@@ -128,14 +123,14 @@ app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {
     const draw = await getLastDraw();
     res.json(draw);
-  } catch (error){
+  } catch (error) {
     console.error(error);
     res.status(500).send(error);
   }
 });
 
 // POST /api/bets/
-// This route is used to create a new bet.
+// This route is used by a client to create a new bet.
 app.post('/api/bets/', isLoggedIn, async (req, res) => {
   try {
     let user = req.user;
@@ -144,8 +139,8 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
 
     let bet = await createBet(user, numbers);
     res.status(200).json(bet);
-  } catch (error){
-    if(error.errno && error.errno === 19){
+  } catch (error) {
+    if (error.errno && error.errno === 19) {
       res.status(409).send('The player has already placed a bet for this round!');
       return;
     }
@@ -154,26 +149,26 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
   }
 });
 
-// GET /api/user/results/unseen'
-// This route is used to download the bet results that the user has not viewed yet..
+// GET /api/user/results/unseen
+// This route is used by the client to retrieve the bet results that the user has not viewed yet.
 app.get('/api/user/results/unseen', isLoggedIn, async (req, res) => {
   try {
     const results = await getNewResults(req.user.user_id);
     markResultsAsSeen(req.user.user_id);
     res.json(results);
-  } catch (error){
+  } catch (error) {
     console.error(error);
     res.status(500).send(error);
   }
 });
 
 // GET /api/scores/best
-// This route is used to download the username and scores of the best 3 players in the database.
+// This route is used by the client to retrieve the usernames and scores of the best 3 players in the database.
 app.get('/api/scores/best', isLoggedIn, async (req, res) => {
   try {
     const scores = await getBestScores();
     res.json(scores);
-  } catch (error){
+  } catch (error) {
     console.error(error);
     res.status(500).send(error);
   }
