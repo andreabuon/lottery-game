@@ -11,7 +11,6 @@ export function addRound(){
                 return;
             }
             resolve(this.lastID); //FIXME ci va il -1?
-            //console.log("Added a new round in the DB");
             return;
         });
     });
@@ -43,7 +42,6 @@ export function addDraw(round, draw) {
                 reject(err);
                 return;
             }
-            console.log(`[Round ${round}] ` + "Added draw " + draw.toString() + " in the DB");
             resolve();
             return;
         });
@@ -58,7 +56,6 @@ export function addBet(bet){
                 reject(err);
                 return;
             }
-            console.log(`[Round ${bet.round}] Player ` + + bet.user_id + " made a new bet [" + bet.numbers + "] in the DB.");
             resolve();
             return;
         });

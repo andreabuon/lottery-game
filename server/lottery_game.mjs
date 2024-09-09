@@ -22,6 +22,7 @@ export async function createBet(req_user, numbers) {
     await addBet(bet);
     // Subtract bet cost from user score
     await updateUserScore(user.user_id, user.score - cost);
+    console.log(`[Round ${bet.round}] Player ` + + bet.user_id + " made a new bet [" + bet.numbers + "] in the DB.");
     return bet;
   } catch (error) {
     //console.error(`Error while creating bet for the player #${req_user.user_id}: ${error}`);
@@ -79,6 +80,7 @@ async function endRound(round) {
   console.log(`[Round ${round}] Round completed.`);
   const draw = pickDraw(); // Create a new draw
   await addDraw(round, draw); // Save draw to the database
+  console.log(`[Round ${round}] ` + "Added draw " + draw.toString() + " in the DB");
   await updateScores(round);
 }
 
