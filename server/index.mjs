@@ -9,7 +9,7 @@ import session from 'express-session';
 // Lottery Game
 import { Draw } from '../common/Draw.mjs';
 import { Bet } from '../common/Bet.mjs';
-import { getUser, getUserById, getBestScores } from './dao_users.mjs';
+import { getUserByCredentials, getUserById, getBestScores } from './dao_users.mjs';
 import { getLastDraw, getNewResults, markResultsAsSeen } from './dao_games.mjs';
 import { createBet, runGame } from './lottery_game.mjs';
 
@@ -30,7 +30,7 @@ app.use(cors(corsOptions));
 // Set up authentication strategy to search in the DB a user with a matching password. The user object will contain information extracted from the DB.
 passport.use(new LocalStrategy(
   async function verify(username, password, callback) {
-    const user = await getUser(username, password);
+    const user = await getUserByCredentials(username, password);
     if (!user) {
       return callback(null, false, 'Incorrect username or password.');
     }

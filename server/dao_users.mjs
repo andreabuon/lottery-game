@@ -3,7 +3,7 @@
 import db from "./db.mjs";
 import crypto from "crypto";
 
-export const getUser = (username, password) => {
+export const getUserByCredentials = (username, password) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM users WHERE username = ?';
         db.get(sql, [username], (err, row) => {
