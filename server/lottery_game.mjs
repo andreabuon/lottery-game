@@ -60,7 +60,7 @@ export async function updateScores(round) {
       }
     }
   } catch (error) {
-    console.error(`[Round ?] Error updating scores:`, error);
+    console.error(`[Round ${round}] Error updating scores:`, error);
   }
   console.log(`[Round ${round}] Scores updated. \n`);
 }
