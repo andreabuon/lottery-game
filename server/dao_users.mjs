@@ -20,11 +20,11 @@ export const getUserByCredentials = (username, password) => {
 
                 crypto.scrypt(password, row.salt, 32, function (err, hashedPassword) {
                     if (err) reject(err);
-                    if (!crypto.timingSafeEqual(Buffer.from(row.hash, 'hex'), hashedPassword)){
+                    if (!crypto.timingSafeEqual(Buffer.from(row.hash, 'hex'), hashedPassword)) {
                         resolve(false);
                         return;
                     }
-                    else{
+                    else {
                         resolve(user);
                         return;
                     }
@@ -58,8 +58,8 @@ export const getUserById = (id) => {
 export const updateUserScore = (user_id, new_score) => {
     return new Promise((resolve, reject) => {
         const sql = 'UPDATE users SET score = ? WHERE user_id = ?';
-        db.run(sql, [new_score, user_id], (err) =>{
-            if(err){
+        db.run(sql, [new_score, user_id], (err) => {
+            if (err) {
                 reject(err);
                 return;
             }
@@ -69,24 +69,24 @@ export const updateUserScore = (user_id, new_score) => {
     });
 };
 
-export const getBestScores = () => {    
-return new Promise((resolve, reject) => {
-    const sql = 'SELECT username, score FROM users ORDER BY score DESC LIMIT 3';
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            reject(err);
-            return;
-        }
-        else if (rows === undefined) {
-            //resolve({ error: 'Scores not found!' });
-            reject('No scores have been found in the DB');
-            return;
-        }
-        else {
-            rows.map((row) => ({username: row.username, score: row.score }));
-            resolve(rows);
-            return;
-        }
+export const getBestScores = () => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT username, score FROM users ORDER BY score DESC LIMIT 3';
+        db.all(sql, [], (err, rows) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            else if (rows === undefined) {
+                //resolve({ error: 'Scores not found!' });
+                //resolve(null);
+                reject('No scores have been found in the DB');
+                return;
+            }
+            else {
+                resolve(rows);
+                return;
+            }
+        });
     });
-});
 }
