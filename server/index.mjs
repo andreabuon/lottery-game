@@ -144,7 +144,6 @@ app.post('/api/bets/', isLoggedIn, [
 
   try {
     let user = req.user;
-    //TODO validate bet fields!
     let numbers = req.body.numbers;
 
     let bet = await createBet(user, numbers);
