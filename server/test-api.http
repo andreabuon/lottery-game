@@ -16,6 +16,26 @@ GET http://localhost:3001/api/sessions/current HTTP/1.1
 DELETE http://localhost:3001/api/sessions/current HTTP/1.1
 ###
 
+## Get last draw
+GET http://localhost:3001/api/draws/last HTTP/1.1
+###
+
+## Create bet
+POST http://localhost:3001/api/bets HTTP/1.1
+content-type: application/json
+
+{
+    "numbers": [5, 10, 15]
+}
+###
+
+## Get user results
+GET http://localhost:3001/api/user/results/unseen HTTP/1.1
+###
+
+## Get best scores
+GET http://localhost:3001/api/scores/best HTTP/1.1
+###
 
 
 # Wrong Requests
