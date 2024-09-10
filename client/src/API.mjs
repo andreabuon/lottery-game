@@ -78,7 +78,7 @@ const createBet = async (user_bet) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(user_bet.numbers) //Send just the bet numbers! The server will compute the other fields of the bet (user and round).
+      body: JSON.stringify({numbers: user_bet.numbers}) //Send just the numbers of the bet! The server will compute the other fields of the bet (user and round).
     });
     await handleInvalidResponse(response);
     let server_bet = response.json();

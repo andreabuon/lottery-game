@@ -1,10 +1,10 @@
 import { Draw } from './Draw.mjs';
 
-const BET_MAX_SIZE = 3;
+export const BET_MAX_SIZE = 3;
 export const COST_PER_BET_NUMBER = 5; // pts
 const PTS_PER_MATCHED_NUM = 10;
-const MAX_NUM = 90;
-const MIN_NUM = 1;
+export const BET_MAX_NUM = 90;
+export const BET_MIN_NUM = 1;
 
 
 export function Bet(round, user_id, nums) {
@@ -13,7 +13,7 @@ export function Bet(round, user_id, nums) {
   this.numbers = [];
 
   for (const num of new Set(nums)) {
-    if (num <= MAX_NUM && num >= MIN_NUM) {
+    if (num <= BET_MAX_NUM && num >= BET_MIN_NUM) {
       this.numbers.push(num)
     }
   }
