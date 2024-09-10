@@ -10,7 +10,7 @@ export function addRound(){
                 reject(err);
                 return;
             }
-            resolve(this.lastID); //FIXME ci va il -1?
+            resolve(this.lastID);
             return;
         });
     });
