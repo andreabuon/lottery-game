@@ -37,5 +37,14 @@ GET http://localhost:3001/api/user/results/unseen HTTP/1.1
 GET http://localhost:3001/api/scores/best HTTP/1.1
 ###
 
+# Wrong Requests 
 
-# Wrong Requests
+##  Login: Wrong Credentials
+POST http://localhost:3001/api/sessions HTTP/1.1
+content-type: application/json
+
+{
+    "username": "user",
+    "password": "abc"
+}
+###

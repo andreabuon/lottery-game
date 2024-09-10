@@ -69,13 +69,40 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!')
 })
 
+// Utilities
+
+const validateCredentials = [
+  body('username')
+    .trim()
+    .notEmpty()
+    .isString()
+    .isLength({ min: 3 }),
+  body('password')
+    .trim()
+    .notEmpty()
+    .isString()
+    .isLength({ min: 6 })
+];
+
+const validateBet = [
+  body('numbers')
+    .isArray({ min: 1, max: BET_MAX_SIZE }),
+  body('numbers.*')
+    .isInt({ min: BET_MIN_NUM, max: BET_MAX_NUM })
+];
+
 /****** Routes ******/
 
 /* Authentication */
 
 // POST /api/sessions
 // This route is used to perform login.
-app.post('/api/sessions', function (req, res, next) {
+app.post('/api/sessions', validateCredentials, function (req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send('Invalid credentials.');
+  }
+
   passport.authenticate('local', (err, user, info) => {
     if (err)
       return next(err);
@@ -136,13 +163,7 @@ app.get('/api/draws/last', isLoggedIn, async (req, res) => {
 
 // POST /api/bets/
 // This route is used by a client to create a new bet.
-app.post('/api/bets/', isLoggedIn, [
-  // Validation middleware using express-validator
-  body('numbers')
-    .isArray({ min: 1, max: BET_MAX_SIZE }),
-  body('numbers.*')
-    .isInt({ min: BET_MIN_NUM, max: BET_MAX_NUM })],
-    async (req, res) => {
+app.post('/api/bets/', isLoggedIn, validateBet, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).send('Invalid bet data.');
