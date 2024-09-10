@@ -74,7 +74,7 @@ export function getDrawByRound(round){
                 reject(new Error('No draw has been found'));
                 //resolve(null);
             }
-            let draw = new Draw(JSON.parse(row.draw_numbers), row.round_num);
+            let draw = new Draw(JSON.parse(row.draw_numbers), row.draw_round_num);
             resolve(draw);
             return;
         });
