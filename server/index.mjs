@@ -52,7 +52,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  return res.status(401).end();
+  return res.status(401).json({ error: 'Not authenticated' });
 }
 
 // Creating the session
@@ -76,7 +76,7 @@ app.post('/api/sessions', function (req, res, next) {
 
     if (!user) {
       // display wrong username/password messages
-      return res.status(401).send(info || 'Auth failed'); //FIXME
+      return res.status(401).json({ error: info })
     }
 
     // success, perform the login and extablish a login session
