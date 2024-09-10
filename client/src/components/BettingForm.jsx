@@ -40,9 +40,8 @@ export default function BettingForm(props) {
             showMessage(`Bet created for the round #${bet.round}: ${bet.numbers}`, 'success');
 
             setRefresh(!props.refresh);
-        } catch (err) {
-            console.error('Error while placing bet: ' + err);
-            showMessage('Error while placing bet: ' + err, 'danger');
+        } catch (error) {
+            showMessage('Error placing bet: ' + error.toString(), 'danger');
         }
         finally {
             setWaiting(false);

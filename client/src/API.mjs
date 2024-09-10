@@ -23,6 +23,7 @@ const logIn = async (credentials) => {
     const user = await response.json();
     return user;
   } catch (error) {
+    console.error(error);
     throw error;
   }
 };
@@ -66,6 +67,7 @@ const getLastDraw = async () => {
 
     return new Draw(draw.numbers, draw.round);
   } catch (error) {
+    console.error('Error fetching the last draw of the game: ' + error);
     throw error;
   }
 }
@@ -84,6 +86,7 @@ const createBet = async (user_bet) => {
     let server_bet = response.json();
     return server_bet;
   } catch (error) {
+    console.error('Error placing bet: ' + error);
     throw error;
   }
 };
@@ -114,6 +117,7 @@ const getBestScores = async () => {
     const scores = await response.json();
     return scores;
   } catch (error) {
+    console.error('Error downloading best scores: ' + error);
     throw error;
   }
 };

@@ -18,9 +18,8 @@ export default function Scoreboard(props) {
             setScores(scores);
             console.log("Scores updated!");
             showMessage('Scores updated', 'secondary');
-        } catch (err) {
-            console.error(err);
-            showMessage(err.toString(), 'danger'); //FIXME
+        } catch (error) {
+            showMessage(error.toString(), 'danger'); //FIXME
         }
         setRefreshing(false);
     };

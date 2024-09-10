@@ -17,13 +17,13 @@ export default function DisplayLastDraw(props) {
     try {
       let new_draw = await API.getLastDraw();
       if (new_draw) {
-        console.log('Got the following new draw: ', new_draw.numbers);
+        console.log('Got new draw: ', new_draw.toString());
         setDraw(new_draw);
       } else {
-        showMessage('No draws yet! Please wait.', 'warning');
+        showMessage('No draws yet! Please wait...', 'warning');
       }
     } catch (err) {
-      console.error(err);
+      showMessage(err.toString(), 'danger');
     } finally {
       setWaiting(false);
     }
