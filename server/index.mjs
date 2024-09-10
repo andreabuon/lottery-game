@@ -76,7 +76,7 @@ app.post('/api/sessions', function (req, res, next) {
 
     if (!user) {
       // display wrong username/password messages
-      return res.status(401).send(info || 'Auth failed'); //FIXME
+      return res.status(401).send(info);
     }
 
     // success, perform the login and extablish a login session
@@ -108,7 +108,7 @@ app.get('/api/sessions/current', isLoggedIn, async (req, res) => {
     res.status(200).json(user);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).send('Error while retrieving user data from the DB.');
   }
 });
 
@@ -121,10 +121,10 @@ app.get('/api/sessions/current', isLoggedIn, async (req, res) => {
 app.get('/api/draws/last', isLoggedIn, async (req, res) => {
   try {
     const draw = await getLastDraw();
-    res.json(draw);
+    res.status(200).json(draw);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).send("Error while retrieving last draw of the game from the DB.");
   }
 });
 
@@ -137,14 +137,14 @@ app.post('/api/bets/', isLoggedIn, async (req, res) => {
     let numbers = req.body;
 
     let bet = await createBet(user, numbers);
-    res.status(200).json(bet);
+    res.status(201).json(bet);
   } catch (error) {
     if (error.errno && error.errno === 19) {
-      res.status(409).send('The player has already placed a bet for this round!');
+      res.status(409).send('The player has already placed a bet for this round.');
       return;
     }
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).send('Error while creating the bet.');
   }
 });
 
@@ -154,10 +154,10 @@ app.get('/api/user/results/unseen', isLoggedIn, async (req, res) => {
   try {
     const results = await getNewResults(req.user.user_id);
     markResultsAsSeen(req.user.user_id);
-    res.json(results);
+    res.status(200).json(results);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).send('Error while retrieving the user results from the DB.');
   }
 });
 
@@ -166,10 +166,10 @@ app.get('/api/user/results/unseen', isLoggedIn, async (req, res) => {
 app.get('/api/scores/best', isLoggedIn, async (req, res) => {
   try {
     const scores = await getBestScores();
-    res.json(scores);
+    res.status(200).json(scores);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error);
+    res.status(500).send('Error while retrieving the best scores from the DB.');
   }
 });
 
