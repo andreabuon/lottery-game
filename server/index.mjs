@@ -1,14 +1,14 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { check, validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 // Passport - Authentication
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import session from 'express-session';
 // Lottery Game
 import { Draw } from '../common/Draw.mjs';
-import { Bet } from '../common/Bet.mjs';
+import { Bet, BET_MAX_SIZE, BET_MAX_NUM, BET_MIN_NUM } from '../common/Bet.mjs';
 import { getUserByCredentials, getUserById, getBestScores } from './dao_users.mjs';
 import { getLastDraw, getNewResults, markResultsAsSeen } from './dao_games.mjs';
 import { createBet, runGame } from './lottery_game.mjs';
@@ -130,11 +130,22 @@ app.get('/api/draws/last', isLoggedIn, async (req, res) => {
 
 // POST /api/bets/
 // This route is used by a client to create a new bet.
-app.post('/api/bets/', isLoggedIn, async (req, res) => {
+app.post('/api/bets/', isLoggedIn, [
+  // Validation middleware using express-validator
+  body('numbers')
+    .isArray({ min: 1, max: BET_MAX_SIZE }),
+  body('numbers.*')
+    .isInt({ min: BET_MIN_NUM, max: BET_MAX_NUM })],
+    async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send('Invalid bet data.');
+  }
+
   try {
     let user = req.user;
     //TODO validate bet fields!
-    let numbers = req.body;
+    let numbers = req.body.numbers;
 
     let bet = await createBet(user, numbers);
     res.status(201).json(bet);
