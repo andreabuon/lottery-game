@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { Container, Card, Button } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaSignInAlt } from 'react-icons/fa';
 //Components
@@ -7,7 +6,6 @@ import DisplayLastDraw from './DisplayLastDraw'
 import BettingForm from './BettingForm'
 import GameRules from './GameRules'
 
-const AUTO_REFRESH_INTERVAL = 20;
 
 export default function Homepage(props) {
     return (
