@@ -63,7 +63,7 @@ function App() {
     }
   };
 
-  //Refresh the last, the user data and check for new results automatically
+  //Refresh the last draw, the user data and check for new results automatically
   useEffect(() => {
     if (loggedIn) {
       refreshUser();
@@ -72,6 +72,7 @@ function App() {
   }, [refresh]);
   setTimeout(() => setRefresh(!refresh), REFRESH_INTERVAL);
 
+  //Chech and restore login session after app refresh
   useEffect(() => {
     const checkAuth = async () => {
       try{
