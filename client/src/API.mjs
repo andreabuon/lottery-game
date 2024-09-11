@@ -4,7 +4,7 @@ const SERVER_URL = 'http://localhost:3001';
 async function handleInvalidResponse(response) {
   if (!response.ok) {
     const error_message = await response.text();
-    throw new Error(`${response.status} ${response.statusText}: ${error_message}.`);
+    throw Error(`${response.status} ${response.statusText}: ${error_message}.`);
   }
 }
 
@@ -23,8 +23,8 @@ const logIn = async (credentials) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    console.error('Error logging in: ' + error);
-    throw error;
+    //console.error('Error logging in: ' + error);
+    throw Error('Error logging in: ', {cause: error});
   }
 };
 
@@ -37,8 +37,8 @@ const logOut = async () => {
     await handleInvalidResponse(response);
     return;
   } catch (error) {
-    console.error('Error logging out: ' + error);
-    throw error;
+    //console.error('Error logging out: ' + error);
+    throw Error('Error loggin out: ', {cause: error});
   }
 };
 
@@ -50,7 +50,7 @@ const getUserData = async () => {
     return user;
   } catch (error) {
     //console.error('Error fetching user data: ' + error);
-    throw error;
+    throw Error('Error fetching data: ', {cause: error});
   }
 };
 
@@ -69,8 +69,8 @@ const getLastDraw = async () => {
 
     return new Draw(draw.numbers, draw.round);
   } catch (error) {
-    console.error('Error fetching draw: ' + error);
-    throw error;
+    //console.error('Error fetching the last draw of the game: ' + error);
+    throw Error('Error fetching the last draw of the game: ', {cause: error});
   }
 }
 
@@ -89,8 +89,8 @@ const createBet = async (numbers) => {
     console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
     return bet;
   } catch (error) {
-    console.error('Error placing bet: ' + error);
-    throw error;
+    //console.error('Error placing bet: ', error);
+    throw Error('Error placing bet: ', {cause: error});
   }
 };
 
@@ -107,8 +107,8 @@ const getNewResults = async function () {
     }
     return results;
   } catch (error) {
-    console.error('Error fetching user results: ' + error);
-    throw error;
+    //console.error('Error fetching user results: ' + error);
+    throw Error('Error fetching user results: ', {cause: error});
   }
 }
 
@@ -121,8 +121,8 @@ const getBestScores = async () => {
     const scores = await response.json();
     return scores;
   } catch (error) {
-    console.error('Error fetching best scores: ' + error);
-    throw error;
+    //console.error('Error downloading best scores: ' + error);
+    throw Error('Error downloading best scores: ', {cause: error});
   }
 };
 
