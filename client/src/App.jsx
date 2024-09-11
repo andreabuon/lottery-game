@@ -48,6 +48,7 @@ function App() {
       let user = await API.getUserData();
       setUser(user);
     } catch (error) {
+      console.error('Error fetching user data: ' + error);
       showMessage(error.toString(), 'danger');
     }
   };
