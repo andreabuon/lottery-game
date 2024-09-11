@@ -60,7 +60,7 @@ function App() {
       results.forEach(element => { showMessage(`Round ${element.round_num}: you gained ${element.score} pts.`, 'info'); });
       console.log("Results updated.");
     } catch (error) {
-      showMessage(error.toString(), 'danger');
+      showMessage('Error fetching user results: '+ error.toString(), 'danger');
     }
   };
 
