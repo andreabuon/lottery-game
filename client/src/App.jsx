@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react'
-import { Container, Row, Alert } from 'react-bootstrap';
+import { Container, Alert } from 'react-bootstrap';
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 
 //React Components
@@ -29,9 +29,8 @@ function App() {
       setLoggedIn(true);
       setUser(user);
       showMessage(`Welcome, ${user.username}!`, 'primary');
-    } catch (err) {
-      console.error(err);
-      showMessage(err.toString(), 'danger');
+    } catch (error) {
+      showMessage(error.toString(), 'danger');
     }
   };
 
@@ -49,7 +48,7 @@ function App() {
       let user = await API.getUserData();
       setUser(user);
     } catch (error) {
-      console.error(error);
+      showMessage(error.toString(), 'danger');
     }
   };
 
@@ -59,8 +58,8 @@ function App() {
       let results = await API.getNewResults();
       results.forEach(element => { showMessage(`Round ${element.round_num}: you gained ${element.score} pts.`, 'info'); });
       console.log("Results updated.");
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      showMessage(error.toString(), 'danger');
     }
   };
 

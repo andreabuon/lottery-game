@@ -23,7 +23,7 @@ const logIn = async (credentials) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    console.error(error);
+    console.error('Error logging in: ' + error);
     throw error;
   }
 };
@@ -37,6 +37,7 @@ const logOut = async () => {
     await handleInvalidResponse(response);
     return;
   } catch (error) {
+    console.error('Error logging out: ' + error);
     throw error;
   }
 };
@@ -48,6 +49,7 @@ const getUserData = async () => {
     const user = await response.json();
     return user;
   } catch (error) {
+    console.error('Error fetching user data: ' + error);
     throw error;
   }
 };
@@ -104,6 +106,7 @@ const getNewResults = async function () {
     }
     return results;
   } catch (error) {
+    console.error('Error fetching user results: ' + error);
     throw error;
   }
 }
