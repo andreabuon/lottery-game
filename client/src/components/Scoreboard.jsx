@@ -7,12 +7,12 @@ import API from '../API.mjs';
 
 export default function Scoreboard(props) {
     const [scores, setScores] = useState([{ username: 'Loading', score: 0 }]);
-    const [refreshing, setRefreshing] = useState(false);
+    const [waiting, setWaiting] = useState(false);
 
     const showMessage = props.showMessage;
 
     const updateScores = async () => {
-        setRefreshing(true);
+        setWaiting(true);
         try {
             const scores = await API.getBestScores();
             setScores(scores);
@@ -21,7 +21,7 @@ export default function Scoreboard(props) {
         } catch (error) {
             showMessage('Error fetching best scores: ' + error.toString(), 'danger');
         } finally{
-            setRefreshing(false);
+            setWaiting(false);
         }
     };
 
@@ -37,7 +37,7 @@ export default function Scoreboard(props) {
                     <h2>Best 3 Players</h2>
                 </Col>
                 <Col className="text-end">
-                    <Button onClick={() => updateScores()} disabled={refreshing}>Refresh scores</Button>
+                    <Button onClick={() => updateScores()} disabled={waiting}>Refresh scores</Button>
                 </Col>
             </Row>
             <Row className="justify-content-center">
