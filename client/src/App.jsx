@@ -72,6 +72,17 @@ function App() {
   }, [refresh]);
   setTimeout(() => setRefresh(!refresh), REFRESH_INTERVAL);
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      try{
+        const user = await API.getUserData(); 
+        setLoggedIn(true);
+      setUser(user);
+      } catch (error){ /* do nothing */ }
+    };
+    checkAuth();
+  }, []);
+
   const showMessage = (text, type) => {
     let new_message = { msg: text, type: type };
     setMessages([...messages, new_message]);
