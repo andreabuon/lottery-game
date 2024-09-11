@@ -20,8 +20,9 @@ export default function Scoreboard(props) {
             showMessage('Scores updated', 'secondary');
         } catch (error) {
             showMessage('Error fetching best scores: ' + error.toString(), 'danger');
+        } finally{
+            setRefreshing(false);
         }
-        setRefreshing(false);
     };
 
     useEffect(() => {
