@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Button, Table, Spinner } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Spinner, Table } from 'react-bootstrap';
 import API from '../API.mjs';
-import { Draw } from '../../../common/Draw.mjs';
 import './DisplayLastDraw.css';
 
 export default function DisplayLastDraw(props) {
@@ -23,7 +22,7 @@ export default function DisplayLastDraw(props) {
         showMessage('No draws yet! Please wait...', 'warning');
       }
     } catch (err) {
-      showMessage(err.toString(), 'danger');
+      showMessage('Error fetching draw: ' + err.toString(), 'danger');
     } finally {
       setWaiting(false);
     }

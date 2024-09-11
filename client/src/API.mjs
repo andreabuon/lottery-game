@@ -23,7 +23,7 @@ const logIn = async (credentials) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    console.error(error);
+    console.error('Error logging in: ' + error);
     throw error;
   }
 };
@@ -37,6 +37,7 @@ const logOut = async () => {
     await handleInvalidResponse(response);
     return;
   } catch (error) {
+    console.error('Error logging out: ' + error);
     throw error;
   }
 };
@@ -48,6 +49,7 @@ const getUserData = async () => {
     const user = await response.json();
     return user;
   } catch (error) {
+    //console.error('Error fetching user data: ' + error);
     throw error;
   }
 };
@@ -67,12 +69,12 @@ const getLastDraw = async () => {
 
     return new Draw(draw.numbers, draw.round);
   } catch (error) {
-    console.error('Error fetching the last draw of the game: ' + error);
+    console.error('Error fetching draw: ' + error);
     throw error;
   }
 }
 
-const createBet = async (user_bet) => {
+const createBet = async (numbers) => {
   try {
     const response = await fetch(SERVER_URL + '/api/bets/', {
       method: 'POST',
@@ -80,11 +82,12 @@ const createBet = async (user_bet) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({numbers: user_bet.numbers}) //Send just the numbers of the bet! The server will compute the other fields of the bet (user and round).
+      body: JSON.stringify({numbers: numbers})
     });
     await handleInvalidResponse(response);
-    let server_bet = response.json();
-    return server_bet;
+    let bet = await response.json();
+    console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
+    return bet;
   } catch (error) {
     console.error('Error placing bet: ' + error);
     throw error;
@@ -104,6 +107,7 @@ const getNewResults = async function () {
     }
     return results;
   } catch (error) {
+    console.error('Error fetching user results: ' + error);
     throw error;
   }
 }
@@ -117,7 +121,7 @@ const getBestScores = async () => {
     const scores = await response.json();
     return scores;
   } catch (error) {
-    console.error('Error downloading best scores: ' + error);
+    console.error('Error fetching best scores: ' + error);
     throw error;
   }
 };

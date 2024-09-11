@@ -1,15 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState } from 'react'
-import { Container, Row, Alert } from 'react-bootstrap';
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Alert, Container } from 'react-bootstrap';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 //React Components
-import NavHeader from "./components/NavHeader";
-import Homepage from './components/Homepage';
-import Scoreboard from './components/Scoreboard';
-import NotFound from './components/NotFound';
 import { LoginForm } from './components/AuthComponents';
 import GameRules from './components/GameRules';
+import Homepage from './components/Homepage';
+import NavHeader from "./components/NavHeader";
+import NotFound from './components/NotFound';
+import Scoreboard from './components/Scoreboard';
 
 import API from './API.mjs';
 
@@ -29,9 +29,8 @@ function App() {
       setLoggedIn(true);
       setUser(user);
       showMessage(`Welcome, ${user.username}!`, 'primary');
-    } catch (err) {
-      console.error(err);
-      showMessage(err.toString(), 'danger');
+    } catch (error) {
+      showMessage('Error logging in: ' + error.toString(), 'danger');
     }
   };
 
@@ -49,7 +48,8 @@ function App() {
       let user = await API.getUserData();
       setUser(user);
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching user data: ' + error);
+      showMessage('Error fetching user data: ' + error.toString(), 'danger');
     }
   };
 
@@ -59,12 +59,12 @@ function App() {
       let results = await API.getNewResults();
       results.forEach(element => { showMessage(`Round ${element.round_num}: you gained ${element.score} pts.`, 'info'); });
       console.log("Results updated.");
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      showMessage('Error fetching user results: '+ error.toString(), 'danger');
     }
   };
 
-  //Refresh the last, the user data and check for new results automatically
+  //Refresh the last draw, the user data and check for new results automatically
   useEffect(() => {
     if (loggedIn) {
       refreshUser();
@@ -72,6 +72,18 @@ function App() {
     }
   }, [refresh]);
   setTimeout(() => setRefresh(!refresh), REFRESH_INTERVAL);
+
+  //Chech and restore login session after app refresh
+  useEffect(() => {
+    const checkAuth = async () => {
+      try{
+        const user = await API.getUserData(); 
+        setLoggedIn(true);
+      setUser(user);
+      } catch (error){ /* do nothing */ }
+    };
+    checkAuth();
+  }, []);
 
   const showMessage = (text, type) => {
     let new_message = { msg: text, type: type };

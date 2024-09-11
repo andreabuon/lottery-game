@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap/';
 import Table from 'react-bootstrap/Table';
-import { Row, Col } from 'react-bootstrap/';
 //import APIs
-import API from '../API.mjs'
+import API from '../API.mjs';
 
 export default function Scoreboard(props) {
     const [scores, setScores] = useState([{ username: 'Loading', score: 0 }]);
@@ -19,7 +19,7 @@ export default function Scoreboard(props) {
             console.log("Scores updated!");
             showMessage('Scores updated', 'secondary');
         } catch (error) {
-            showMessage(error.toString(), 'danger'); //FIXME
+            showMessage('Error fetching best scores: ' + error.toString(), 'danger');
         }
         setRefreshing(false);
     };

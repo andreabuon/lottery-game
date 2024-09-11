@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { MdLogout } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 function LoginForm(props) {
   const [username, setUsername] = useState('');
@@ -9,9 +9,7 @@ function LoginForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const credentials = { username, password };
-
     props.login(credentials);
   };
 
@@ -49,7 +47,7 @@ function LoginForm(props) {
       </Row>
     </Container>
   )
-};
+}
 
 function LogoutButton(props) {
   return (
