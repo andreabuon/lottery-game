@@ -1,4 +1,4 @@
-import { Container } from 'react-bootstrap';
+import { Badge, Container } from 'react-bootstrap';
 import { FaSignInAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import BettingForm from './BettingForm';
@@ -15,10 +15,25 @@ export default function Homepage(props) {
 function Homepage_LoggedIn(props) {
     return (
         <>
-            <h1>Hello {props.user.username}! Your score is {props.user.score} 💵</h1>
-            <DisplayLastDraw showMessage={props.showMessage} refresh={props.refresh} setRefresh={props.setRefresh} />
-            <BettingForm user={props.user} showMessage={props.showMessage} refresh={props.refresh} setRefresh={props.setRefresh} />
-        </>
+        <h1 className="text-center my-4">
+          Hello, {props.user.username}!
+          <Badge bg="primary" pill className="ms-3">
+            Score: {props.user.score} 💵
+          </Badge>
+        </h1>
+  
+        <DisplayLastDraw
+          showMessage={props.showMessage}
+          refresh={props.refresh}
+          setRefresh={props.setRefresh}
+        />
+        <BettingForm
+          user={props.user}
+          showMessage={props.showMessage}
+          refresh={props.refresh}
+          setRefresh={props.setRefresh}
+        />
+      </>
     );
 }
 
