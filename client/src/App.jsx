@@ -112,7 +112,7 @@ function App() {
         </>
       }>
         <Route index element={
-          <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} refresh={refresh} setRefresh={setRefresh} />
+          loggedIn ? <Homepage loggedIn={loggedIn} user={user} showMessage={showMessage} refresh={refresh} setRefresh={setRefresh} /> : <GameRules loggedIn={loggedIn} />
         } />
 
         <Route path="/scoreboard" element={
@@ -124,7 +124,7 @@ function App() {
         } />
 
         <Route path='/rules' element={
-          loggedIn ? <GameRules /> : <Navigate replace to='/' />
+          loggedIn ? <GameRules loggedIn={loggedIn} /> : <Navigate replace to='/' />
         } />
 
         <Route path="*" element={
