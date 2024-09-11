@@ -19,7 +19,7 @@ export default function Scoreboard(props) {
             console.log("Scores updated!");
             showMessage('Scores updated', 'secondary');
         } catch (error) {
-            showMessage(error.toString(), 'danger'); //FIXME
+            showMessage(error.toString(), 'danger');
         }
         setRefreshing(false);
     };
