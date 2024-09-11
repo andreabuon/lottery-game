@@ -49,7 +49,7 @@ function LoginForm(props) {
       </Row>
     </Container>
   )
-};
+}
 
 function LogoutButton(props) {
   return (

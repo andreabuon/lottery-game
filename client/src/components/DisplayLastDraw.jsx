@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Table, Spinner } from 'react-bootstrap';
 import API from '../API.mjs';
-import { Draw } from '../../../common/Draw.mjs';
 import './DisplayLastDraw.css';
 
 export default function DisplayLastDraw(props) {

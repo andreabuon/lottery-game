@@ -35,7 +35,7 @@ export default function GameRules() {
           </li>
         </ul>
         <p>
-          <strong>Results and Winnings:</strong> After each drawing, the game checks the player's bet against the drawn
+          <strong>Results and Winnings:</strong> After each drawing, the game checks the player`&apos`s bet against the drawn
           numbers, with the following possible outcomes:
         </p>
         <ul>
