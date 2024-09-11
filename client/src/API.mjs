@@ -23,7 +23,7 @@ const logIn = async (credentials) => {
     const user = await response.json();
     return user;
   } catch (error) {
-    console.error('Error logging in: ' + error);
+    console.error('Error logging in: ' + error.toString());
     throw Error('Error logging in: ', {cause: error});
   }
 };
@@ -37,7 +37,7 @@ const logOut = async () => {
     await handleInvalidResponse(response);
     return;
   } catch (error) {
-    console.error('Error logging out: ' + error);
+    console.error('Error logging out: ' + error.toString());
     throw Error('Error loggin out: ', {cause: error});
   }
 };
@@ -49,7 +49,7 @@ const getUserData = async () => {
     const user = await response.json();
     return user;
   } catch (error) {
-    console.error('Error fetching user data: ' + error);
+    console.error('Error fetching user data: ' + error.toString());
     throw Error('Error fetching data: ', {cause: error});
   }
 };
@@ -69,7 +69,7 @@ const getLastDraw = async () => {
 
     return new Draw(draw.numbers, draw.round);
   } catch (error) {
-    console.error('Error fetching the last draw of the game: ' + error);
+    console.error('Error fetching the last draw of the game: ' + error.toString());
     throw Error('Error fetching the last draw of the game: ', {cause: error});
   }
 }
@@ -89,7 +89,7 @@ const createBet = async (numbers) => {
     console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
     return bet;
   } catch (error) {
-    console.error('Error placing bet: ', error);
+    console.error('Error placing bet: ', error.toString());
     throw Error('Error placing bet: ', {cause: error});
   }
 };
@@ -107,7 +107,7 @@ const getNewResults = async function () {
     }
     return results;
   } catch (error) {
-    console.error('Error fetching user results: ' + error);
+    console.error('Error fetching user results: ' + error.toString());
     throw Error('Error fetching user results: ', {cause: error});
   }
 }
@@ -121,7 +121,7 @@ const getBestScores = async () => {
     const scores = await response.json();
     return scores;
   } catch (error) {
-    console.error('Error downloading best scores: ' + error);
+    console.error('Error downloading best scores: ' + error.toString());
     throw Error('Error downloading best scores: ', {cause: error});
   }
 };
