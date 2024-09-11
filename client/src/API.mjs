@@ -69,7 +69,7 @@ const getLastDraw = async () => {
 
     return new Draw(draw.numbers, draw.round);
   } catch (error) {
-    console.error('Error fetching the last draw of the game: ' + error);
+    console.error('Error fetching draw: ' + error);
     throw error;
   }
 }
@@ -121,7 +121,7 @@ const getBestScores = async () => {
     const scores = await response.json();
     return scores;
   } catch (error) {
-    console.error('Error downloading best scores: ' + error);
+    console.error('Error fetching best scores: ' + error);
     throw error;
   }
 };

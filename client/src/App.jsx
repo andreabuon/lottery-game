@@ -30,7 +30,7 @@ function App() {
       setUser(user);
       showMessage(`Welcome, ${user.username}!`, 'primary');
     } catch (error) {
-      showMessage(error.toString(), 'danger');
+      showMessage('Error logging in: ' + error.toString(), 'danger');
     }
   };
 
@@ -49,7 +49,7 @@ function App() {
       setUser(user);
     } catch (error) {
       console.error('Error fetching user data: ' + error);
-      showMessage(error.toString(), 'danger');
+      showMessage('Error fetching user data: ' + error.toString(), 'danger');
     }
   };
 
