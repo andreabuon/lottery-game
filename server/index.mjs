@@ -78,7 +78,6 @@ const validateCredentials = [
     .isString()
     .isLength({ min: 3 }),
   body('password')
-    .trim()
     .notEmpty()
     .isString()
     .isLength({ min: 6 })
