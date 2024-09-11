@@ -36,9 +36,7 @@ export default function BettingForm(props) {
             }
 
             let bet = await API.createBet(temp_bet.numbers);
-            console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
             showMessage(`Bet created for the round #${bet.round}: ${bet.numbers}`, 'success');
-
             setRefresh(!props.refresh);
         } catch (error) {
             showMessage('Error placing bet: ' + error.toString(), 'danger');
