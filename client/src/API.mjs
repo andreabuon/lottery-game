@@ -85,7 +85,7 @@ const createBet = async (numbers) => {
       body: JSON.stringify({numbers: numbers})
     });
     await handleInvalidResponse(response);
-    let bet = response.json();
+    let bet = await response.json();
     console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
     return bet;
   } catch (error) {
