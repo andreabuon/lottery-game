@@ -28,14 +28,14 @@ export default function BettingForm(props) {
 
         try {
             //This is just to validate the bet numbers.
-            //The null fields will be filled in by the server.
+            //The bet fields will be filled in by the server.
             let temp_bet = new Bet(null, null, [number1, number2, number3]);
             console.log('The player wants to bet on the following numbers: ', temp_bet.numbers);
             if(temp_bet.getCost() > props.user.score){
                 throw Error('The player does not have enough points to place this bet.');
             }
 
-            let bet = await API.createBet(temp_bet);
+            let bet = await API.createBet(temp_bet.numbers);
             console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
             showMessage(`Bet created for the round #${bet.round}: ${bet.numbers}`, 'success');
 
