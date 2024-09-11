@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Button, Table, Spinner } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Spinner, Table } from 'react-bootstrap';
 import API from '../API.mjs';
 import './DisplayLastDraw.css';
 

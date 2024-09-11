@@ -1,15 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState } from 'react'
-import { Container, Alert } from 'react-bootstrap';
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Alert, Container } from 'react-bootstrap';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 //React Components
-import NavHeader from "./components/NavHeader";
-import Homepage from './components/Homepage';
-import Scoreboard from './components/Scoreboard';
-import NotFound from './components/NotFound';
 import { LoginForm } from './components/AuthComponents';
 import GameRules from './components/GameRules';
+import Homepage from './components/Homepage';
+import NavHeader from "./components/NavHeader";
+import NotFound from './components/NotFound';
+import Scoreboard from './components/Scoreboard';
 
 import API from './API.mjs';
 

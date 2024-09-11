@@ -1,10 +1,10 @@
-import { Container, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Card, Container } from 'react-bootstrap';
 import { FaSignInAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 //Components
-import DisplayLastDraw from './DisplayLastDraw'
-import BettingForm from './BettingForm'
-import GameRules from './GameRules'
+import BettingForm from './BettingForm';
+import DisplayLastDraw from './DisplayLastDraw';
+import GameRules from './GameRules';
 
 
 export default function Homepage(props) {

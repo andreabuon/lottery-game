@@ -1,9 +1,9 @@
-import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { FaSignInAlt, FaTrophy } from 'react-icons/fa';
+import { GrGamepad } from "react-icons/gr";
+import { IoBook } from "react-icons/io5";
 import { NavLink } from 'react-router-dom';
 import { LogoutButton } from './AuthComponents';
-import { FaTrophy, FaSignInAlt } from 'react-icons/fa';
-import { IoBook } from "react-icons/io5";
-import { GrGamepad } from "react-icons/gr";
 
 export default function NavHeader(props) {
   return (

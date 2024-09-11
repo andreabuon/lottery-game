@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Form, Button, Container, Row, Col, Spinner } from 'react-bootstrap';
-import API from '../API.mjs'
+import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Bet, COST_PER_BET_NUMBER } from '../../../common/Bet.mjs';
+import API from '../API.mjs';
 
 export default function BettingForm(props) {
     const [number1, setNumber1] = useState(0);
