@@ -73,7 +73,7 @@ function App() {
   }, [refresh]);
   setTimeout(() => setRefresh(!refresh), REFRESH_INTERVAL);
 
-  //Chech and restore login session after app refresh
+  //Check and restore login session after app refresh
   useEffect(() => {
     const checkAuth = async () => {
       try{
