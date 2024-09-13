@@ -2,11 +2,11 @@
 ## Student: s333224 BUONAURIO ANDREA 
 
 ## React Client Application Routes
-- Route `/`: This page is the homepage of the website. Logged out users can read the rules of the game. logged-in users can play the game (see the last draw of the game and place a new bet).
+- Route `/`: the homepage of the website. Logged out users can read the rules of the game. Logged-in users can play the game (see the last draw of the game and place a new bet).
 - Route `/login`: page used to perform login.
-- Route `/rules`: page used by logged-in users to read the rules of the game.
-- Route `/scoreboard`: this page contains a table with the scores of the current best 3 players of the game.
-- Route `/*`: page for all invalid URLs.
+- Route `/rules`: page where logged-in users can read the rules of the game.
+- Route `/scoreboard`: this page displays a table with the scores of the top 3 players.
+- Route `/*`: handles all invalid URLs. Shows a 404 error message.
 
 ## API Server
 
@@ -142,7 +142,7 @@
 - Table `users` - contains informations about the players (user id, username, hash, salt, score)
 - Table `rounds` - contains informations about the game rounds (round count)
 - Table `draws` - contains informations about the draws of the game (round number and numbers drawn)
-- Table `bets` - contains informations about the players bet (round number, id of the user, numbers in the bet)
+- Table `bets` - contains informations about the players' bets (round number, id of the user, numbers in the bet)
 - Table `results` - contains informations about the results of the players' bets : round number, id of the user, score of the bet, status of the result of the bet (viewed or not) 
 
 
@@ -157,9 +157,8 @@
 //TODO
 
 ## Screenshot
-//TODO
-![Screenshot](./img/screenshot1.jpg)
-![Screenshot](./img/screenshot2.jpg)
+[Screenshot](./img/screenshot1.png)
+[Screenshot](./img/screenshot2.png)
 
 ## Users Credentials
 
