@@ -13,15 +13,30 @@
 ### __Login__
 - URL: `/api/sessions`
 - HTTP Method: POST.
-- Description: This route is used to perform login.
+- Description: Logs in a user using provided credentials (username and password).
+- Authentication: Not required.
 - Request parameters: _None_.
 - Request body content: Object with the credentials of the user (username and password).
+```
+{
+  "username": "user",
+  "password": "password"
+} 
+```
 - Response body content: JSON object with the data of the current user _or_ an error message.
+```
+{
+  "user_id": 1,
+  "username": "user",
+  "score": 100,
+} 
+```
 
 ### __Logout__
-- URL: `/api/session/current`
+- URL: `/api/sessions/current`
 - HTTP Method: DELETE 
-- Description: This route is used to log out the current user.
+- Description: Logs out the current user.
+- Authentication: Not required.
 - Request parameters: _None_.
 - Request body content: _None_.
 - Response body content: _None_.
@@ -29,42 +44,98 @@
 ### __Check login status and retrieve user data__
 - URL: `/api/sessions/current`
 - HTTP Method: GET 
-- Description: This route is used to check whether the user is logged in or not and in that case returns the data of the user.
+- Description: Checks if the user is logged in and retrieves its data.
+- Authentication: Not required.
 - Request parameters: _None_.
 - Request body content: _None_.
 - Response body content: JSON object with the data of the current user _or_ an error message.
+```
+{
+  "user_id": 1,
+  "username": "user",
+  "score": 100,
+} 
+```
 
 ### __Get the last draw of the game__
 - URL: `/api/draws/last`
 - HTTP Method: GET.
-- Description: This route is used by logged in users to obtain the latest draw in the database.
+- Description: Retrieves the latest draw of the game in the database.
+- Authentication: Required.
 - Request parameters: _None_.
 - Request body content: _None_.
 - Response body content: JSON object with the data of the last draw of the game _or_ an error message.
+```
+{
+  "numbers": [1,2,3,4,5],
+  "round": 2,
+} 
+```
 
 ### __Place a new bet for the next round.__
 - URL: `/api/bets`
 - HTTP Method: POST.
 - Description: This route is used by logged in users to place a new bet for the next round of the game.
+- Authentication: Required.
 - Request parameters: _None_.
 - Request body content: Object with the numbers on which the player wants to place a bet.
+```
+{
+  "numbers": [5, 10, 15]
+}
+```
 - Response body content: Object with the data of the new bet created _or_ an error message.
+```
+{
+  "round": 8,
+  "user_id": 1,
+  "numbers": [ 5, 10, 15]
+}
+```
 
 ### __Get the the results of the user bets.__
 - URL: `/api/user/results/unseen`
 - HTTP Method: GET 
 - Description: This route is used by logged in users to download the bet results that the user has not viewed yet.
+- Authentication: Required.
 - Request parameters: _None_.
 - Request body content: _None_.
 - Response body content: JSON Object with the results of the last bets of the user _or_ an error message.
+```
+[
+  {
+    "round_num": 8,
+    "user_id": 1,
+    "score": 0,
+    "viewed": 0
+  }
+]
+```
 
 ### __Get the scores of the best players of the game.__
 - URL: `/api/scores/best`
 - HTTP Method: GET 
 - Description: This route is used to download the username and scores of the best 3 players in the database.
+- Authentication: Required.
 - Request parameters: _None_.
 - Request body content: _None_.
-- Response body content: JSON array containing the username and the score of the top 3 players _or_ an error message.
+- Response body content: JSON array with the username and scores of the top 3 players _or_ an error message.
+```
+[
+  {
+    "username": "admin",
+    "score": 100
+  },
+  {
+    "username": "user",
+    "score": 85
+  },
+  {
+    "username": "andrea",
+    "score": 85
+  }
+]
+```
 
 
 ## Database Tables
