@@ -1,91 +1,90 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/HF0PzDJs)
 # Exam 3: "Lottery Game"
 ## Student: s333224 BUONAURIO ANDREA 
 
 ## React Client Application Routes
-<!--
-- Route `/`: page content and purpose
-- Route `/something/:param`: page content and purpose, param specification 
--->
-- Route `/`: Homepage of the website. Logged out users can read the game's rules. Logged in users can play the game (see the last draw of the game and make a new bet)
+- Route `/`: This page is the homepage of the website. Logged out users can read the rules of the game. Logged in users can play the game (see the last draw of the game and place a new bet).
 - Route `/login`: page used to perform login.
-- Route `/rules`: contains the rules of the game for logged in users
-- Route `/scoreboard`: Contains a table with the scores of the best 3 players of the game.
-- Route `/*`: page for all invalid URLs
+- Route `/rules`: page used by logged in users to read the rules of the game.
+- Route `/scoreboard`: this page contains a table with the scores of the current best 3 players of the game.
+- Route `/*`: page for all invalid URLs.
 
 ## API Server
-<!--
-- POST `/api/something`
-  - request parameters and request body content
-  - response body content
-- GET `/api/something`
-  - request parameters
-  - response body content
-- POST `/api/something`
-  - request parameters and request body content
-  - response body content
-- ...
--->
-  
-- POST /api/sessions
-  - This route is used to perform login.
-  - request parameters: none
-  - request body content: credentials of the user
-  - response body content: object with the data of the current user or an error message
 
-- DELETE /api/session/current
-  - This route is used to log out the current user.
-  - request parameters: none
-  - request body content: none
-  - response body content: none
+### __Login__
+- URL: `/api/sessions`
+- HTTP Method: POST.
+- Description: This route is used to perform login.
+- Request parameters: _None_.
+- Request body content: Object with the credentials of the user (username and password).
+- Response body content: JSON object with the data of the current user _or_ an error message.
 
-- GET /api/sessions/current
-  - This route is used to check whether the user is logged in or not and to return the updated user data (usefult after placing a new bet or after the results of the game)
-  - request parameters: none
-  - request body content: none
-  - response body content: object with the data of the current user or an error message
+### __Logout__
+- URL: `/api/session/current`
+- HTTP Method: DELETE 
+- Description: This route is used to log out the current user.
+- Request parameters: _None_.
+- Request body content: _None_.
+- Response body content: _None_.
 
-- GET /api/draws/last
-  - This route is used to obtain the latest draw in the database.
-  - request parameters: none
-  - request body content: none
-  - response body content: object with the data of the last draw of the game or an error message
+### __Check login status and retrieve user data__
+- URL: `/api/sessions/current`
+- HTTP Method: GET 
+- Description: This route is used to check whether the user is logged in or not and in that case returns the data of the user.
+- Request parameters: _None_.
+- Request body content: _None_.
+- Response body content: JSON object with the data of the current user _or_ an error message.
 
-- POST /api/bets/
-  - This route is used to create a new bet.
-  - request parameters: none
-  - request body content: numbers of the new user bet
-  - response body content: object with the data of the new bet or an error message
+### __Get the last draw of the game__
+- URL: `/api/draws/last`
+- HTTP Method: GET.
+- Description: This route is used by logged in users to obtain the latest draw in the database.
+- Request parameters: _None_.
+- Request body content: _None_.
+- Response body content: JSON object with the data of the last draw of the game _or_ an error message.
 
-- GET /api/user/results/unseen
-  - This route is used to download the bet results that the user has not viewed yet.
-  - request parameters: none
-  - request body content: none
-  - response body content: array of objects with the results of the last bets of the user or an error message
-  
-- GET /api/scores/best
-  - This route is used to download the username and scores of the best 3 players in the database.
-  - request parameters: none
-  - request body content: none
-  - response body content: array of objects containing the username and the score of the top 3 players or an error message
+### __Place a new bet for the next round.__
+- URL: `/api/bets`
+- HTTP Method: POST.
+- Description: This route is used by logged in users to place a new bet for the next round of the game.
+- Request parameters: _None_.
+- Request body content: Object with the numbers on which the player wants to place a bet.
+- Response body content: Object with the data of the new bet created _or_ an error message.
+
+### __Get the the results of the user bets.__
+- URL: `/api/user/results/unseen`
+- HTTP Method: GET 
+- Description: This route is used by logged in users to download the bet results that the user has not viewed yet.
+- Request parameters: _None_.
+- Request body content: _None_.
+- Response body content: JSON Object with the results of the last bets of the user _or_ an error message.
+
+### __Get the scores of the best players of the game.__
+- URL: `/api/scores/best`
+- HTTP Method: GET 
+- Description: This route is used to download the username and scores of the best 3 players in the database.
+- Request parameters: _None_.
+- Request body content: _None_.
+- Response body content: JSON array containing the username and the score of the top 3 players _or_ an error message.
 
 
 ## Database Tables
 
-- Table `users` - contains informations about the users (id, username, hash, salt, score)
-- Table `rounds` - contains informations about the game rounds (id)
-- Table `draws` - contains informations about the draws of the game (id and numbers drawn)
-- Table `bets` - contains informations about the players bet (id of the bet, id of the user, numbers in the bet)
-- Table `results` - contains informations about the results of the players' bets (id of the round, id of the user, score of the bet, viewed status of the result) 
+- Table `users` - contains informations about the players (user id, username, hash, salt, score)
+- Table `rounds` - contains informations about the game rounds (round count)
+- Table `draws` - contains informations about the draws of the game (round number and numbers drawn)
+- Table `bets` - contains informations about the players bet (round number, id of the user, numbers in the bet)
+- Table `results` - contains informations about the results of the players' bets : round number, id of the user, score of the bet, status of the result of the bet (viewed or not) 
 
 
 ## Main React Components
-
+<!--
 - `ListOfSomething` (in `List.js`): component purpose and main functionality
-- `GreatButton` (in `GreatButton.js`): component purpose and main functionality
-- ...
+- `GreatButton` (in `GreatButton.js`): component purpose and main 
+- functionality
+-->
+
+
 //TODO
-(only _main_ components, minor ones may be skipped)
 
 ## Screenshot
 //TODO
@@ -94,11 +93,11 @@
 
 ## Users Credentials
 
-| username                | plain-text password |
-| ----------------------- | ------------------- |
-| user                    | password            |
-| admin                   | password            |
-| andrea                  | password            |
-| carmine                 | password            |
-| simone                  | password            |
+| username | plain-text password |
+| -------- | ------------------- |
+| user     | password            |
+| admin    | password            |
+| andrea   | password            |
+| carmine  | password            |
+| simone   | password            |
 
