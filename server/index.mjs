@@ -179,6 +179,10 @@ app.post('/api/bets/', isLoggedIn, validateBet, async (req, res) => {
       res.status(409).send('The player has already placed a bet for this round.');
       return;
     }
+    if(error.notEnoughPoints){
+      res.status(400).send('The player does not have enough points to place that bet. ');
+      return;
+    }
     console.error(error);
     res.status(500).send('Error while creating the bet.');
   }
