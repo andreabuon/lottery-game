@@ -12,7 +12,9 @@ export default function NavHeader(props) {
         <NavLink to='/' className='navbar-brand fs-4 fw-bold text-white'>
           Lottery Game
         </NavLink>
+
         <Navbar.Toggle aria-controls='navbar-nav' />
+
         <Navbar.Collapse id='navbar-nav' className='justify-content-end'>
           <Nav className='align-items-center'>
             {props.loggedIn && (
@@ -24,6 +26,7 @@ export default function NavHeader(props) {
                   <GrGamepad className='me-2' />
                   Play
                 </NavLink>
+
                 <NavLink
                   to='/rules'
                   className='btn btn-outline-light mx-2 d-flex align-items-center'
@@ -31,6 +34,7 @@ export default function NavHeader(props) {
                   <IoBook className='me-2' />
                   Rules
                 </NavLink>
+
                 <NavLink
                   to='/scoreboard'
                   className='btn btn-outline-light mx-2 d-flex align-items-center'
@@ -41,11 +45,12 @@ export default function NavHeader(props) {
             )}
 
             {props.loggedIn ? (
-
-              <LogoutButton
-                logout={props.handleLogout}
-                className='btn btn-outline-light mx-2'
-              />
+              <NavLink>
+                <LogoutButton
+                  logout={props.handleLogout}
+                  className='btn btn-outline-light mx-2'
+                />
+              </NavLink>
             ) : (
               <NavLink
                 to='/login'
@@ -57,6 +62,7 @@ export default function NavHeader(props) {
             )}
           </Nav>
         </Navbar.Collapse>
+
       </Container>
     </Navbar>
   );
