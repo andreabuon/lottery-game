@@ -85,14 +85,19 @@ function App() {
     checkAuth();
   }, []);
 
+  function Message(text, type){
+    this.id = Date.now();
+    this.msg = text;
+    this.type = type;
+  }
+
   const showMessage = (text, type) => {
-    let new_message = { msg: text, type: type };
+    let new_message = new Message(text, type);
     setMessages([...messages, new_message]);
   };
 
-  const removeMessage = (message) => {
-    let index = messages.indexOf(message);
-    setMessages(messages.toSpliced(index, 1));
+  const removeMessage = (messageToRemove) => {
+    setMessages(messages.filter((msg) => (msg.id !== messageToRemove.id)));
   };
 
   return (
@@ -103,8 +108,15 @@ function App() {
 
           <Container fluid className='mt-3'>
             {
-              messages.map((message, index) => (
-                <Alert key={index} variant={message.type} className='ms-3 me-3' onClose={() => removeMessage(message)} dismissible>{message.msg}</Alert>)
+              messages.map((message) => (
+                <Alert
+                  key={message.id} 
+                  variant={message.type} 
+                  className='ms-3 me-3' 
+                  onClose={() => removeMessage(message)} 
+                  dismissible>
+                  {message.msg}
+                </Alert>)
               )
             }
             <Outlet />
