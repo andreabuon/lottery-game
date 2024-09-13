@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { Col, Row } from 'react-bootstrap/';
-import Table from 'react-bootstrap/Table';
+import { Button, Col, Row, Spinner, Table } from 'react-bootstrap';
 //import APIs
 import API from '../API.mjs';
 
@@ -20,7 +18,7 @@ export default function Scoreboard(props) {
             showMessage('Scores updated', 'secondary');
         } catch (error) {
             showMessage('Error fetching best scores: ' + error.toString(), 'danger');
-        } finally{
+        } finally {
             setWaiting(false);
         }
     };
@@ -31,24 +29,31 @@ export default function Scoreboard(props) {
 
     return (
         <>
-            <Row className='align-items-start'>
+            <Row className='mb-2'>
                 <Col>
-                    <h1>Scoreboard</h1>
-                    <h2>Best 3 Players</h2>
+                    <h1 className="text-primary">Scoreboard</h1>
+                    <h3 className="text-muted">Best 3 Players</h3>
                 </Col>
                 <Col className="text-end">
-                    <Button onClick={() => updateScores()} disabled={waiting}>Refresh scores</Button>
+                    <Button 
+                        variant="outline-primary" 
+                        onClick={() => updateScores()} 
+                        disabled={waiting}>
+                        {waiting ? <Spinner animation="border" size="sm"/> : 'Refresh Scores'}
+                    </Button>
                 </Col>
             </Row>
+
             <Row className="justify-content-center">
-                <Col xs={12} md={8} lg={6}>
-                    <Table striped bordered className="text-center">
+                <Col xs={12} md={8} >
+                    <Table striped bordered hover responsive className="text-center">
                         <thead>
                             <tr>
                                 <th>Score</th>
                                 <th>Username</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {scores.map((el, index) => (
                                 <tr key={index}>
