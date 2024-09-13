@@ -35,17 +35,22 @@ export default function DisplayLastDraw(props) {
   return (
     <div className="display-last-draw p-4">
       <h2 className="mb-4 text-center">The last (#{draw && draw.round}) draw of the game was:</h2>
+      
       <Table bordered responsive="sm" className="text-center mb-4 draw-table">
         <tbody>
           <tr>
             {draw && draw.numbers.map((num, index) => (
-              <td key={index} className="p-3 draw-number">
+              <td
+                key={index} 
+                className="p-3 draw-number"
+              >
                 {num}
               </td>
             ))}
           </tr>
         </tbody>
       </Table>
+
       <div className="d-flex justify-content-center">
         <Button
           variant="primary"
