@@ -2,9 +2,9 @@
 ## Student: s333224 BUONAURIO ANDREA 
 
 ## React Client Application Routes
-- Route `/`: This page is the homepage of the website. Logged out users can read the rules of the game. Logged in users can play the game (see the last draw of the game and place a new bet).
+- Route `/`: This page is the homepage of the website. Logged out users can read the rules of the game. logged-in users can play the game (see the last draw of the game and place a new bet).
 - Route `/login`: page used to perform login.
-- Route `/rules`: page used by logged in users to read the rules of the game.
+- Route `/rules`: page used by logged-in users to read the rules of the game.
 - Route `/scoreboard`: this page contains a table with the scores of the current best 3 players of the game.
 - Route `/*`: page for all invalid URLs.
 
@@ -14,7 +14,6 @@
 - URL: `/api/sessions`
 - HTTP Method: POST.
 - Description: Logs in a user using provided credentials (username and password).
-- Authentication: Not required.
 - Request parameters: _None_.
 - Request body content: Object with the credentials of the user (username and password).
 ```
@@ -23,6 +22,7 @@
   "password": "password"
 } 
 ```
+- Response: `200` (success), `401` (wrong credentials), or `422` (if the credentials are malformed).
 - Response body content: JSON object with the data of the current user _or_ an error message.
 ```
 {
@@ -36,18 +36,18 @@
 - URL: `/api/sessions/current`
 - HTTP Method: DELETE 
 - Description: Logs out the current user.
-- Authentication: Not required.
 - Request parameters: _None_.
 - Request body content: _None_.
+- Response: `204` (success).
 - Response body content: _None_.
 
 ### __Check login status and retrieve user data__
 - URL: `/api/sessions/current`
 - HTTP Method: GET 
-- Description: Checks if the user is logged in and retrieves its data.
-- Authentication: Not required.
+- Description: Checks if the user is logged-in and retrieves its data.
 - Request parameters: _None_.
 - Request body content: _None_.
+- Response: `200` (success), `401` (if the user is not logged-in), `404` (user not found in the database), or `500` (internal server error).
 - Response body content: JSON object with the data of the current user _or_ an error message.
 ```
 {
@@ -60,23 +60,23 @@
 ### __Get the last draw of the game__
 - URL: `/api/draws/last`
 - HTTP Method: GET.
-- Description: Retrieves the latest draw of the game in the database.
-- Authentication: Required.
+- Description: retrieves the latest draw of the game in the database. Only for logged-in users.
 - Request parameters: _None_.
 - Request body content: _None_.
+- Response: `200` (success), `401` (if the user is not logged-in), or `500` (internal server error).
 - Response body content: JSON object with the data of the last draw of the game _or_ an error message.
 ```
 {
   "numbers": [1,2,3,4,5],
-  "round": 2,
+  "round": 2
 } 
 ```
 
 ### __Place a new bet for the next round.__
 - URL: `/api/bets`
 - HTTP Method: POST.
-- Description: This route is used by logged in users to place a new bet for the next round of the game.
-- Authentication: Required.
+- Description: used by logged-in user to place a new bet for the next round of the game.
+- Response: `201` (success), `400` (if the player has not enough points to place that bet),`401` (if the user is not logged-in),`409` (if the player has already placed a bet for the next round), `422` (if the bet data is malformed), or `500` (internal server error).
 - Request parameters: _None_.
 - Request body content: Object with the numbers on which the player wants to place a bet.
 ```
@@ -89,17 +89,17 @@
 {
   "round": 8,
   "user_id": 1,
-  "numbers": [ 5, 10, 15]
+  "numbers": [5, 10, 15]
 }
 ```
 
-### __Get the the results of the user bets.__
+### __Get the results of the user bets.__
 - URL: `/api/user/results/unseen`
 - HTTP Method: GET 
-- Description: This route is used by logged in users to download the bet results that the user has not viewed yet.
-- Authentication: Required.
+- Description: used by logged-in users to download the bet results that the user has not viewed yet.
 - Request parameters: _None_.
 - Request body content: _None_.
+- Response: `200` (success), `401` (if the user has not logged-in), or `500` (internal server error).
 - Response body content: JSON Object with the results of the last bets of the user _or_ an error message.
 ```
 [
@@ -115,10 +115,10 @@
 ### __Get the scores of the best players of the game.__
 - URL: `/api/scores/best`
 - HTTP Method: GET 
-- Description: This route is used to download the username and scores of the best 3 players in the database.
-- Authentication: Required.
+- Description: used by logged-in user to download the username and scores of the best 3 players in the database.
 - Request parameters: _None_.
 - Request body content: _None_.
+- Response: `200` (success), `401` (if the user has not logged-in), or `500` (internal server error).
 - Response body content: JSON array with the username and scores of the top 3 players _or_ an error message.
 ```
 [
@@ -136,7 +136,6 @@
   }
 ]
 ```
-
 
 ## Database Tables
 

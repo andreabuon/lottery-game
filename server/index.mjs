@@ -125,7 +125,7 @@ app.post('/api/sessions', validateCredentials, function (req, res, next) {
 // This route is used to log out the current user.
 app.delete('/api/sessions/current', (req, res) => {
   req.logout(() => {
-    res.end();
+    res.status(204).end();
   });
 });
 
