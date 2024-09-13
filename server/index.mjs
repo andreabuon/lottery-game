@@ -189,7 +189,7 @@ app.post('/api/bets/', isLoggedIn, validateBet, async (req, res) => {
 app.get('/api/user/results/unseen', isLoggedIn, async (req, res) => {
   try {
     const results = await getNewResults(req.user.user_id);
-    markResultsAsSeen(req.user.user_id);
+    await markResultsAsSeen(req.user.user_id);
     res.status(200).json(results);
   } catch (error) {
     console.error(error);
