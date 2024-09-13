@@ -1,4 +1,5 @@
 import { Draw } from '../../common/Draw.mjs';
+import { Bet } from '../../common/Bet.mjs';
 const SERVER_URL = 'http://localhost:3001';
 
 async function handleInvalidResponse(response) {
@@ -85,7 +86,8 @@ const createBet = async (numbers) => {
       body: JSON.stringify({numbers: numbers})
     });
     await handleInvalidResponse(response);
-    let bet = await response.json();
+    let betJSON = await response.json();
+    let bet = new Bet(betJSON.round, betJSON.user_id, betJSON.numbers);
     console.log(`Bet created for the round #${bet.round}: ${bet.numbers}`);
     return bet;
   } catch (error) {
