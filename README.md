@@ -22,7 +22,10 @@
   "password": "password"
 } 
 ```
-- Response: `200` (success), `401` (wrong credentials), or `422` (if the credentials are malformed).
+- Response: 
+  - `200` success
+  - `401` wrong credentials
+  - `422` if the credentials are malformed
 - Response body content: JSON object with the data of the current user _or_ an error message.
 ```
 {
@@ -38,7 +41,8 @@
 - Description: Logs out the current user.
 - Request parameters: _None_.
 - Request body content: _None_.
-- Response: `204` (success).
+- Response: 
+  - `204` success
 - Response body content: _None_.
 
 ### __Check login status and retrieve user data__
@@ -47,7 +51,11 @@
 - Description: Checks if the user is logged-in and retrieves its data.
 - Request parameters: _None_.
 - Request body content: _None_.
-- Response: `200` (success), `401` (if the user is not logged-in), `404` (user not found in the database anymore), or `500` (internal server error).
+- Response: 
+  - `200` success
+  - `401` if the user is not logged-in
+  - `404` user not found in the database anymore
+  - `500` internal server error
 - Response body content: JSON object with the data of the current user _or_ an error message.
 ```
 {
@@ -63,7 +71,10 @@
 - Description: used by logged-in users to retrieve the latest draw of the game in the database.
 - Request parameters: _None_.
 - Request body content: _None_.
-- Response: `200` (success), `401` (if the user is not logged-in), or `500` (internal server error).
+- Response: 
+  - `200` success
+  - `401` if the user is not logged-in
+  - `500` internal server error
 - Response body content: JSON object with the data of the last draw of the game _or_ an error message.
 ```
 {
@@ -76,7 +87,13 @@
 - URL: `/api/bets`
 - HTTP Method: POST.
 - Description: used by logged-in user to place a new bet for the next round of the game.
-- Response: `201` (success), `400` (if the player has not enough points to place that bet),`401` (if the user is not logged-in),`409` (if the player has already placed a bet for the next round), `422` (if the bet data is malformed), or `500` (internal server error).
+- Response: 
+  - `201` success
+  - `400` if the player has not enough points to place that bet
+  - `401` if the user has not logged-in
+  - `409` if the player has already placed a bet for the next round
+  - `422` if the bet data is malformed
+  - `500` internal server error
 - Request parameters: _None_.
 - Request body content: Object with the numbers on which the player wants to place a bet.
 ```
@@ -99,7 +116,10 @@
 - Description: used by logged-in users to download the bet results that the user has not viewed yet.
 - Request parameters: _None_.
 - Request body content: _None_.
-- Response: `200` (success), `401` (if the user has not logged-in), or `500` (internal server error).
+- Response: 
+  - `200` success
+  - `401` if the user has not logged-in
+  - `500` internal server error
 - Response body content: Array of JSON Objects with the results of the last bets of the user _or_ an error message.
 ```
 [
@@ -118,7 +138,10 @@
 - Description: used by logged-in user to download the username and scores of the best 3 players in the database.
 - Request parameters: _None_.
 - Request body content: _None_.
-- Response: `200` (success), `401` (if the user has not logged-in), or `500` (internal server error).
+- Response: 
+  - `200` success
+  - `401` if the user has not logged-in
+  - `500` internal server error
 - Response body content: array of JSON objects with the username and scores of the top 3 players _or_ an error message.
 ```
 [
