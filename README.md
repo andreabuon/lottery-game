@@ -179,7 +179,6 @@ Stores information about each draw:
 - `round_number`: Round for which the draw applies.
 - `numbers`: Array of numbers drawn in the round.
 
-
 ### bets Table
 Stores players' bets:
 - `round_number`: Round for which the bet applies.
@@ -192,8 +191,6 @@ Stores results of players' bets:
 - `user_id`: The user who placed the bet.
 - `score`: Points scored from the bet.
 - `viewed`: Whether the user has seen the results.
-
----
 
 ## Main React Components
 - `Homepage` (in `Homepage.jsx`): defines the layout of the website homepage.
