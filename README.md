@@ -2,11 +2,11 @@
 ## Student: s333224 BUONAURIO ANDREA 
 
 ## React Client Application Routes
-- Route `/`: the homepage of the website. Logged out users can read the rules of the game. Logged-in users can play the game (see the last draw of the game and place a new bet).
-- Route `/login`: page used to perform login.
-- Route `/rules`: page where logged-in users can read the rules of the game.
-- Route `/scoreboard`: this page displays a table with the scores of the top 3 players.
-- Route `/*`: handles all invalid URLs. Shows a 404 error message.
+- `/` the homepage of the website. Logged out users can read the rules of the game. Logged-in users can play the game (see the last draw of the game and place a new bet).
+- `/login` page used to perform login.
+- `/rules` page where logged-in users can read the rules of the game.
+- `/scoreboard` this page displays a table with the scores of the top 3 players.
+- `/*` handles all invalid URLs. Shows a 404 error message.
 
 ## API Server
 
