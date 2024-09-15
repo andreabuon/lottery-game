@@ -196,14 +196,15 @@ Stores results of players' bets:
 ---
 
 ## Main React Components
-<!--
-- `ListOfSomething` (in `List.js`): component purpose and main functionality
-- `GreatButton` (in `GreatButton.js`): component purpose and main 
-- functionality
--->
+- `Homepage` (in `Homepage.jsx`): defines the layout of the website homepage.
+- `NavHeader` (in `NavHeader.jsx`): renders the top navigation bar.
+- `LoginForm` (in `AuthComponents.jsx`): provides a form for user login.
+- `DisplayLastDraw` (in `DisplayLastDraw.jsx`): displays the latest draw of the game. Retrieves draw data from the game server.
+- `BettingForm` (in `BettingForm.jsx`): provides a form for placing a new bet. Sends bet data from the server.
+- `GameRules` (in `GameRules.jsx`): displays the rules of the game.
+- `NotFound` (in `NotFound.jsx`): renders a 404 error page for undefined routes.
+- `Scoreboard` (in `Scoreboard.jsx`): renders a table with the top 3 players usernames and scores. Fetches the data from the server.
 
-
-//TODO
 
 ## Screenshot
 ![Screenshot](./img/screenshot1.png)
