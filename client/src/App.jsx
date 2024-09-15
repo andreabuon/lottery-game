@@ -43,10 +43,11 @@ function App() {
   };
 
   const refreshUser = async () => {
-    console.log("Updating the user data.");
+    //console.log("Updating the user data.");
     try {
       let user = await API.getUserData();
       setUser(user);
+      console.log("User data updated.");
     } catch (error) {
       console.error('Error fetching user data: ' + error);
       showMessage('Error fetching user data: ' + error.toString(), 'danger');
@@ -54,7 +55,7 @@ function App() {
   };
 
   const updateResults = async () => {
-    console.log("Downloading the latest results!");
+    //console.log("Downloading the latest results!");
     try {
       let results = await API.getNewResults();
       results.forEach(element => { showMessage(`Round ${element.round_num}: you gained ${element.score} pts.`, 'info'); });
@@ -66,12 +67,13 @@ function App() {
 
   //Refresh the last draw, the user data and check for new results automatically
   useEffect(() => {
+    //console.log('Autorefreshing!'); 
     if (loggedIn) {
       refreshUser();
       updateResults();
     }
   }, [refresh]);
-  setTimeout(() => setRefresh(!refresh), REFRESH_INTERVAL);
+  setTimeout(setRefresh, REFRESH_INTERVAL, !refresh);
 
   //Check and restore login session after app refresh
   useEffect(() => {

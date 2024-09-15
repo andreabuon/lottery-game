@@ -12,11 +12,11 @@ export default function DisplayLastDraw(props) {
 
   const retrieveDraw = async () => {
     setWaiting(true);
-    console.log('Retrieving the last draw...');
+    //console.log('Retrieving the last draw...');
     try {
       let new_draw = await API.getLastDraw();
       if (new_draw) {
-        console.log('Got new draw: ', new_draw.toString());
+        //console.log('Got new draw: ', new_draw.toString());
         setDraw(new_draw);
       } else {
         showMessage('No draws yet! Please wait...', 'warning');
