@@ -206,8 +206,8 @@ Stores results of players' bets:
 //TODO
 
 ## Screenshot
-[Screenshot](./img/screenshot1.png)
-[Screenshot](./img/screenshot2.png)
+![Screenshot](./img/screenshot1.png)
+![Screenshot](./img/screenshot2.png)
 
 ## Users Credentials
 
