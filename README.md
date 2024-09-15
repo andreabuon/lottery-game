@@ -47,7 +47,7 @@
 - Description: Checks if the user is logged-in and retrieves its data.
 - Request parameters: _None_.
 - Request body content: _None_.
-- Response: `200` (success), `401` (if the user is not logged-in), `404` (user not found in the database), or `500` (internal server error).
+- Response: `200` (success), `401` (if the user is not logged-in), `404` (user not found in the database anymore), or `500` (internal server error).
 - Response body content: JSON object with the data of the current user _or_ an error message.
 ```
 {
@@ -60,7 +60,7 @@
 ### __Get the last draw of the game__
 - URL: `/api/draws/last`
 - HTTP Method: GET.
-- Description: retrieves the latest draw of the game in the database. Only for logged-in users.
+- Description: used by logged-in users to retrieve the latest draw of the game in the database.
 - Request parameters: _None_.
 - Request body content: _None_.
 - Response: `200` (success), `401` (if the user is not logged-in), or `500` (internal server error).
@@ -100,7 +100,7 @@
 - Request parameters: _None_.
 - Request body content: _None_.
 - Response: `200` (success), `401` (if the user has not logged-in), or `500` (internal server error).
-- Response body content: JSON Object with the results of the last bets of the user _or_ an error message.
+- Response body content: Array of JSON Objects with the results of the last bets of the user _or_ an error message.
 ```
 [
   {
@@ -119,7 +119,7 @@
 - Request parameters: _None_.
 - Request body content: _None_.
 - Response: `200` (success), `401` (if the user has not logged-in), or `500` (internal server error).
-- Response body content: JSON array with the username and scores of the top 3 players _or_ an error message.
+- Response body content: array of JSON objects with the username and scores of the top 3 players _or_ an error message.
 ```
 [
   {
