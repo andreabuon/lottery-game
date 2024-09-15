@@ -162,12 +162,38 @@
 
 ## Database Tables
 
-- Table `users` - contains informations about the players (user id, username, hash, salt, score)
-- Table `rounds` - contains informations about the game rounds (round count)
-- Table `draws` - contains informations about the draws of the game (round number and numbers drawn)
-- Table `bets` - contains informations about the players' bets (round number, id of the user, numbers in the bet)
-- Table `results` - contains informations about the results of the players' bets : round number, id of the user, score of the bet, status of the result of the bet (viewed or not) 
+### users Table
+Stores user data such as:
+- `user_id`: Unique identifier for each user.
+- `username`: User's name.
+- `hash`: Password hash.
+- `salt`: Password salt.
+- `score`: User's current score.
 
+### rounds Table
+Tracks game rounds:
+- `round_count`: Number of completed rounds.
+
+### draws Table
+Stores information about each draw:
+- `round_number`: Round for which the draw applies.
+- `numbers`: Array of numbers drawn in the round.
+
+
+### bets Table
+Stores players' bets:
+- `round_number`: Round for which the bet applies.
+- `user_id`: The user who placed the bet.
+- `numbers`: Array of numbers the player bet on.
+
+### results Table
+Stores results of players' bets:
+- `round_number`: Round in which the bet was placed.
+- `user_id`: The user who placed the bet.
+- `score`: Points scored from the bet.
+- `viewed`: Whether the user has seen the results.
+
+---
 
 ## Main React Components
 <!--
